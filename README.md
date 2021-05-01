@@ -3,7 +3,7 @@
 Exploring how Belgian compensations are computed.
 
 
-# Computing the Belgian withholding tax
+# Withholding tax
 
 The withholding tax (or "précompte professionnel" in French) is described in
 the Belgian official journal. The relevant parts are listed on the [FPS
