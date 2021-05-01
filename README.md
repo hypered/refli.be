@@ -1,6 +1,6 @@
 # Refli
 
-Exploring how compensations are computed.
+Exploring how Belgian compensations are computed.
 
 
 # Computing the Belgian withholding tax
