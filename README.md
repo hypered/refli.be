@@ -19,6 +19,15 @@ https://finances.belgium.be/fr/entreprises/personnel_et_remuneration/precompte_p
 https://finances.belgium.be/sites/default/files/Bar%C3%A8mes%201er%20janvier%202021%20%28AR%2016%20d%C3%A9cembre%202020%29.pdf
 
 
+# Existing simulations
+
+- FGTB: [Calculateur de salaire brut - net](https://www.fgtb.be/calcul-salaire-brut-net)
+- SD Worx: [Simulation salariale](www.sd.be/loonsimulator/public/?lang=FR)
+
+Some data collected manually using those simulations are in
+[`tests/examples.hs`](tests/examples.hs).
+
+
 # refli.be
 
 [Refli.be](https://refli.be) is currently configured to serve the content of
