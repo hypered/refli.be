@@ -17,3 +17,9 @@ janvier 2021], are available in source code form in
 https://finances.belgium.be/fr/entreprises/personnel_et_remuneration/precompte_professionnel/calcul
 [Barèmes 1er janvier 2021]:
 https://finances.belgium.be/sites/default/files/Bar%C3%A8mes%201er%20janvier%202021%20%28AR%2016%20d%C3%A9cembre%202020%29.pdf
+
+
+# refli.be
+
+[Refli.be](https://refli.be) is currently configured to serve the content of
+the [`docs/`](docs/) directory through GitHub Pages.
