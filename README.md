@@ -19,6 +19,16 @@ https://finances.belgium.be/fr/entreprises/personnel_et_remuneration/precompte_p
 https://finances.belgium.be/sites/default/files/Bar%C3%A8mes%201er%20janvier%202021%20%28AR%2016%20d%C3%A9cembre%202020%29.pdf
 
 
+# Publicodes
+
+A simple set of rules written in Publicodes to compute a net revenue given a
+gross income is provided in
+[`publicodes/compensation.yaml`](publicodes/compensation.yaml).
+
+Provided the `publicodes` NPM package is installed, displaying the result with
+intermediate values can be done with the helper script `run-publicodes.sh`.
+
+
 # Existing simulations
 
 - FGTB: [Calculateur de salaire brut - net](https://www.fgtb.be/calcul-salaire-brut-net)

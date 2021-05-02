@@ -1,0 +1,2024 @@
+# This is a simple set of compensation rules expressed in Publicodes.
+# Publicodes is a simple expression language using YAML as its concrete
+# representation. The available constructs are in French. Thus I have used
+# French for the rule names too.
+
+
+################################################################################
+# Inputs
+
+# Statut:
+# Ouvrier ou employé
+employé: oui
+ouvrier: non
+
+# Régime de travail:
+# Temps plein, temps plein mais pas presté en entier, temps partiel
+temps plein: oui
+temps plein incomplet: non
+temps plein incomplet . jours rémunérés: 10
+temps plein incomplet . jours ouvrables: 20
+temps partiel: non
+temps partiel . heures prestées: 80
+temps partiel . heures temps plein: 160
+
+# Situation familliale:
+# Isolé, marié seul revenu, marié deux revenus
+isolé: oui
+marié seul revenu: non
+marié deux revenus: non
+
+# Réductions supplémentaires du précompte professionnel
+# Handicapé, enfants à charge, dont handicapés
+je suis handicapé: non
+enfants à charge: 0
+enfants à charge . dont handicapés: 0
+
+# Et le plus important, le brut
+revenu brut mensuel: 1800 EUR
+
+
+################################################################################
+# Outputs
+
+# ONSS
+cotisations sociales personnelles:
+  formule: brut * 0.1307
+
+cotisations sociales personnelles . brut:
+  variations:
+    - si: employé
+      alors: revenu brut mensuel
+    - si: ouvrier
+      alors: revenu brut mensuel * 1.08
+
+
+# Réduction ONSS
+bonus à l'emploi pour les bas salaires:
+  le minimum de:
+    - cotisations sociales personnelles
+    - variations:
+      - si: temps plein
+        alors: montant de base
+      - si: temps plein incomplet
+        alors: montant de base * temps plein incomplet . jours rémunérés / temps plein incomplet . jours ouvrables
+      - si: temps partiel
+        alors: montant de base * temps partiel . heures prestées / temps partiel . heures temps plein
+
+bonus à l'emploi pour les bas salaires . montant de base:
+  description: |
+    Voir les références. Il y a notamment un Excel et un XML
+    "Dmfa / Fichier des taux" dans la TechLib. Je ne connais pas leur
+    utilité, mais il y a aussi des macros Word, dont une pour faire ce
+    calcul.
+  références:
+    Bonus à l'emploi: https://www.socialsecurity.be/employer/instructions/dmfa/fr/latest/instructions/deductions/workers_reductions/workbonus.html
+    TechLib: https://www.socialsecurity.be/site_fr/employer/general/techlib.htm
+
+  variations:
+    - si: employé
+      alors:
+        variations:
+          - si: salaire mensuel de référence <= 1674.49 EUR
+            alors: 205.65 EUR
+          - si: salaire mensuel de référence <= 2611.78 EUR
+            alors: 205.65 EUR - (0.2194 * (salaire mensuel de référence - 1674.49))
+          - sinon: 0 EUR
+    - si: ouvrier
+      alors:
+        variations:
+          - si: salaire mensuel de référence <= 1674.49 EUR
+            alors: 222.10 EUR
+          - si: salaire mensuel de référence <= 2611.78 EUR
+            alors: 222.10 EUR - (0.2370 * (salaire mensuel de référence - 1674.49))
+          - sinon: 0 EUR
+
+bonus à l'emploi pour les bas salaires . salaire mensuel de référence:
+  variations:
+    - si: temps plein
+      alors: revenu brut mensuel
+    - si: temps plein incomplet
+      # TODO Assert jours rémunérés <= jours ouvrables
+      alors: revenu brut mensuel / temps plein incomplet . jours rémunérés * temps plein incomplet . jours ouvrables
+    - si: temps partiel
+      # TODO Assert heures prestés <= heurs temps plein
+      alors: revenu brut mensuel / temps partiel . heures prestées * temps partiel . heures temps plein
+
+
+# Le revenu brut imposable
+revenu brut imposable:
+  somme:
+    - revenu brut mensuel
+    - (- cotisations sociales personnelles)
+    - bonus à l'emploi pour les bas salaires
+
+
+# Le précompte professionnel
+précompte professionnel:
+  le maximum de:
+    - somme:
+      - précompte professionnel xxx
+      - (- réduction de précompte professionnel)
+    - 0
+
+
+# Le précompte professionnel sans les réductions de précompte
+précompte professionnel xxx:
+  variations:
+    - si: isolé
+      alors: barème I
+    - si: marié seul revenu
+      alors: barème II
+    - si: marié deux revenus
+      alors: barème I
+
+réduction de précompte professionnel:
+  somme:
+    - réduction isolé
+    - réduction handicap
+    - réduction enfants
+    - réduction enfants isolé
+    - réduction bas salaire
+    - réduction exceptionnelle
+
+réduction isolé:
+  valeur: 26 EUR
+  applicable si: isolé
+
+réduction handicap:
+  valeur: 37 EUR
+  applicable si: je suis handicapé
+
+réduction enfants:
+  valeur: réduction pour enfants à charge
+  applicable si: enfants à charge > 0
+
+réduction pour enfants à charge:
+# commentaire:
+#   Voir tableau page 7
+#   Utiliser le mécanisme "grille" n'est pas intuitif, par exemple
+#   avoir 1 enfant signifie être dans la tranche dont le plafond est 2.
+  grille:
+    assiette: nombre d'enfants
+    tranches:
+      - montant: 0 EUR
+        plafond: 1
+      - montant: 37 EUR
+        plafond: 2
+      - montant: 107 EUR
+        plafond: 3
+      - montant: 282 EUR
+        plafond: 4
+      - montant: 494 EUR
+        plafond: 5
+      - montant: 730 EUR
+        plafond: 6
+      - montant: 965 EUR
+        plafond: 7
+      - montant: 1201 EUR
+        plafond: 8
+      - montant: 1460 EUR
+        plafond: 9
+      - montant: 1460 EUR + 262 EUR * (nombre d'enfants - 8)
+
+réduction pour enfants à charge . nombre d'enfants:
+# commentaire:
+#   Un enfant handicapé compte double
+#   Comment obtenir une erreur si
+#   nombre d'enfants handicapés > nombre d'enfants ?
+#   Ou alors ne pas "inclure" les enfants handicapés
+#   dans enfants tout court ?
+  somme:
+    - enfants à charge
+    - enfants à charge . dont handicapés
+
+# 2. Le bénéficiaire des revenus est un veuf (une veuve)
+# non remarié(e) ou un père (une mère) célibataire, avec
+# un ou plusieurs enfants à charge:
+réduction enfants isolé:
+  valeur: 37 EUR
+  applicable si:
+    toutes ces conditions:
+      - isolé
+      - enfants à charge > 0
+
+réduction bas salaire: non
+
+réduction exceptionnelle: non
+
+
+# Les réductions de précompte professionnel
+réduction du précompte professionnel pour les bas salaires:
+  formule: 0.3314 * bonus à l'emploi pour les bas salaires
+
+
+# TODO The FGTB site will have zero here, for 3600 in 10 days out of 20.
+# But we have the same result with 1800 in 10 days out of 20...
+cotisation spéciale pour la sécurité sociale:
+  description: |
+    Attention, ce montant est régularisé le dernier mois de chaque trimestre.
+  références:
+    Sur le site de l'ONSS: https://www.socialsecurity.be/employer/instructions/dmfa/fr/latest/instructions/special_contributions/other_specialcontributions/specialsocialsecuritycontribution.html
+  formule:
+    variations:
+      - si:
+          une de ces conditions:
+            - isolé
+            - marié seul revenu
+        alors:
+          variations:
+            - si: brut <= 1945.38 EUR
+              alors: 0 EUR
+            - si:
+                toutes ces conditions:
+                  - brut > 1945.38 EUR
+                  - brut <= 2190.18 EUR
+              alors: 0.076 * (brut - 1945.38 EUR)
+            - si:
+                toutes ces conditions:
+                  - brut > 2190.18 EUR
+                  - brut <= 6038.82 EUR
+              alors: 18.60 EUR + 0.011 * (brut - 2190.18 EUR)
+            - sinon: 60.94 EUR
+      - si: marié deux revenus
+        alors:
+          variations:
+            - si: brut < 1095.10 EUR
+              alors: 0 EUR
+            - si:
+                toutes ces conditions:
+                  - brut > 1095.10 EUR
+                  - brut <= 1945.38 EUR
+              alors: 9.30 EUR
+            - si:
+                toutes ces conditions:
+                  - brut > 1945.38 EUR
+                  - brut <= 2190.18 EUR
+              alors:
+                le maximum de:
+                  - 0.076 * (brut - 1945.38 EUR)
+                  - 9.30 EUR
+            - si:
+                toutes ces conditions:
+                  - brut > 2190.18 EUR
+                  - brut <= 6038.82 EUR
+              alors:
+                le minimum de:
+                  - 18.60 EUR + 0.011 * (brut - 2190.18 EUR)
+                  - 51.64 EUR
+            - sinon: 51.64 EUR
+
+cotisation spéciale pour la sécurité sociale . brut:
+  formule: cotisations sociales personnelles . brut
+
+
+# La conversion en net
+revenu net:
+  somme:
+    - revenu brut imposable
+    - (- précompte professionnel)
+    - réduction du précompte professionnel pour les bas salaires
+    - (- cotisation spéciale pour la sécurité sociale)
+
+
+barème I:
+  grille:
+    assiette: revenu brut imposable - 15
+    tranches:
+# The line below are generated with runghc withholding-tax/scales.hs worker-scale-1.
+      - montant: 0.0 EUR
+        plafond: 690.0 EUR
+      - montant: 0.0 EUR
+        plafond: 705.0 EUR
+      - montant: 0.0 EUR
+        plafond: 720.0 EUR
+      - montant: 0.0 EUR
+        plafond: 735.0 EUR
+      - montant: 0.0 EUR
+        plafond: 750.0 EUR
+      - montant: 0.0 EUR
+        plafond: 765.0 EUR
+      - montant: 0.0 EUR
+        plafond: 780.0 EUR
+      - montant: 0.0 EUR
+        plafond: 795.0 EUR
+      - montant: 0.0 EUR
+        plafond: 810.0 EUR
+      - montant: 0.0 EUR
+        plafond: 825.0 EUR
+      - montant: 0.0 EUR
+        plafond: 840.0 EUR
+      - montant: 0.0 EUR
+        plafond: 855.0 EUR
+      - montant: 0.0 EUR
+        plafond: 870.0 EUR
+      - montant: 0.0 EUR
+        plafond: 885.0 EUR
+      - montant: 0.0 EUR
+        plafond: 900.0 EUR
+      - montant: 0.0 EUR
+        plafond: 915.0 EUR
+      - montant: 0.0 EUR
+        plafond: 930.0 EUR
+      - montant: 0.84 EUR
+        plafond: 945.0 EUR
+      - montant: 3.65 EUR
+        plafond: 960.0 EUR
+      - montant: 6.46 EUR
+        plafond: 975.0 EUR
+      - montant: 9.27 EUR
+        plafond: 990.0 EUR
+      - montant: 12.08 EUR
+        plafond: 1005.0 EUR
+      - montant: 14.89 EUR
+        plafond: 1020.0 EUR
+      - montant: 17.7 EUR
+        plafond: 1035.0 EUR
+      - montant: 20.5 EUR
+        plafond: 1050.0 EUR
+      - montant: 23.31 EUR
+        plafond: 1065.0 EUR
+      - montant: 26.12 EUR
+        plafond: 1080.0 EUR
+      - montant: 28.93 EUR
+        plafond: 1095.0 EUR
+      - montant: 31.74 EUR
+        plafond: 1110.0 EUR
+      - montant: 34.55 EUR
+        plafond: 1125.0 EUR
+      - montant: 37.36 EUR
+        plafond: 1140.0 EUR
+      - montant: 40.17 EUR
+        plafond: 1155.0 EUR
+      - montant: 42.97 EUR
+        plafond: 1170.0 EUR
+      - montant: 45.78 EUR
+        plafond: 1185.0 EUR
+      - montant: 48.59 EUR
+        plafond: 1200.0 EUR
+      - montant: 51.4 EUR
+        plafond: 1215.0 EUR
+      - montant: 54.21 EUR
+        plafond: 1230.0 EUR
+      - montant: 57.02 EUR
+        plafond: 1245.0 EUR
+      - montant: 59.83 EUR
+        plafond: 1260.0 EUR
+      - montant: 62.64 EUR
+        plafond: 1275.0 EUR
+      - montant: 65.44 EUR
+        plafond: 1290.0 EUR
+      - montant: 68.25 EUR
+        plafond: 1305.0 EUR
+      - montant: 71.06 EUR
+        plafond: 1320.0 EUR
+      - montant: 73.87 EUR
+        plafond: 1335.0 EUR
+      - montant: 76.68 EUR
+        plafond: 1350.0 EUR
+      - montant: 79.49 EUR
+        plafond: 1365.0 EUR
+      - montant: 83.37 EUR
+        plafond: 1380.0 EUR
+      - montant: 87.38 EUR
+        plafond: 1395.0 EUR
+      - montant: 91.39 EUR
+        plafond: 1410.0 EUR
+      - montant: 95.4 EUR
+        plafond: 1425.0 EUR
+      - montant: 99.42 EUR
+        plafond: 1440.0 EUR
+      - montant: 103.43 EUR
+        plafond: 1455.0 EUR
+      - montant: 107.44 EUR
+        plafond: 1470.0 EUR
+      - montant: 111.45 EUR
+        plafond: 1485.0 EUR
+      - montant: 115.47 EUR
+        plafond: 1500.0 EUR
+      - montant: 120.95 EUR
+        plafond: 1515.0 EUR
+      - montant: 127.37 EUR
+        plafond: 1530.0 EUR
+      - montant: 133.79 EUR
+        plafond: 1545.0 EUR
+      - montant: 140.21 EUR
+        plafond: 1560.0 EUR
+      - montant: 146.63 EUR
+        plafond: 1575.0 EUR
+      - montant: 153.05 EUR
+        plafond: 1590.0 EUR
+      - montant: 159.47 EUR
+        plafond: 1605.0 EUR
+      - montant: 165.89 EUR
+        plafond: 1620.0 EUR
+      - montant: 172.31 EUR
+        plafond: 1635.0 EUR
+      - montant: 178.73 EUR
+        plafond: 1650.0 EUR
+      - montant: 185.15 EUR
+        plafond: 1665.0 EUR
+      - montant: 191.57 EUR
+        plafond: 1680.0 EUR
+      - montant: 197.99 EUR
+        plafond: 1695.0 EUR
+      - montant: 204.41 EUR
+        plafond: 1710.0 EUR
+      - montant: 210.83 EUR
+        plafond: 1725.0 EUR
+      - montant: 217.25 EUR
+        plafond: 1740.0 EUR
+      - montant: 223.67 EUR
+        plafond: 1755.0 EUR
+      - montant: 230.09 EUR
+        plafond: 1770.0 EUR
+      - montant: 236.51 EUR
+        plafond: 1785.0 EUR
+      - montant: 242.93 EUR
+        plafond: 1800.0 EUR
+      - montant: 249.35 EUR
+        plafond: 1815.0 EUR
+      - montant: 255.77 EUR
+        plafond: 1830.0 EUR
+      - montant: 262.19 EUR
+        plafond: 1845.0 EUR
+      - montant: 268.61 EUR
+        plafond: 1860.0 EUR
+      - montant: 275.03 EUR
+        plafond: 1875.0 EUR
+      - montant: 281.45 EUR
+        plafond: 1890.0 EUR
+      - montant: 287.87 EUR
+        plafond: 1905.0 EUR
+      - montant: 294.29 EUR
+        plafond: 1920.0 EUR
+      - montant: 300.71 EUR
+        plafond: 1935.0 EUR
+      - montant: 307.13 EUR
+        plafond: 1950.0 EUR
+      - montant: 313.55 EUR
+        plafond: 1965.0 EUR
+      - montant: 319.97 EUR
+        plafond: 1980.0 EUR
+      - montant: 326.39 EUR
+        plafond: 1995.0 EUR
+      - montant: 332.81 EUR
+        plafond: 2010.0 EUR
+      - montant: 339.23 EUR
+        plafond: 2025.0 EUR
+      - montant: 345.65 EUR
+        plafond: 2040.0 EUR
+      - montant: 352.07 EUR
+        plafond: 2055.0 EUR
+      - montant: 358.49 EUR
+        plafond: 2070.0 EUR
+      - montant: 365.04 EUR
+        plafond: 2085.0 EUR
+      - montant: 372.27 EUR
+        plafond: 2100.0 EUR
+      - montant: 379.49 EUR
+        plafond: 2115.0 EUR
+      - montant: 386.71 EUR
+        plafond: 2130.0 EUR
+      - montant: 393.93 EUR
+        plafond: 2145.0 EUR
+      - montant: 401.16 EUR
+        plafond: 2160.0 EUR
+      - montant: 408.38 EUR
+        plafond: 2175.0 EUR
+      - montant: 415.6 EUR
+        plafond: 2190.0 EUR
+      - montant: 422.82 EUR
+        plafond: 2205.0 EUR
+      - montant: 430.05 EUR
+        plafond: 2220.0 EUR
+      - montant: 437.27 EUR
+        plafond: 2235.0 EUR
+      - montant: 444.49 EUR
+        plafond: 2250.0 EUR
+      - montant: 451.71 EUR
+        plafond: 2265.0 EUR
+      - montant: 458.94 EUR
+        plafond: 2280.0 EUR
+      - montant: 466.16 EUR
+        plafond: 2295.0 EUR
+      - montant: 473.38 EUR
+        plafond: 2310.0 EUR
+      - montant: 480.6 EUR
+        plafond: 2325.0 EUR
+      - montant: 487.83 EUR
+        plafond: 2340.0 EUR
+      - montant: 495.05 EUR
+        plafond: 2355.0 EUR
+      - montant: 502.27 EUR
+        plafond: 2370.0 EUR
+      - montant: 509.49 EUR
+        plafond: 2385.0 EUR
+      - montant: 516.72 EUR
+        plafond: 2400.0 EUR
+      - montant: 523.94 EUR
+        plafond: 2415.0 EUR
+      - montant: 531.16 EUR
+        plafond: 2430.0 EUR
+      - montant: 538.38 EUR
+        plafond: 2445.0 EUR
+      - montant: 545.61 EUR
+        plafond: 2460.0 EUR
+      - montant: 552.83 EUR
+        plafond: 2475.0 EUR
+      - montant: 560.05 EUR
+        plafond: 2490.0 EUR
+      - montant: 567.27 EUR
+        plafond: 2505.0 EUR
+      - montant: 574.5 EUR
+        plafond: 2520.0 EUR
+      - montant: 581.72 EUR
+        plafond: 2535.0 EUR
+      - montant: 588.94 EUR
+        plafond: 2550.0 EUR
+      - montant: 596.16 EUR
+        plafond: 2565.0 EUR
+      - montant: 603.39 EUR
+        plafond: 2580.0 EUR
+      - montant: 610.61 EUR
+        plafond: 2595.0 EUR
+      - montant: 617.83 EUR
+        plafond: 2610.0 EUR
+      - montant: 625.05 EUR
+        plafond: 2625.0 EUR
+      - montant: 632.28 EUR
+        plafond: 2640.0 EUR
+      - montant: 639.5 EUR
+        plafond: 2655.0 EUR
+      - montant: 646.72 EUR
+        plafond: 2670.0 EUR
+      - montant: 653.94 EUR
+        plafond: 2685.0 EUR
+      - montant: 661.17 EUR
+        plafond: 2700.0 EUR
+      - montant: 668.39 EUR
+        plafond: 2715.0 EUR
+      - montant: 675.61 EUR
+        plafond: 2730.0 EUR
+      - montant: 682.83 EUR
+        plafond: 2745.0 EUR
+      - montant: 690.06 EUR
+        plafond: 2760.0 EUR
+      - montant: 697.28 EUR
+        plafond: 2775.0 EUR
+      - montant: 704.5 EUR
+        plafond: 2790.0 EUR
+      - montant: 711.72 EUR
+        plafond: 2805.0 EUR
+      - montant: 718.95 EUR
+        plafond: 2820.0 EUR
+      - montant: 726.17 EUR
+        plafond: 2835.0 EUR
+      - montant: 733.39 EUR
+        plafond: 2850.0 EUR
+      - montant: 740.61 EUR
+        plafond: 2865.0 EUR
+      - montant: 747.84 EUR
+        plafond: 2880.0 EUR
+      - montant: 755.06 EUR
+        plafond: 2895.0 EUR
+      - montant: 762.28 EUR
+        plafond: 2910.0 EUR
+      - montant: 769.5 EUR
+        plafond: 2925.0 EUR
+      - montant: 776.73 EUR
+        plafond: 2940.0 EUR
+      - montant: 783.95 EUR
+        plafond: 2955.0 EUR
+      - montant: 791.17 EUR
+        plafond: 2970.0 EUR
+      - montant: 798.39 EUR
+        plafond: 2985.0 EUR
+      - montant: 805.62 EUR
+        plafond: 3000.0 EUR
+      - montant: 812.84 EUR
+        plafond: 3015.0 EUR
+      - montant: 820.06 EUR
+        plafond: 3030.0 EUR
+      - montant: 827.28 EUR
+        plafond: 3045.0 EUR
+      - montant: 834.51 EUR
+        plafond: 3060.0 EUR
+      - montant: 841.73 EUR
+        plafond: 3075.0 EUR
+      - montant: 848.95 EUR
+        plafond: 3090.0 EUR
+      - montant: 856.17 EUR
+        plafond: 3105.0 EUR
+      - montant: 863.4 EUR
+        plafond: 3120.0 EUR
+      - montant: 870.62 EUR
+        plafond: 3135.0 EUR
+      - montant: 877.84 EUR
+        plafond: 3150.0 EUR
+      - montant: 885.06 EUR
+        plafond: 3165.0 EUR
+      - montant: 892.29 EUR
+        plafond: 3180.0 EUR
+      - montant: 899.51 EUR
+        plafond: 3195.0 EUR
+      - montant: 906.73 EUR
+        plafond: 3210.0 EUR
+      - montant: 913.95 EUR
+        plafond: 3225.0 EUR
+      - montant: 921.18 EUR
+        plafond: 3240.0 EUR
+      - montant: 928.4 EUR
+        plafond: 3255.0 EUR
+      - montant: 935.62 EUR
+        plafond: 3270.0 EUR
+      - montant: 942.84 EUR
+        plafond: 3285.0 EUR
+      - montant: 950.07 EUR
+        plafond: 3300.0 EUR
+      - montant: 957.29 EUR
+        plafond: 3315.0 EUR
+      - montant: 964.51 EUR
+        plafond: 3330.0 EUR
+      - montant: 971.73 EUR
+        plafond: 3345.0 EUR
+      - montant: 978.96 EUR
+        plafond: 3360.0 EUR
+      - montant: 986.18 EUR
+        plafond: 3375.0 EUR
+      - montant: 993.4 EUR
+        plafond: 3390.0 EUR
+      - montant: 1000.62 EUR
+        plafond: 3405.0 EUR
+      - montant: 1007.85 EUR
+        plafond: 3420.0 EUR
+      - montant: 1015.07 EUR
+        plafond: 3435.0 EUR
+      - montant: 1022.29 EUR
+        plafond: 3450.0 EUR
+      - montant: 1029.51 EUR
+        plafond: 3465.0 EUR
+      - montant: 1036.74 EUR
+        plafond: 3480.0 EUR
+      - montant: 1043.96 EUR
+        plafond: 3495.0 EUR
+      - montant: 1051.18 EUR
+        plafond: 3510.0 EUR
+      - montant: 1058.4 EUR
+        plafond: 3525.0 EUR
+      - montant: 1065.63 EUR
+        plafond: 3540.0 EUR
+      - montant: 1072.85 EUR
+        plafond: 3555.0 EUR
+      - montant: 1080.07 EUR
+        plafond: 3570.0 EUR
+      - montant: 1087.29 EUR
+        plafond: 3585.0 EUR
+      - montant: 1094.52 EUR
+        plafond: 3600.0 EUR
+      - montant: 1101.74 EUR
+        plafond: 3615.0 EUR
+      - montant: 1108.96 EUR
+        plafond: 3630.0 EUR
+      - montant: 1116.18 EUR
+        plafond: 3645.0 EUR
+      - montant: 1123.41 EUR
+        plafond: 3660.0 EUR
+      - montant: 1130.63 EUR
+        plafond: 3675.0 EUR
+      - montant: 1137.85 EUR
+        plafond: 3690.0 EUR
+      - montant: 1145.07 EUR
+        plafond: 3705.0 EUR
+      - montant: 1152.3 EUR
+        plafond: 3720.0 EUR
+      - montant: 1159.52 EUR
+        plafond: 3735.0 EUR
+      - montant: 1166.74 EUR
+        plafond: 3750.0 EUR
+      - montant: 1173.96 EUR
+        plafond: 3765.0 EUR
+      - montant: 1181.19 EUR
+        plafond: 3780.0 EUR
+      - montant: 1188.41 EUR
+        plafond: 3795.0 EUR
+      - montant: 1195.63 EUR
+        plafond: 3810.0 EUR
+      - montant: 1202.85 EUR
+        plafond: 3825.0 EUR
+      - montant: 1210.08 EUR
+        plafond: 3840.0 EUR
+      - montant: 1217.3 EUR
+        plafond: 3855.0 EUR
+      - montant: 1225.15 EUR
+        plafond: 3870.0 EUR
+      - montant: 1233.17 EUR
+        plafond: 3885.0 EUR
+      - montant: 1241.2 EUR
+        plafond: 3900.0 EUR
+      - montant: 1249.22 EUR
+        plafond: 3915.0 EUR
+      - montant: 1257.25 EUR
+        plafond: 3930.0 EUR
+      - montant: 1265.27 EUR
+        plafond: 3945.0 EUR
+      - montant: 1273.3 EUR
+        plafond: 3960.0 EUR
+      - montant: 1281.32 EUR
+        plafond: 3975.0 EUR
+      - montant: 1289.35 EUR
+        plafond: 3990.0 EUR
+      - montant: 1297.37 EUR
+        plafond: 4005.0 EUR
+      - montant: 1305.4 EUR
+        plafond: 4020.0 EUR
+      - montant: 1313.42 EUR
+        plafond: 4035.0 EUR
+      - montant: 1321.45 EUR
+        plafond: 4050.0 EUR
+      - montant: 1329.47 EUR
+        plafond: 4065.0 EUR
+      - montant: 1337.5 EUR
+        plafond: 4080.0 EUR
+      - montant: 1345.52 EUR
+        plafond: 4095.0 EUR
+      - montant: 1353.55 EUR
+        plafond: 4110.0 EUR
+      - montant: 1361.57 EUR
+        plafond: 4125.0 EUR
+      - montant: 1369.6 EUR
+        plafond: 4140.0 EUR
+      - montant: 1377.62 EUR
+        plafond: 4155.0 EUR
+      - montant: 1385.65 EUR
+        plafond: 4170.0 EUR
+      - montant: 1393.67 EUR
+        plafond: 4185.0 EUR
+      - montant: 1401.7 EUR
+        plafond: 4200.0 EUR
+      - montant: 1409.72 EUR
+        plafond: 4215.0 EUR
+      - montant: 1417.75 EUR
+        plafond: 4230.0 EUR
+      - montant: 1425.77 EUR
+        plafond: 4245.0 EUR
+      - montant: 1433.8 EUR
+        plafond: 4260.0 EUR
+      - montant: 1441.82 EUR
+        plafond: 4275.0 EUR
+      - montant: 1449.85 EUR
+        plafond: 4290.0 EUR
+      - montant: 1457.87 EUR
+        plafond: 4305.0 EUR
+      - montant: 1465.9 EUR
+        plafond: 4320.0 EUR
+      - montant: 1473.92 EUR
+        plafond: 4335.0 EUR
+      - montant: 1481.95 EUR
+        plafond: 4350.0 EUR
+      - montant: 1489.97 EUR
+        plafond: 4365.0 EUR
+      - montant: 1498.0 EUR
+        plafond: 4380.0 EUR
+      - montant: 1506.02 EUR
+        plafond: 4395.0 EUR
+      - montant: 1514.05 EUR
+        plafond: 4410.0 EUR
+      - montant: 1522.07 EUR
+        plafond: 4425.0 EUR
+      - montant: 1530.1 EUR
+        plafond: 4440.0 EUR
+      - montant: 1538.12 EUR
+        plafond: 4455.0 EUR
+      - montant: 1546.15 EUR
+        plafond: 4470.0 EUR
+      - montant: 1554.17 EUR
+        plafond: 4485.0 EUR
+      - montant: 1562.2 EUR
+        plafond: 4500.0 EUR
+      - montant: 1570.22 EUR
+        plafond: 4515.0 EUR
+      - montant: 1578.25 EUR
+        plafond: 4530.0 EUR
+      - montant: 1586.27 EUR
+        plafond: 4545.0 EUR
+      - montant: 1594.3 EUR
+        plafond: 4560.0 EUR
+      - montant: 1602.32 EUR
+        plafond: 4575.0 EUR
+      - montant: 1610.35 EUR
+        plafond: 4590.0 EUR
+      - montant: 1618.37 EUR
+        plafond: 4605.0 EUR
+      - montant: 1626.4 EUR
+        plafond: 4620.0 EUR
+      - montant: 1634.42 EUR
+        plafond: 4635.0 EUR
+      - montant: 1642.45 EUR
+        plafond: 4650.0 EUR
+      - montant: 1650.47 EUR
+        plafond: 4665.0 EUR
+      - montant: 1658.5 EUR
+        plafond: 4680.0 EUR
+      - montant: 1666.52 EUR
+        plafond: 4695.0 EUR
+      - montant: 1674.55 EUR
+        plafond: 4710.0 EUR
+      - montant: 1682.57 EUR
+        plafond: 4725.0 EUR
+      - montant: 1690.6 EUR
+        plafond: 4740.0 EUR
+      - montant: 1698.62 EUR
+        plafond: 4755.0 EUR
+      - montant: 1706.65 EUR
+        plafond: 4770.0 EUR
+      - montant: 1714.67 EUR
+        plafond: 4785.0 EUR
+      - montant: 1722.7 EUR
+        plafond: 4800.0 EUR
+      - montant: 1730.72 EUR
+        plafond: 4815.0 EUR
+      - montant: 1738.75 EUR
+        plafond: 4830.0 EUR
+      - montant: 1746.77 EUR
+        plafond: 4845.0 EUR
+      - montant: 1754.8 EUR
+        plafond: 4860.0 EUR
+      - montant: 1762.82 EUR
+        plafond: 4875.0 EUR
+      - montant: 1770.85 EUR
+        plafond: 4890.0 EUR
+      - montant: 1778.87 EUR
+        plafond: 4905.0 EUR
+      - montant: 1786.9 EUR
+        plafond: 4920.0 EUR
+      - montant: 1794.92 EUR
+        plafond: 4935.0 EUR
+      - montant: 1802.95 EUR
+        plafond: 4950.0 EUR
+      - montant: 1810.97 EUR
+        plafond: 4965.0 EUR
+      - montant: 1819.0 EUR
+        plafond: 4980.0 EUR
+      - montant: 1827.02 EUR
+        plafond: 4995.0 EUR
+      - montant: 1835.05 EUR
+        plafond: 5010.0 EUR
+      - montant: 1843.07 EUR
+        plafond: 5025.0 EUR
+      - montant: 1851.1 EUR
+        plafond: 5040.0 EUR
+      - montant: 1859.12 EUR
+        plafond: 5055.0 EUR
+      - montant: 1867.15 EUR
+        plafond: 5070.0 EUR
+      - montant: 1875.17 EUR
+        plafond: 5085.0 EUR
+      - montant: 1883.2 EUR
+        plafond: 5100.0 EUR
+      - montant: 1891.22 EUR
+        plafond: 5115.0 EUR
+      - montant: 1899.25 EUR
+        plafond: 5130.0 EUR
+      - montant: 1907.27 EUR
+        plafond: 5145.0 EUR
+      - montant: 1915.3 EUR
+        plafond: 5160.0 EUR
+      - montant: 1923.32 EUR
+        plafond: 5175.0 EUR
+      - montant: 1931.35 EUR
+        plafond: 5190.0 EUR
+      - montant: 1939.37 EUR
+        plafond: 5205.0 EUR
+      - montant: 1947.4 EUR
+        plafond: 5220.0 EUR
+      - montant: 1955.42 EUR
+        plafond: 5235.0 EUR
+      - montant: 1963.45 EUR
+        plafond: 5250.0 EUR
+      - montant: 1971.47 EUR
+        plafond: 5265.0 EUR
+      - montant: 1979.5 EUR
+        plafond: 5280.0 EUR
+      - montant: 1987.52 EUR
+        plafond: 5295.0 EUR
+      - montant: 1995.55 EUR
+        plafond: 5310.0 EUR
+      - montant: 2003.57 EUR
+        plafond: 5325.0 EUR
+      - montant: 2011.6 EUR
+        plafond: 5340.0 EUR
+      - montant: 2019.62 EUR
+        plafond: 5355.0 EUR
+      - montant: 2027.65 EUR
+        plafond: 5370.0 EUR
+      - montant: 2035.67 EUR
+        plafond: 5385.0 EUR
+      - montant: 2043.7 EUR
+        plafond: 5400.0 EUR
+      - montant: 2051.72 EUR
+        plafond: 5415.0 EUR
+      - montant: 2059.75 EUR
+        plafond: 5430.0 EUR
+      - montant: 2067.77 EUR
+        plafond: 5445.0 EUR
+      - montant: 2075.8 EUR
+        plafond: 5460.0 EUR
+      - montant: 2083.82 EUR
+        plafond: 5475.0 EUR
+      - montant: 2091.85 EUR
+        plafond: 5490.0 EUR
+      - montant: 2099.87 EUR
+        plafond: 5505.0 EUR
+      - montant: 2107.9 EUR
+        plafond: 5520.0 EUR
+      - montant: 2115.92 EUR
+        plafond: 5535.0 EUR
+      - montant: 2123.95 EUR
+        plafond: 5550.0 EUR
+      - montant: 2131.97 EUR
+        plafond: 5565.0 EUR
+      - montant: 2140.0 EUR
+        plafond: 5580.0 EUR
+      - montant: 2148.02 EUR
+        plafond: 5595.0 EUR
+      - montant: 2156.05 EUR
+        plafond: 5610.0 EUR
+      - montant: 2164.07 EUR
+        plafond: 5625.0 EUR
+      - montant: 2172.1 EUR
+        plafond: 5640.0 EUR
+      - montant: 2180.12 EUR
+        plafond: 5655.0 EUR
+      - montant: 2188.15 EUR
+        plafond: 5670.0 EUR
+      - montant: 2196.17 EUR
+        plafond: 5685.0 EUR
+      - montant: 2204.2 EUR
+        plafond: 5700.0 EUR
+      - montant: 2212.22 EUR
+        plafond: 5715.0 EUR
+      - montant: 2220.25 EUR
+        plafond: 5730.0 EUR
+      - montant: 2228.27 EUR
+        plafond: 5745.0 EUR
+      - montant: 2236.3 EUR
+        plafond: 5760.0 EUR
+      - montant: 2244.32 EUR
+        plafond: 5775.0 EUR
+      - montant: 2252.35 EUR
+        plafond: 5790.0 EUR
+      - montant: 2260.37 EUR
+        plafond: 5805.0 EUR
+      - montant: 2268.4 EUR
+        plafond: 5820.0 EUR
+      - montant: 2276.42 EUR
+        plafond: 5835.0 EUR
+      - montant: 2284.45 EUR
+        plafond: 5850.0 EUR
+      - montant: 2292.47 EUR
+        plafond: 5865.0 EUR
+      - montant: 2300.5 EUR
+        plafond: 5880.0 EUR
+      - montant: 2308.52 EUR
+        plafond: 5895.0 EUR
+      - montant: 2316.55 EUR
+        plafond: 5910.0 EUR
+      - montant: 2324.57 EUR
+        plafond: 5925.0 EUR
+      - montant: 2332.6 EUR
+        plafond: 5940.0 EUR
+      - montant: 2340.62 EUR
+        plafond: 5955.0 EUR
+      - montant: 2348.65 EUR
+        plafond: 5970.0 EUR
+      - montant: 2356.67 EUR
+        plafond: 5985.0 EUR
+      - montant: 2364.7 EUR
+        plafond: 6000.0 EUR
+      - montant: 2372.72 EUR
+        plafond: 6015.0 EUR
+      - montant: 2380.75 EUR
+        plafond: 6030.0 EUR
+      - montant: 2388.77 EUR
+        plafond: 6045.0 EUR
+      - montant: 2396.8 EUR
+        plafond: 6060.0 EUR
+      - montant: 2404.82 EUR
+        plafond: 6075.0 EUR
+      - montant: 2412.85 EUR
+        plafond: 6090.0 EUR
+      - montant: 2420.87 EUR
+        plafond: 6105.0 EUR
+      - montant: 2428.9 EUR
+        plafond: 6120.0 EUR
+      - montant: 2436.92 EUR
+        plafond: 6135.0 EUR
+      - montant: 2444.95 EUR
+        plafond: 6150.0 EUR
+      - montant: 2452.97 EUR
+        plafond: 6165.0 EUR
+      - montant: 2461.0 EUR
+        plafond: 6180.0 EUR
+      - montant: 2469.02 EUR
+        plafond: 6195.0 EUR
+      - montant: 2477.05 EUR
+        plafond: 6210.0 EUR
+      - montant: 2485.07 EUR
+        plafond: 6225.0 EUR
+      - montant: 2493.1 EUR
+        plafond: 6240.0 EUR
+      - montant: 2501.12 EUR
+        plafond: 6255.0 EUR
+      - montant: 2509.15 EUR
+        plafond: 6270.0 EUR
+      - montant: 2517.17 EUR
+        plafond: 6285.0 EUR
+      - montant: 2525.2 EUR
+        plafond: 6300.0 EUR
+      - montant: 2533.22 EUR
+        plafond: 6315.0 EUR
+      - montant: 2541.25 EUR
+        plafond: 6330.0 EUR
+      - montant: 2549.27 EUR
+        plafond: 6345.0 EUR
+      - montant: 2557.3 EUR
+        plafond: 6360.0 EUR
+      - montant: 2565.32 EUR
+        plafond: 6375.0 EUR
+      - montant: 2573.35 EUR
+        plafond: 6390.0 EUR
+      - montant: 2581.37 EUR
+        plafond: 6405.0 EUR
+      - montant: 2589.4 EUR
+        plafond: 6420.0 EUR
+      - montant: 2597.42 EUR
+        plafond: 6435.0 EUR
+      - montant: 2605.45 EUR
+        plafond: 6450.0 EUR
+      - montant: 2613.47 EUR
+        plafond: 6465.0 EUR
+      - montant: 2621.5 EUR
+        plafond: 6480.0 EUR
+      - montant: 2629.52 EUR
+        plafond: 6495.0 EUR
+      - montant: 2637.55 EUR
+        plafond: 6510.0 EUR
+      - montant: 2645.57 EUR
+        plafond: 6525.0 EUR
+      - montant: 2653.6 EUR
+        plafond: 6540.0 EUR
+      - montant: 2661.62 EUR
+        plafond: 6555.0 EUR
+      - montant: 2669.65 EUR
+        plafond: 6570.0 EUR
+      - montant: 2677.67 EUR
+        plafond: 6585.0 EUR
+      - montant: 2685.7 EUR
+        plafond: 6600.0 EUR
+      - montant: 2693.72 EUR
+        plafond: 6615.0 EUR
+      - montant: 2701.75 EUR
+        plafond: 6630.0 EUR
+      - montant: 2709.77 EUR
+        plafond: 6645.0 EUR
+      - montant: 2717.8 EUR
+        plafond: 6660.0 EUR
+      - montant: 2725.82 EUR
+        plafond: 6675.0 EUR
+      - montant: 2733.85 EUR
+        plafond: 6690.0 EUR
+      - montant: 2741.87 EUR
+        plafond: 6705.0 EUR
+      - montant: 2749.9 EUR
+        plafond: 6720.0 EUR
+      - montant: 2757.92 EUR
+        plafond: 6735.0 EUR
+      - montant: 2765.95 EUR
+        plafond: 6750.0 EUR
+      - montant: 2773.97 EUR
+        plafond: 6765.0 EUR
+      - montant: 2782.0 EUR
+        plafond: 6780.0 EUR
+      - montant: 2790.02 EUR
+        plafond: 6795.0 EUR
+      - montant: 2798.05 EUR
+        plafond: 6810.0 EUR
+      - montant: 2806.07 EUR
+        plafond: 6825.0 EUR
+      - montant: 2814.1 EUR
+        plafond: 6840.0 EUR
+      - montant: 2822.12 EUR
+        plafond: 6855.0 EUR
+      - montant: 2830.15 EUR
+        plafond: 6870.0 EUR
+      - montant: 2838.17 EUR
+        plafond: 6885.0 EUR
+      - montant: 2846.2 EUR
+        plafond: 6900.0 EUR
+      - montant: 2854.22 EUR
+        plafond: 6915.0 EUR
+      - montant: 2862.25 EUR
+        plafond: 6930.0 EUR
+      - montant: 2870.27 EUR
+        plafond: 6945.0 EUR
+      - montant: 2878.3 EUR
+        plafond: 6960.0 EUR
+      - montant: 2886.32 EUR
+        plafond: 6975.0 EUR
+      - montant: 2894.35 EUR
+        plafond: 6990.0 EUR
+      - montant: 2902.37 EUR
+        plafond: 7005.0 EUR
+      - montant: 2910.4 EUR
+        plafond: 7020.0 EUR
+      - montant: 2918.42 EUR
+        plafond: 7035.0 EUR
+      - montant: 2926.45 EUR
+        plafond: 7050.0 EUR
+      - montant: 2934.47 EUR
+        plafond: 7065.0 EUR
+      - montant: 2942.5 EUR
+        plafond: 7080.0 EUR
+      - montant: 2950.52 EUR
+        plafond: 7095.0 EUR
+      - montant: 2958.55 EUR
+        plafond: 7110.0 EUR
+      - montant: 2966.57 EUR
+        plafond: 7125.0 EUR
+      - montant: 2974.6 EUR
+        plafond: 7140.0 EUR
+      - montant: 2982.62 EUR
+        plafond: 7155.0 EUR
+      - montant: 2990.65 EUR
+        plafond: 7170.0 EUR
+      - montant: 2998.67 EUR
+        plafond: 7185.0 EUR
+      - montant: 3006.7 EUR
+        plafond: 7200.0 EUR
+      - montant: 3014.72 EUR
+        plafond: 7215.0 EUR
+      - montant: 3022.75 EUR
+        plafond: 7230.0 EUR
+      - montant: 3030.77 EUR
+        plafond: 7245.0 EUR
+      - montant: 3038.8 EUR
+        plafond: 7260.0 EUR
+      - montant: 3046.82 EUR
+        plafond: 7275.0 EUR
+      - montant: 3054.85 EUR
+        plafond: 7290.0 EUR
+      - montant: 3062.87 EUR
+        plafond: 7305.0 EUR
+      - montant: 3070.9 EUR
+        plafond: 7320.0 EUR
+      - montant: 3078.92 EUR
+        plafond: 7335.0 EUR
+      - montant: 3086.95 EUR
+        plafond: 7350.0 EUR
+      - montant: 3094.97 EUR
+        plafond: 7365.0 EUR
+      - montant: 3103.0 EUR
+        plafond: 7380.0 EUR
+      - montant: 3111.02 EUR
+        plafond: 7395.0 EUR
+      - montant: 3119.05 EUR
+        plafond: 7410.0 EUR
+      - montant: 3127.07 EUR
+        plafond: 7425.0 EUR
+      - montant: 3135.1 EUR
+        plafond: 7440.0 EUR
+      - montant: 3143.12 EUR
+        plafond: 7455.0 EUR
+      - montant: 3151.15 EUR
+        plafond: 7470.0 EUR
+      - montant: 3159.17 EUR
+        plafond: 7485.0 EUR
+      - montant: 3167.2 EUR
+        plafond: 7500.0 EUR
+
+barème II:
+  grille:
+    assiette: revenu brut imposable - 15
+    tranches:
+# The line below are generated with runghc withholding-tax/scales.hs worker-scale-2.
+      - montant: 0.0 EUR
+        plafond: 1365.0 EUR
+      - montant: 0.0 EUR
+        plafond: 1380.0 EUR
+      - montant: 0.0 EUR
+        plafond: 1395.0 EUR
+      - montant: 0.0 EUR
+        plafond: 1410.0 EUR
+      - montant: 0.0 EUR
+        plafond: 1425.0 EUR
+      - montant: 0.0 EUR
+        plafond: 1440.0 EUR
+      - montant: 0.0 EUR
+        plafond: 1455.0 EUR
+      - montant: 0.0 EUR
+        plafond: 1470.0 EUR
+      - montant: 0.0 EUR
+        plafond: 1485.0 EUR
+      - montant: 0.0 EUR
+        plafond: 1500.0 EUR
+      - montant: 0.0 EUR
+        plafond: 1515.0 EUR
+      - montant: 0.0 EUR
+        plafond: 1530.0 EUR
+      - montant: 0.0 EUR
+        plafond: 1545.0 EUR
+      - montant: 0.0 EUR
+        plafond: 1560.0 EUR
+      - montant: 0.0 EUR
+        plafond: 1575.0 EUR
+      - montant: 0.0 EUR
+        plafond: 1590.0 EUR
+      - montant: 0.0 EUR
+        plafond: 1605.0 EUR
+      - montant: 0.0 EUR
+        plafond: 1620.0 EUR
+      - montant: 0.0 EUR
+        plafond: 1635.0 EUR
+      - montant: 0.0 EUR
+        plafond: 1650.0 EUR
+      - montant: 0.0 EUR
+        plafond: 1665.0 EUR
+      - montant: 0.0 EUR
+        plafond: 1680.0 EUR
+      - montant: 0.0 EUR
+        plafond: 1695.0 EUR
+      - montant: 0.0 EUR
+        plafond: 1710.0 EUR
+      - montant: 0.0 EUR
+        plafond: 1725.0 EUR
+      - montant: 3.56 EUR
+        plafond: 1740.0 EUR
+      - montant: 7.58 EUR
+        plafond: 1755.0 EUR
+      - montant: 11.59 EUR
+        plafond: 1770.0 EUR
+      - montant: 15.6 EUR
+        plafond: 1785.0 EUR
+      - montant: 19.61 EUR
+        plafond: 1800.0 EUR
+      - montant: 23.63 EUR
+        plafond: 1815.0 EUR
+      - montant: 27.64 EUR
+        plafond: 1830.0 EUR
+      - montant: 31.65 EUR
+        plafond: 1845.0 EUR
+      - montant: 35.66 EUR
+        plafond: 1860.0 EUR
+      - montant: 39.68 EUR
+        plafond: 1875.0 EUR
+      - montant: 43.69 EUR
+        plafond: 1890.0 EUR
+      - montant: 47.7 EUR
+        plafond: 1905.0 EUR
+      - montant: 51.71 EUR
+        plafond: 1920.0 EUR
+      - montant: 55.73 EUR
+        plafond: 1935.0 EUR
+      - montant: 59.74 EUR
+        plafond: 1950.0 EUR
+      - montant: 63.75 EUR
+        plafond: 1965.0 EUR
+      - montant: 68.27 EUR
+        plafond: 1980.0 EUR
+      - montant: 73.97 EUR
+        plafond: 1995.0 EUR
+      - montant: 79.67 EUR
+        plafond: 2010.0 EUR
+      - montant: 85.36 EUR
+        plafond: 2025.0 EUR
+      - montant: 91.06 EUR
+        plafond: 2040.0 EUR
+      - montant: 96.76 EUR
+        plafond: 2055.0 EUR
+      - montant: 102.46 EUR
+        plafond: 2070.0 EUR
+      - montant: 108.16 EUR
+        plafond: 2085.0 EUR
+      - montant: 113.85 EUR
+        plafond: 2100.0 EUR
+      - montant: 119.55 EUR
+        plafond: 2115.0 EUR
+      - montant: 125.25 EUR
+        plafond: 2130.0 EUR
+      - montant: 130.95 EUR
+        plafond: 2145.0 EUR
+      - montant: 136.64 EUR
+        plafond: 2160.0 EUR
+      - montant: 142.34 EUR
+        plafond: 2175.0 EUR
+      - montant: 148.04 EUR
+        plafond: 2190.0 EUR
+      - montant: 153.74 EUR
+        plafond: 2205.0 EUR
+      - montant: 159.43 EUR
+        plafond: 2220.0 EUR
+      - montant: 165.13 EUR
+        plafond: 2235.0 EUR
+      - montant: 170.83 EUR
+        plafond: 2250.0 EUR
+      - montant: 176.53 EUR
+        plafond: 2265.0 EUR
+      - montant: 182.23 EUR
+        plafond: 2280.0 EUR
+      - montant: 187.92 EUR
+        plafond: 2295.0 EUR
+      - montant: 193.62 EUR
+        plafond: 2310.0 EUR
+      - montant: 199.32 EUR
+        plafond: 2325.0 EUR
+      - montant: 205.02 EUR
+        plafond: 2340.0 EUR
+      - montant: 210.71 EUR
+        plafond: 2355.0 EUR
+      - montant: 216.41 EUR
+        plafond: 2370.0 EUR
+      - montant: 222.11 EUR
+        plafond: 2385.0 EUR
+      - montant: 227.81 EUR
+        plafond: 2400.0 EUR
+      - montant: 233.51 EUR
+        plafond: 2415.0 EUR
+      - montant: 239.2 EUR
+        plafond: 2430.0 EUR
+      - montant: 244.9 EUR
+        plafond: 2445.0 EUR
+      - montant: 250.6 EUR
+        plafond: 2460.0 EUR
+      - montant: 256.3 EUR
+        plafond: 2475.0 EUR
+      - montant: 261.99 EUR
+        plafond: 2490.0 EUR
+      - montant: 267.69 EUR
+        plafond: 2505.0 EUR
+      - montant: 273.39 EUR
+        plafond: 2520.0 EUR
+      - montant: 279.09 EUR
+        plafond: 2535.0 EUR
+      - montant: 284.79 EUR
+        plafond: 2550.0 EUR
+      - montant: 290.48 EUR
+        plafond: 2565.0 EUR
+      - montant: 296.18 EUR
+        plafond: 2580.0 EUR
+      - montant: 301.88 EUR
+        plafond: 2595.0 EUR
+      - montant: 307.58 EUR
+        plafond: 2610.0 EUR
+      - montant: 313.27 EUR
+        plafond: 2625.0 EUR
+      - montant: 318.97 EUR
+        plafond: 2640.0 EUR
+      - montant: 324.67 EUR
+        plafond: 2655.0 EUR
+      - montant: 330.37 EUR
+        plafond: 2670.0 EUR
+      - montant: 336.07 EUR
+        plafond: 2685.0 EUR
+      - montant: 341.76 EUR
+        plafond: 2700.0 EUR
+      - montant: 347.46 EUR
+        plafond: 2715.0 EUR
+      - montant: 353.16 EUR
+        plafond: 2730.0 EUR
+      - montant: 358.86 EUR
+        plafond: 2745.0 EUR
+      - montant: 364.55 EUR
+        plafond: 2760.0 EUR
+      - montant: 370.25 EUR
+        plafond: 2775.0 EUR
+      - montant: 375.95 EUR
+        plafond: 2790.0 EUR
+      - montant: 381.86 EUR
+        plafond: 2805.0 EUR
+      - montant: 388.12 EUR
+        plafond: 2820.0 EUR
+      - montant: 394.38 EUR
+        plafond: 2835.0 EUR
+      - montant: 400.64 EUR
+        plafond: 2850.0 EUR
+      - montant: 406.9 EUR
+        plafond: 2865.0 EUR
+      - montant: 413.16 EUR
+        plafond: 2880.0 EUR
+      - montant: 419.42 EUR
+        plafond: 2895.0 EUR
+      - montant: 425.68 EUR
+        plafond: 2910.0 EUR
+      - montant: 431.94 EUR
+        plafond: 2925.0 EUR
+      - montant: 438.2 EUR
+        plafond: 2940.0 EUR
+      - montant: 444.46 EUR
+        plafond: 2955.0 EUR
+      - montant: 450.72 EUR
+        plafond: 2970.0 EUR
+      - montant: 456.98 EUR
+        plafond: 2985.0 EUR
+      - montant: 463.23 EUR
+        plafond: 3000.0 EUR
+      - montant: 469.49 EUR
+        plafond: 3015.0 EUR
+      - montant: 475.75 EUR
+        plafond: 3030.0 EUR
+      - montant: 482.01 EUR
+        plafond: 3045.0 EUR
+      - montant: 488.27 EUR
+        plafond: 3060.0 EUR
+      - montant: 494.53 EUR
+        plafond: 3075.0 EUR
+      - montant: 500.79 EUR
+        plafond: 3090.0 EUR
+      - montant: 507.05 EUR
+        plafond: 3105.0 EUR
+      - montant: 513.31 EUR
+        plafond: 3120.0 EUR
+      - montant: 519.57 EUR
+        plafond: 3135.0 EUR
+      - montant: 525.83 EUR
+        plafond: 3150.0 EUR
+      - montant: 532.09 EUR
+        plafond: 3165.0 EUR
+      - montant: 538.35 EUR
+        plafond: 3180.0 EUR
+      - montant: 544.61 EUR
+        plafond: 3195.0 EUR
+      - montant: 550.87 EUR
+        plafond: 3210.0 EUR
+      - montant: 557.13 EUR
+        plafond: 3225.0 EUR
+      - montant: 563.39 EUR
+        plafond: 3240.0 EUR
+      - montant: 569.65 EUR
+        plafond: 3255.0 EUR
+      - montant: 575.91 EUR
+        plafond: 3270.0 EUR
+      - montant: 582.17 EUR
+        plafond: 3285.0 EUR
+      - montant: 588.42 EUR
+        plafond: 3300.0 EUR
+      - montant: 594.68 EUR
+        plafond: 3315.0 EUR
+      - montant: 600.94 EUR
+        plafond: 3330.0 EUR
+      - montant: 607.2 EUR
+        plafond: 3345.0 EUR
+      - montant: 613.46 EUR
+        plafond: 3360.0 EUR
+      - montant: 619.72 EUR
+        plafond: 3375.0 EUR
+      - montant: 625.98 EUR
+        plafond: 3390.0 EUR
+      - montant: 632.24 EUR
+        plafond: 3405.0 EUR
+      - montant: 638.5 EUR
+        plafond: 3420.0 EUR
+      - montant: 644.76 EUR
+        plafond: 3435.0 EUR
+      - montant: 651.02 EUR
+        plafond: 3450.0 EUR
+      - montant: 657.28 EUR
+        plafond: 3465.0 EUR
+      - montant: 663.54 EUR
+        plafond: 3480.0 EUR
+      - montant: 669.8 EUR
+        plafond: 3495.0 EUR
+      - montant: 676.06 EUR
+        plafond: 3510.0 EUR
+      - montant: 682.92 EUR
+        plafond: 3525.0 EUR
+      - montant: 690.15 EUR
+        plafond: 3540.0 EUR
+      - montant: 697.37 EUR
+        plafond: 3555.0 EUR
+      - montant: 704.59 EUR
+        plafond: 3570.0 EUR
+      - montant: 711.81 EUR
+        plafond: 3585.0 EUR
+      - montant: 719.04 EUR
+        plafond: 3600.0 EUR
+      - montant: 726.26 EUR
+        plafond: 3615.0 EUR
+      - montant: 733.48 EUR
+        plafond: 3630.0 EUR
+      - montant: 740.7 EUR
+        plafond: 3645.0 EUR
+      - montant: 747.93 EUR
+        plafond: 3660.0 EUR
+      - montant: 755.15 EUR
+        plafond: 3675.0 EUR
+      - montant: 762.37 EUR
+        plafond: 3690.0 EUR
+      - montant: 769.59 EUR
+        plafond: 3705.0 EUR
+      - montant: 776.82 EUR
+        plafond: 3720.0 EUR
+      - montant: 784.04 EUR
+        plafond: 3735.0 EUR
+      - montant: 791.26 EUR
+        plafond: 3750.0 EUR
+      - montant: 798.48 EUR
+        plafond: 3765.0 EUR
+      - montant: 805.71 EUR
+        plafond: 3780.0 EUR
+      - montant: 812.93 EUR
+        plafond: 3795.0 EUR
+      - montant: 820.15 EUR
+        plafond: 3810.0 EUR
+      - montant: 827.37 EUR
+        plafond: 3825.0 EUR
+      - montant: 834.6 EUR
+        plafond: 3840.0 EUR
+      - montant: 841.82 EUR
+        plafond: 3855.0 EUR
+      - montant: 849.04 EUR
+        plafond: 3870.0 EUR
+      - montant: 856.26 EUR
+        plafond: 3885.0 EUR
+      - montant: 863.49 EUR
+        plafond: 3900.0 EUR
+      - montant: 870.71 EUR
+        plafond: 3915.0 EUR
+      - montant: 877.93 EUR
+        plafond: 3930.0 EUR
+      - montant: 885.15 EUR
+        plafond: 3945.0 EUR
+      - montant: 892.38 EUR
+        plafond: 3960.0 EUR
+      - montant: 899.6 EUR
+        plafond: 3975.0 EUR
+      - montant: 906.82 EUR
+        plafond: 3990.0 EUR
+      - montant: 914.04 EUR
+        plafond: 4005.0 EUR
+      - montant: 921.27 EUR
+        plafond: 4020.0 EUR
+      - montant: 928.49 EUR
+        plafond: 4035.0 EUR
+      - montant: 935.71 EUR
+        plafond: 4050.0 EUR
+      - montant: 942.93 EUR
+        plafond: 4065.0 EUR
+      - montant: 950.16 EUR
+        plafond: 4080.0 EUR
+      - montant: 957.38 EUR
+        plafond: 4095.0 EUR
+      - montant: 964.6 EUR
+        plafond: 4110.0 EUR
+      - montant: 971.82 EUR
+        plafond: 4125.0 EUR
+      - montant: 979.05 EUR
+        plafond: 4140.0 EUR
+      - montant: 986.27 EUR
+        plafond: 4155.0 EUR
+      - montant: 993.49 EUR
+        plafond: 4170.0 EUR
+      - montant: 1000.71 EUR
+        plafond: 4185.0 EUR
+      - montant: 1007.94 EUR
+        plafond: 4200.0 EUR
+      - montant: 1015.16 EUR
+        plafond: 4215.0 EUR
+      - montant: 1022.38 EUR
+        plafond: 4230.0 EUR
+      - montant: 1029.6 EUR
+        plafond: 4245.0 EUR
+      - montant: 1036.83 EUR
+        plafond: 4260.0 EUR
+      - montant: 1044.05 EUR
+        plafond: 4275.0 EUR
+      - montant: 1051.27 EUR
+        plafond: 4290.0 EUR
+      - montant: 1058.49 EUR
+        plafond: 4305.0 EUR
+      - montant: 1065.72 EUR
+        plafond: 4320.0 EUR
+      - montant: 1072.94 EUR
+        plafond: 4335.0 EUR
+      - montant: 1080.16 EUR
+        plafond: 4350.0 EUR
+      - montant: 1087.38 EUR
+        plafond: 4365.0 EUR
+      - montant: 1094.61 EUR
+        plafond: 4380.0 EUR
+      - montant: 1101.83 EUR
+        plafond: 4395.0 EUR
+      - montant: 1109.05 EUR
+        plafond: 4410.0 EUR
+      - montant: 1116.27 EUR
+        plafond: 4425.0 EUR
+      - montant: 1123.5 EUR
+        plafond: 4440.0 EUR
+      - montant: 1130.72 EUR
+        plafond: 4455.0 EUR
+      - montant: 1137.94 EUR
+        plafond: 4470.0 EUR
+      - montant: 1145.16 EUR
+        plafond: 4485.0 EUR
+      - montant: 1152.39 EUR
+        plafond: 4500.0 EUR
+      - montant: 1159.61 EUR
+        plafond: 4515.0 EUR
+      - montant: 1166.83 EUR
+        plafond: 4530.0 EUR
+      - montant: 1174.05 EUR
+        plafond: 4545.0 EUR
+      - montant: 1181.28 EUR
+        plafond: 4560.0 EUR
+      - montant: 1188.5 EUR
+        plafond: 4575.0 EUR
+      - montant: 1195.72 EUR
+        plafond: 4590.0 EUR
+      - montant: 1202.94 EUR
+        plafond: 4605.0 EUR
+      - montant: 1210.17 EUR
+        plafond: 4620.0 EUR
+      - montant: 1217.39 EUR
+        plafond: 4635.0 EUR
+      - montant: 1224.61 EUR
+        plafond: 4650.0 EUR
+      - montant: 1231.83 EUR
+        plafond: 4665.0 EUR
+      - montant: 1239.06 EUR
+        plafond: 4680.0 EUR
+      - montant: 1246.28 EUR
+        plafond: 4695.0 EUR
+      - montant: 1253.5 EUR
+        plafond: 4710.0 EUR
+      - montant: 1260.72 EUR
+        plafond: 4725.0 EUR
+      - montant: 1267.95 EUR
+        plafond: 4740.0 EUR
+      - montant: 1275.17 EUR
+        plafond: 4755.0 EUR
+      - montant: 1282.39 EUR
+        plafond: 4770.0 EUR
+      - montant: 1289.61 EUR
+        plafond: 4785.0 EUR
+      - montant: 1297.37 EUR
+        plafond: 4800.0 EUR
+      - montant: 1305.4 EUR
+        plafond: 4815.0 EUR
+      - montant: 1313.42 EUR
+        plafond: 4830.0 EUR
+      - montant: 1321.45 EUR
+        plafond: 4845.0 EUR
+      - montant: 1329.47 EUR
+        plafond: 4860.0 EUR
+      - montant: 1337.5 EUR
+        plafond: 4875.0 EUR
+      - montant: 1345.52 EUR
+        plafond: 4890.0 EUR
+      - montant: 1353.55 EUR
+        plafond: 4905.0 EUR
+      - montant: 1361.57 EUR
+        plafond: 4920.0 EUR
+      - montant: 1369.6 EUR
+        plafond: 4935.0 EUR
+      - montant: 1377.62 EUR
+        plafond: 4950.0 EUR
+      - montant: 1385.65 EUR
+        plafond: 4965.0 EUR
+      - montant: 1393.67 EUR
+        plafond: 4980.0 EUR
+      - montant: 1401.7 EUR
+        plafond: 4995.0 EUR
+      - montant: 1409.72 EUR
+        plafond: 5010.0 EUR
+      - montant: 1417.75 EUR
+        plafond: 5025.0 EUR
+      - montant: 1425.77 EUR
+        plafond: 5040.0 EUR
+      - montant: 1433.8 EUR
+        plafond: 5055.0 EUR
+      - montant: 1441.82 EUR
+        plafond: 5070.0 EUR
+      - montant: 1449.85 EUR
+        plafond: 5085.0 EUR
+      - montant: 1457.87 EUR
+        plafond: 5100.0 EUR
+      - montant: 1465.9 EUR
+        plafond: 5115.0 EUR
+      - montant: 1473.92 EUR
+        plafond: 5130.0 EUR
+      - montant: 1481.95 EUR
+        plafond: 5145.0 EUR
+      - montant: 1489.97 EUR
+        plafond: 5160.0 EUR
+      - montant: 1498.0 EUR
+        plafond: 5175.0 EUR
+      - montant: 1506.02 EUR
+        plafond: 5190.0 EUR
+      - montant: 1514.05 EUR
+        plafond: 5205.0 EUR
+      - montant: 1522.07 EUR
+        plafond: 5220.0 EUR
+      - montant: 1530.1 EUR
+        plafond: 5235.0 EUR
+      - montant: 1538.12 EUR
+        plafond: 5250.0 EUR
+      - montant: 1546.15 EUR
+        plafond: 5265.0 EUR
+      - montant: 1554.17 EUR
+        plafond: 5280.0 EUR
+      - montant: 1562.2 EUR
+        plafond: 5295.0 EUR
+      - montant: 1570.22 EUR
+        plafond: 5310.0 EUR
+      - montant: 1578.25 EUR
+        plafond: 5325.0 EUR
+      - montant: 1586.27 EUR
+        plafond: 5340.0 EUR
+      - montant: 1594.3 EUR
+        plafond: 5355.0 EUR
+      - montant: 1602.32 EUR
+        plafond: 5370.0 EUR
+      - montant: 1610.35 EUR
+        plafond: 5385.0 EUR
+      - montant: 1618.37 EUR
+        plafond: 5400.0 EUR
+      - montant: 1626.4 EUR
+        plafond: 5415.0 EUR
+      - montant: 1634.42 EUR
+        plafond: 5430.0 EUR
+      - montant: 1642.45 EUR
+        plafond: 5445.0 EUR
+      - montant: 1650.47 EUR
+        plafond: 5460.0 EUR
+      - montant: 1658.5 EUR
+        plafond: 5475.0 EUR
+      - montant: 1666.52 EUR
+        plafond: 5490.0 EUR
+      - montant: 1674.55 EUR
+        plafond: 5505.0 EUR
+      - montant: 1682.57 EUR
+        plafond: 5520.0 EUR
+      - montant: 1690.6 EUR
+        plafond: 5535.0 EUR
+      - montant: 1698.62 EUR
+        plafond: 5550.0 EUR
+      - montant: 1706.65 EUR
+        plafond: 5565.0 EUR
+      - montant: 1714.67 EUR
+        plafond: 5580.0 EUR
+      - montant: 1722.7 EUR
+        plafond: 5595.0 EUR
+      - montant: 1730.72 EUR
+        plafond: 5610.0 EUR
+      - montant: 1738.75 EUR
+        plafond: 5625.0 EUR
+      - montant: 1746.77 EUR
+        plafond: 5640.0 EUR
+      - montant: 1754.8 EUR
+        plafond: 5655.0 EUR
+      - montant: 1762.82 EUR
+        plafond: 5670.0 EUR
+      - montant: 1770.85 EUR
+        plafond: 5685.0 EUR
+      - montant: 1778.87 EUR
+        plafond: 5700.0 EUR
+      - montant: 1786.9 EUR
+        plafond: 5715.0 EUR
+      - montant: 1794.92 EUR
+        plafond: 5730.0 EUR
+      - montant: 1802.95 EUR
+        plafond: 5745.0 EUR
+      - montant: 1810.97 EUR
+        plafond: 5760.0 EUR
+      - montant: 1819.0 EUR
+        plafond: 5775.0 EUR
+      - montant: 1827.02 EUR
+        plafond: 5790.0 EUR
+      - montant: 1835.05 EUR
+        plafond: 5805.0 EUR
+      - montant: 1843.07 EUR
+        plafond: 5820.0 EUR
+      - montant: 1851.1 EUR
+        plafond: 5835.0 EUR
+      - montant: 1859.12 EUR
+        plafond: 5850.0 EUR
+      - montant: 1867.15 EUR
+        plafond: 5865.0 EUR
+      - montant: 1875.17 EUR
+        plafond: 5880.0 EUR
+      - montant: 1883.2 EUR
+        plafond: 5895.0 EUR
+      - montant: 1891.22 EUR
+        plafond: 5910.0 EUR
+      - montant: 1899.25 EUR
+        plafond: 5925.0 EUR
+      - montant: 1907.27 EUR
+        plafond: 5940.0 EUR
+      - montant: 1915.3 EUR
+        plafond: 5955.0 EUR
+      - montant: 1923.32 EUR
+        plafond: 5970.0 EUR
+      - montant: 1931.35 EUR
+        plafond: 5985.0 EUR
+      - montant: 1939.37 EUR
+        plafond: 6000.0 EUR
+      - montant: 1947.4 EUR
+        plafond: 6015.0 EUR
+      - montant: 1955.42 EUR
+        plafond: 6030.0 EUR
+      - montant: 1963.45 EUR
+        plafond: 6045.0 EUR
+      - montant: 1971.47 EUR
+        plafond: 6060.0 EUR
+      - montant: 1979.5 EUR
+        plafond: 6075.0 EUR
+      - montant: 1987.52 EUR
+        plafond: 6090.0 EUR
+      - montant: 1995.55 EUR
+        plafond: 6105.0 EUR
+      - montant: 2003.57 EUR
+        plafond: 6120.0 EUR
+      - montant: 2011.6 EUR
+        plafond: 6135.0 EUR
+      - montant: 2019.62 EUR
+        plafond: 6150.0 EUR
+      - montant: 2027.65 EUR
+        plafond: 6165.0 EUR
+      - montant: 2035.67 EUR
+        plafond: 6180.0 EUR
+      - montant: 2043.7 EUR
+        plafond: 6195.0 EUR
+      - montant: 2051.72 EUR
+        plafond: 6210.0 EUR
+      - montant: 2059.75 EUR
+        plafond: 6225.0 EUR
+      - montant: 2067.77 EUR
+        plafond: 6240.0 EUR
+      - montant: 2075.8 EUR
+        plafond: 6255.0 EUR
+      - montant: 2083.82 EUR
+        plafond: 6270.0 EUR
+      - montant: 2091.85 EUR
+        plafond: 6285.0 EUR
+      - montant: 2099.87 EUR
+        plafond: 6300.0 EUR
+      - montant: 2107.9 EUR
+        plafond: 6315.0 EUR
+      - montant: 2115.92 EUR
+        plafond: 6330.0 EUR
+      - montant: 2123.95 EUR
+        plafond: 6345.0 EUR
+      - montant: 2131.97 EUR
+        plafond: 6360.0 EUR
+      - montant: 2140.0 EUR
+        plafond: 6375.0 EUR
+      - montant: 2148.02 EUR
+        plafond: 6390.0 EUR
+      - montant: 2156.05 EUR
+        plafond: 6405.0 EUR
+      - montant: 2164.07 EUR
+        plafond: 6420.0 EUR
+      - montant: 2172.1 EUR
+        plafond: 6435.0 EUR
+      - montant: 2180.12 EUR
+        plafond: 6450.0 EUR
+      - montant: 2188.15 EUR
+        plafond: 6465.0 EUR
+      - montant: 2196.17 EUR
+        plafond: 6480.0 EUR
+      - montant: 2204.2 EUR
+        plafond: 6495.0 EUR
+      - montant: 2212.22 EUR
+        plafond: 6510.0 EUR
+      - montant: 2220.25 EUR
+        plafond: 6525.0 EUR
+      - montant: 2228.27 EUR
+        plafond: 6540.0 EUR
+      - montant: 2236.3 EUR
+        plafond: 6555.0 EUR
+      - montant: 2244.32 EUR
+        plafond: 6570.0 EUR
+      - montant: 2252.35 EUR
+        plafond: 6585.0 EUR
+      - montant: 2260.37 EUR
+        plafond: 6600.0 EUR
+      - montant: 2268.4 EUR
+        plafond: 6615.0 EUR
+      - montant: 2276.42 EUR
+        plafond: 6630.0 EUR
+      - montant: 2284.45 EUR
+        plafond: 6645.0 EUR
+      - montant: 2292.47 EUR
+        plafond: 6660.0 EUR
+      - montant: 2300.5 EUR
+        plafond: 6675.0 EUR
+      - montant: 2308.52 EUR
+        plafond: 6690.0 EUR
+      - montant: 2316.55 EUR
+        plafond: 6705.0 EUR
+      - montant: 2324.57 EUR
+        plafond: 6720.0 EUR
+      - montant: 2332.6 EUR
+        plafond: 6735.0 EUR
+      - montant: 2340.62 EUR
+        plafond: 6750.0 EUR
+      - montant: 2348.65 EUR
+        plafond: 6765.0 EUR
+      - montant: 2356.67 EUR
+        plafond: 6780.0 EUR
+      - montant: 2364.7 EUR
+        plafond: 6795.0 EUR
+      - montant: 2372.72 EUR
+        plafond: 6810.0 EUR
+      - montant: 2380.75 EUR
+        plafond: 6825.0 EUR
+      - montant: 2388.77 EUR
+        plafond: 6840.0 EUR
+      - montant: 2396.8 EUR
+        plafond: 6855.0 EUR
+      - montant: 2404.82 EUR
+        plafond: 6870.0 EUR
+      - montant: 2412.85 EUR
+        plafond: 6885.0 EUR
+      - montant: 2420.87 EUR
+        plafond: 6900.0 EUR
+      - montant: 2428.9 EUR
+        plafond: 6915.0 EUR
+      - montant: 2436.92 EUR
+        plafond: 6930.0 EUR
+      - montant: 2444.95 EUR
+        plafond: 6945.0 EUR
+      - montant: 2452.97 EUR
+        plafond: 6960.0 EUR
+      - montant: 2461.0 EUR
+        plafond: 6975.0 EUR
+      - montant: 2469.02 EUR
+        plafond: 6990.0 EUR
+      - montant: 2477.05 EUR
+        plafond: 7005.0 EUR
+      - montant: 2485.07 EUR
+        plafond: 7020.0 EUR
+      - montant: 2493.1 EUR
+        plafond: 7035.0 EUR
+      - montant: 2501.12 EUR
+        plafond: 7050.0 EUR
+      - montant: 2509.15 EUR
+        plafond: 7065.0 EUR
+      - montant: 2517.17 EUR
+        plafond: 7080.0 EUR
+      - montant: 2525.2 EUR
+        plafond: 7095.0 EUR
+      - montant: 2533.22 EUR
+        plafond: 7110.0 EUR
+      - montant: 2541.25 EUR
+        plafond: 7125.0 EUR
+      - montant: 2549.27 EUR
+        plafond: 7140.0 EUR
+      - montant: 2557.3 EUR
+        plafond: 7155.0 EUR
+      - montant: 2565.32 EUR
+        plafond: 7170.0 EUR
+      - montant: 2573.35 EUR
+        plafond: 7185.0 EUR
+      - montant: 2581.37 EUR
+        plafond: 7200.0 EUR
+      - montant: 2589.4 EUR
+        plafond: 7215.0 EUR
+      - montant: 2597.42 EUR
+        plafond: 7230.0 EUR
+      - montant: 2605.45 EUR
+        plafond: 7245.0 EUR
+      - montant: 2613.47 EUR
+        plafond: 7260.0 EUR
+      - montant: 2621.5 EUR
+        plafond: 7275.0 EUR
+      - montant: 2629.52 EUR
+        plafond: 7290.0 EUR
+      - montant: 2637.55 EUR
+        plafond: 7305.0 EUR
+      - montant: 2645.57 EUR
+        plafond: 7320.0 EUR
+      - montant: 2653.6 EUR
+        plafond: 7335.0 EUR
+      - montant: 2661.62 EUR
+        plafond: 7350.0 EUR
+      - montant: 2669.65 EUR
+        plafond: 7365.0 EUR
+      - montant: 2677.67 EUR
+        plafond: 7380.0 EUR
+      - montant: 2685.7 EUR
+        plafond: 7395.0 EUR
+      - montant: 2693.72 EUR
+        plafond: 7410.0 EUR
+      - montant: 2701.75 EUR
+        plafond: 7425.0 EUR
+      - montant: 2709.77 EUR
+        plafond: 7440.0 EUR
+      - montant: 2717.8 EUR
+        plafond: 7455.0 EUR
+      - montant: 2725.82 EUR
+        plafond: 7470.0 EUR
+      - montant: 2733.85 EUR
+        plafond: 7485.0 EUR
+      - montant: 2741.87 EUR
+        plafond: 7500.0 EUR
