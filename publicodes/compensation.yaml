@@ -208,7 +208,7 @@ réduction exceptionnelle: non
 
 
 # Les réductions de précompte professionnel
-réduction du précompte professionnel pour les bas salaires:
+réduction du précompte professionnel pour bas salaires:
   formule: 0.3314 * bonus à l'emploi pour les bas salaires
 
 
@@ -277,7 +277,7 @@ revenu net:
   somme:
     - revenu brut imposable
     - (- précompte professionnel)
-    - réduction du précompte professionnel pour les bas salaires
+    - réduction du précompte professionnel pour bas salaires
     - (- cotisation spéciale pour la sécurité sociale)
 
 
