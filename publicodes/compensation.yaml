@@ -209,7 +209,9 @@ réduction exceptionnelle: non
 
 # Les réductions de précompte professionnel
 réduction du précompte professionnel pour bas salaires:
-  formule: 0.3314 * bonus à l'emploi pour les bas salaires
+  le minimum de:
+    - 0.3314 * bonus à l'emploi pour les bas salaires
+    - précompte professionnel
 
 
 # TODO The FGTB site will have zero here, for 3600 in 10 days out of 20.
