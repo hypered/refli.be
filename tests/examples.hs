@@ -18,6 +18,8 @@ main = do
 -- FGTB: https://www.fgtb.be/calcul-salaire-brut-net
 -- The computation is done for a specific month of a specific year, but in
 -- practice it seems to only work with 2021.
+-- It seems possible to enter cents using a comma, although the data are
+-- displayed incorrectly.
 
 data FgtbInput = FgtbInput
   { fgtbInputMonth :: String
@@ -29,7 +31,7 @@ data FgtbInput = FgtbInput
     -- ^ include the disabled children below
   , fgtbDisabledChildren :: Int
   , fgtbGrossIncome :: Int
-    -- ^ monthly gross income, in EUR
+    -- ^ monthly gross income, in eurocents
   }
 
 data FgtbStatus = FgtbLaborer | FgtbEmployee
@@ -82,7 +84,7 @@ showFgtb (FgtbInput{..}, FgtbOutput{..}) = unwords
       False -> "able-bodied"
   , show fgtbDependantChildren
   , show fgtbDisabledChildren
-  , showEurocents (fgtbGrossIncome * 100)
+  , showEurocents fgtbGrossIncome
 
   -- output
 
@@ -101,10 +103,39 @@ pad n s = replicate (n - length s) '0' ++ s
 
 
 --------------------------------------------------------------------------------
+-- Some values are taken as special cases from the computation of the
+-- special social security contribution, some others lie in between.
 fgtbExamples :: [(FgtbInput, FgtbOutput)]
 fgtbExamples =
-  [ ( FgtbInput "012021" FgtbEmployee FgtbFullTime FgtbSingle False 0 0 100
-    , FgtbOutput 1307 1307 10000 0 0 0 10000
+  [ ( FgtbInput "012021" FgtbEmployee FgtbFullTime FgtbSingle False 0 0  10000
+    , FgtbOutput  1307  1307  10000      0    0    0  10000
+    )
+  , ( FgtbInput "012021" FgtbEmployee FgtbFullTime FgtbSingle False 0 0  90000
+    , FgtbOutput 11763 11763  90000      0    0    0  90000
+    )
+  , ( FgtbInput "012021" FgtbEmployee FgtbFullTime FgtbSingle False 0 0 109510
+    , FgtbOutput 14313 14313 109510    293  293    0 109510
+    )
+  , ( FgtbInput "012021" FgtbEmployee FgtbFullTime FgtbSingle False 0 0 180000
+    , FgtbOutput 23526 17811 174285  19125 5903    0 161063
+    )
+  , ( FgtbInput "012021" FgtbEmployee FgtbFullTime FgtbSingle False 0 0 194538
+    , FgtbOutput 25426 14622 183734  22977 4846    0 165603
+    )
+  , ( FgtbInput "012021" FgtbEmployee FgtbFullTime FgtbSingle False 0 0 200000
+    , FgtbOutput 26140 13423 187283  24261 4448  415 167055
+    )
+  , ( FgtbInput "012021" FgtbEmployee FgtbFullTime FgtbSingle False 0 0 219018
+    , FgtbOutput 28626  9251 199643  30039 3066 1860 170810
+    )
+  , ( FgtbInput "012021" FgtbEmployee FgtbFullTime FgtbSingle False 0 0 360000
+    , FgtbOutput 47052     0 312948  83740    0 3411 225797
+    )
+  , ( FgtbInput "012021" FgtbEmployee FgtbFullTime FgtbSingle False 0 0 603882
+    , FgtbOutput 78927     0 524955 192942    0 6094 325919
+    )
+  , ( FgtbInput "012021" FgtbEmployee FgtbFullTime FgtbSingle False 0 0 650000
+    , FgtbOutput 84955     0 565045 214610    0 6094 344341
     )
   ]
 
