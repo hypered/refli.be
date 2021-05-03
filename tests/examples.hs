@@ -9,6 +9,9 @@ main :: IO ()
 main = do
   putStrLn "FGTB examples"
   mapM_ (putStrLn . showFgtb) fgtbExamples
+  putStrLn ""
+  putStrLn "SD Worx examples"
+  mapM_ (putStrLn . showSd) sdExamples
 
 
 --------------------------------------------------------------------------------
@@ -102,5 +105,80 @@ fgtbExamples :: [(FgtbInput, FgtbOutput)]
 fgtbExamples =
   [ ( FgtbInput "012021" FgtbEmployee FgtbFullTime FgtbSingle False 0 0 100
     , FgtbOutput 1307 1307 10000 0 0 0 10000
+    )
+  ]
+
+
+--------------------------------------------------------------------------------
+showSd (SdInput{..}, SdOutput{..}) = unwords
+  [
+  -- input
+
+    case sdMaritalStatus of
+      SdUnmarried -> "unmarried"
+      SdMarried -> "married"
+      SdWidower -> "widower"
+      SdLegallyDivorced -> "legally-divorced"
+      SdSeparated -> "separated"
+      SdCohabiting -> "cohabiting"
+      SdLegallyCohabiting -> "legally-cohabiting"
+  , case sdStatute of
+      SdBlueCollar -> "blue-collar"
+      SdWhiteCollar -> "white-collar"
+  , show sdHoursPerWeek
+  , case sdRegime of
+      SdFullTime -> "full-time"
+      SdPartTime -> "part-time"
+      SdPartTimeLT2h -> "less-than-2h"
+      SdPartTimeLT3h -> "less-than-3h"
+      SdPartTimeUnknown -> "part-time-unknown"
+  , showEurocents sdGrossMonthlySalary
+
+  -- output
+
+  , showEurocents sdNsso
+  , showEurocents sdAdvanceLevy
+  , showEurocents sdSpecialSocialSecurityContribution
+  , showEurocents sdNet
+  ]
+
+
+--------------------------------------------------------------------------------
+-- SD Worx: http://www.sd.be/loonsimulator/public/?lang=EN
+-- The form is richer than the FGTB one. It seems "hours per week" must
+-- necessarily be filled, even when "Full-time" is selected.
+
+data SdInput = SdInput
+  { sdMaritalStatus :: SdMaritalStatus
+  , sdStatute :: SdStatute
+  , sdHoursPerWeek :: Int
+  , sdRegime :: SdRegime
+  , sdGrossMonthlySalary :: Int -- ^ in eurocents
+  }
+
+data SdMaritalStatus =
+    SdUnmarried | SdMarried
+  | SdWidower | SdLegallyDivorced | SdSeparated
+  | SdCohabiting | SdLegallyCohabiting
+
+data SdStatute = SdBlueCollar | SdWhiteCollar
+
+data SdRegime =
+    SdFullTime
+  | SdPartTime | SdPartTimeLT2h | SdPartTimeLT3h | SdPartTimeUnknown
+
+data SdOutput = SdOutput
+  { sdNsso :: Int
+  , sdAdvanceLevy :: Int
+  , sdSpecialSocialSecurityContribution :: Int
+  , sdNet :: Int
+  }
+
+
+--------------------------------------------------------------------------------
+sdExamples :: [(SdInput, SdOutput)]
+sdExamples =
+  [ ( SdInput SdUnmarried SdWhiteCollar 40 SdFullTime 10000
+    , SdOutput 0 0 0 10000
     )
   ]
