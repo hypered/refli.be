@@ -31,7 +31,7 @@ for (let i = 3; i < process.argv.length; i+=3) {
   });
 }
 
-// Run the Publicodes rule.
+// Evaluate the Publicodes rules.
 var rule_names = [
   "revenu brut mensuel",
   "cotisations sociales personnelles",
