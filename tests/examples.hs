@@ -109,7 +109,8 @@ fgtbExamples :: [(FgtbInput, FgtbOutput)]
 fgtbExamples =
   fgtbSingleEmployees ++
   fgtbOneIncomeEmployees ++
-  fgtbTwoIncomeEmployees
+  fgtbTwoIncomeEmployees ++
+  fgtbSingleEmployees45
 
 fgtbSingleEmployees =
   [ ( FgtbInput "012021" FgtbEmployee FgtbFullTime FgtbSingle False 0 0  10000
@@ -195,8 +196,37 @@ fgtbSingleDisabledEmployees =
     , FgtbOutput 47052     0 312948  80040    0 3411 229497
     , FgtbOutput 78927     0 524955 189242    0 6094 329619
     , FgtbOutput 84955     0 565045 210910    0 6094 348041
-    )
-  ]
+    ]
+
+-- Same as above, but working 32 hours out of 40, or 4 days out of 5, or ...
+-- As far as I understand, only the fraction matters, although the Group S site
+-- seems to round somehow the entered time.
+-- I should probably use adapted gross salaries.
+--
+-- Moreover, the FGTB site leave the fgtbSpecialContribution at zero but I
+-- haven't seen anything that should force it at zero. So I include here the
+-- value reported by the Group S site. Actually this is ok, maybe FGTB site
+-- does this only for Incomplete Full-time, not Part-time.
+fgtbSingleEmployees45 =
+  zipWith
+    (\a b -> ((fst a) { fgtbWorkingRegime = FgtbPartTime 32 40 }, b))
+    fgtbSingleEmployees
+    [ FgtbOutput  1307  1307  10000      0    0    0  10000
+    , FgtbOutput 11763 11763  90000      0    0    0  90000
+    , FgtbOutput 14313 14313 109510    293  293    0 109510
+    , FgtbOutput 23526  6350 162824  13989 2104    0 150939
+      --                6348 on Group S
+    , FgtbOutput 25426  3163 172275  17841 1048    0 155482
+      --                3160 on Group S
+      --                             this n this make 16794 on Group S
+    , FgtbOutput 26140  1962 175822  19767  650  415 156290
+    , FgtbOutput 28626     0 190392  25545    0 1860 162987
+    , FgtbOutput 47052     0 312948  83740    0 3411 225797
+    , FgtbOutput 78927     0 524955 192942    0 6094 325919
+      --                                        6093 on Group S
+    , FgtbOutput 84955     0 565045 214610    0 6094 344341
+    ]
+    -- TODO The last three ones are unchanged.
 
 
 --------------------------------------------------------------------------------

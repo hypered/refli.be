@@ -37,7 +37,7 @@ régime de travail . temps plein incomplet . jours ouvrables: 20
 régime de travail . temps partiel:
   formule: régime de travail = 'temps partiel'
 
-régime de travail . temps partiel . heures prestées: 80
+régime de travail . temps partiel . heures prestées: 128
 
 régime de travail . temps partiel . heures temps plein: 160
 
@@ -89,6 +89,19 @@ cotisations sociales personnelles . brut:
 
 # Réduction ONSS
 bonus à l'emploi pour les bas salaires:
+  description: |
+    Voir les références. Il y a notamment un Excel et un XML
+    "Dmfa / Fichier des taux" dans la TechLib. Je ne connais pas leur
+    utilité, mais il y a aussi des macros Word, dont une pour faire ce
+    calcul.
+
+    TODO: A plusieurs étapes de ce calcul doivent intervenir des arrondis à
+    l'eurocent.
+
+  références:
+    Bonus à l'emploi: https://www.socialsecurity.be/employer/instructions/dmfa/fr/latest/instructions/deductions/workers_reductions/workbonus.html
+    TechLib: https://www.socialsecurity.be/site_fr/employer/general/techlib.htm
+
   le minimum de:
     - cotisations sociales personnelles
     - variations:
@@ -100,15 +113,6 @@ bonus à l'emploi pour les bas salaires:
         alors: montant de base * régime de travail . temps partiel . heures prestées / régime de travail . temps partiel . heures temps plein
 
 bonus à l'emploi pour les bas salaires . montant de base:
-  description: |
-    Voir les références. Il y a notamment un Excel et un XML
-    "Dmfa / Fichier des taux" dans la TechLib. Je ne connais pas leur
-    utilité, mais il y a aussi des macros Word, dont une pour faire ce
-    calcul.
-  références:
-    Bonus à l'emploi: https://www.socialsecurity.be/employer/instructions/dmfa/fr/latest/instructions/deductions/workers_reductions/workbonus.html
-    TechLib: https://www.socialsecurity.be/site_fr/employer/general/techlib.htm
-
   variations:
     - si: employé
       alors:
