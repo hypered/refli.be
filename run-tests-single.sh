@@ -4,7 +4,7 @@
 
 # The 10 following cases are all of the form employee, single, no children.
 
-@test "simple case  100,00 EUR" {
+@test "simple case  100,00 EUR →  100,00 EUR" {
   run ./run-publicodes.sh \
     --set "situation familliale" "'isolé'" \
     --set "revenu brut mensuel" 100
@@ -19,7 +19,7 @@
   [ "${lines[7]}" = "revenu net: 100 EUR." ]
 }
 
-@test "simple case  900,00 EUR" {
+@test "simple case  900,00 EUR →  900,00 EUR" {
   run ./run-publicodes.sh \
     --set "situation familliale" "'isolé'" \
     --set "revenu brut mensuel" 900
@@ -34,7 +34,7 @@
   [ "${lines[7]}" = "revenu net: 900 EUR." ]
 }
 
-@test "simple case 1095,10 EUR" {
+@test "simple case 1095,10 EUR → 1095,10 EUR" {
   run ./run-publicodes.sh \
     --set "situation familliale" "'isolé'" \
     --set "revenu brut mensuel" "1095.10"
@@ -49,7 +49,7 @@
   [ "${lines[7]}" = "revenu net: 1 095,1 EUR." ]
 }
 
-@test "simple case 1800,00 EUR" {
+@test "simple case 1800,00 EUR → 1610,63 EUR" {
   run ./run-publicodes.sh \
     --set "situation familliale" "'isolé'" \
     --set "revenu brut mensuel" "1800"
@@ -64,7 +64,7 @@
   [ "${lines[7]}" = "revenu net: 1 610,63 EUR." ]
 }
 
-@test "simple case 1945,38 EUR" {
+@test "simple case 1945,38 EUR → 1656,03 EUR" {
   run ./run-publicodes.sh \
     --set "situation familliale" "'isolé'" \
     --set "revenu brut mensuel" "1945.38"
@@ -80,7 +80,7 @@
   # TODO This should be 1 656,03 but Publicodes returns the above.
 }
 
-@test "simple case 2000,00 EUR" {
+@test "simple case 2000,00 EUR → 1670,55 EUR" {
   run ./run-publicodes.sh \
     --set "situation familliale" "'isolé'" \
     --set "revenu brut mensuel" 2000
@@ -96,7 +96,7 @@
   # TODO This should be 1 670,55 but Publicodes returns the above.
 }
 
-@test "simple case 2190,18 EUR" {
+@test "simple case 2190,18 EUR → 1708,10 EUR" {
   run ./run-publicodes.sh \
     --set "situation familliale" "'isolé'" \
     --set "revenu brut mensuel" "2190.18"
@@ -112,7 +112,7 @@
   # TODO This should be 1 708,10 but Publicodes returns the above.
 }
 
-@test "simple case 3600,00 EUR" {
+@test "simple case 3600,00 EUR → 2257,97 EUR" {
   run ./run-publicodes.sh \
     --set "situation familliale" "'isolé'" \
     --set "revenu brut mensuel" 3600
@@ -127,7 +127,7 @@
   [ "${lines[7]}" = "revenu net: 2 257,97 EUR." ]
 }
 
-@test "simple case 6038,82 EUR" {
+@test "simple case 6038,82 EUR → 3259,19 EUR" {
   run ./run-publicodes.sh \
     --set "situation familliale" "'isolé'" \
     --set "revenu brut mensuel" "6038.82"
@@ -142,7 +142,7 @@
   [ "${lines[7]}" = "revenu net: 3 259,19 EUR." ]
 }
 
-@test "simple case 6500,00 EUR" {
+@test "simple case 6500,00 EUR → 3443,41 EUR" {
   run ./run-publicodes.sh \
     --set "situation familliale" "'isolé'" \
     --set "revenu brut mensuel" 6500
