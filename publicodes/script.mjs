@@ -21,15 +21,15 @@ try {
 const engine = new Engine(rules);
 
 // Set the inputs.
+var inputs = {};
 for (let i = 3; i < process.argv.length; i+=3) {
   if (process.argv[i] != "--set") {
     console.error("ERROR: Expected --set");
     process.exit(1);
   }
-  engine.setSituation({
-    [process.argv[i+1]]: process.argv[i+2],
-  });
+  inputs[process.argv[i+1]] = process.argv[i+2];
 }
+engine.setSituation(inputs);
 
 // Evaluate the Publicodes rules.
 var rule_names = [
