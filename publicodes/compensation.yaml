@@ -260,7 +260,7 @@ cotisation spéciale pour la sécurité sociale:
       - si: situation familliale = 'marié deux revenus'
         alors:
           variations:
-            - si: brut < 1095.10 EUR
+            - si: brut <= 1095.10 EUR
               alors: 0 EUR
             - si:
                 toutes ces conditions:
