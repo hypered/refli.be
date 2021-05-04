@@ -2,7 +2,8 @@
 
 # This checks the simple Publicodes compensation rules against known values.
 
-# The 10 following cases are all of the form employee, single, no children.
+# The 10 following cases are all of the form employee, married, one income, no
+# children.
 
 @test "simple case  100,00 EUR →  100,00 EUR" {
   run ./run-publicodes.sh \
