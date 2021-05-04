@@ -14,13 +14,32 @@ ouvrier: non
 
 # Régime de travail:
 # Temps plein, temps plein mais pas presté en entier, temps partiel
-temps plein: oui
-temps plein incomplet: non
-temps plein incomplet . jours rémunérés: 10
-temps plein incomplet . jours ouvrables: 20
-temps partiel: non
-temps partiel . heures prestées: 80
-temps partiel . heures temps plein: 160
+régime de travail:
+  formule:
+    une possibilité:
+      choix obligatoire: oui
+      possibilités:
+        - temps plein
+        - temps plein incomplet
+        - temps partiel
+  par défaut: "'temps plein'"
+
+régime de travail . temps plein:
+  formule: régime de travail = 'temps plein'
+
+régime de travail . temps plein incomplet:
+  formule: régime de travail = 'temps plein incomplet'
+
+régime de travail . temps plein incomplet . jours rémunérés: 10
+
+régime de travail . temps plein incomplet . jours ouvrables: 20
+
+régime de travail . temps partiel:
+  formule: régime de travail = 'temps partiel'
+
+régime de travail . temps partiel . heures prestées: 80
+
+régime de travail . temps partiel . heures temps plein: 160
 
 # Situation familliale:
 # Isolé, marié seul revenu, marié deux revenus
@@ -73,12 +92,12 @@ bonus à l'emploi pour les bas salaires:
   le minimum de:
     - cotisations sociales personnelles
     - variations:
-      - si: temps plein
+      - si: régime de travail = 'temps plein'
         alors: montant de base
-      - si: temps plein incomplet
-        alors: montant de base * temps plein incomplet . jours rémunérés / temps plein incomplet . jours ouvrables
-      - si: temps partiel
-        alors: montant de base * temps partiel . heures prestées / temps partiel . heures temps plein
+      - si: régime de travail = 'temps plein incomplet'
+        alors: montant de base * régime de travail . temps plein incomplet . jours rémunérés / régime de travail . temps plein incomplet . jours ouvrables
+      - si: régime de travail = 'temps partiel'
+        alors: montant de base * régime de travail . temps partiel . heures prestées / régime de travail . temps partiel . heures temps plein
 
 bonus à l'emploi pour les bas salaires . montant de base:
   description: |
@@ -110,14 +129,14 @@ bonus à l'emploi pour les bas salaires . montant de base:
 
 bonus à l'emploi pour les bas salaires . salaire mensuel de référence:
   variations:
-    - si: temps plein
+    - si: régime de travail = 'temps plein'
       alors: revenu brut mensuel
-    - si: temps plein incomplet
+    - si: régime de travail = 'temps plein incomplet'
       # TODO Assert jours rémunérés <= jours ouvrables
-      alors: revenu brut mensuel / temps plein incomplet . jours rémunérés * temps plein incomplet . jours ouvrables
-    - si: temps partiel
+      alors: revenu brut mensuel / régime de travail . temps plein incomplet . jours rémunérés * régime de travail . temps plein incomplet . jours ouvrables
+    - si: régime de travail = 'temps partiel'
       # TODO Assert heures prestés <= heurs temps plein
-      alors: revenu brut mensuel / temps partiel . heures prestées * temps partiel . heures temps plein
+      alors: revenu brut mensuel / régime de travail . temps partiel . heures prestées * régime de travail . temps partiel . heures temps plein
 
 
 # Le revenu brut imposable
