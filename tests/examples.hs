@@ -107,6 +107,10 @@ pad n s = replicate (n - length s) '0' ++ s
 -- special social security contribution, some others lie in between.
 fgtbExamples :: [(FgtbInput, FgtbOutput)]
 fgtbExamples =
+  fgtbSingleEmployees ++
+  fgtbOneIncomeEmployees
+
+fgtbSingleEmployees =
   [ ( FgtbInput "012021" FgtbEmployee FgtbFullTime FgtbSingle False 0 0  10000
     , FgtbOutput  1307  1307  10000      0    0    0  10000
     )
@@ -138,6 +142,23 @@ fgtbExamples =
     , FgtbOutput 84955     0 565045 214610    0 6094 344341
     )
   ]
+
+-- Same as above, but married 1 income
+fgtbOneIncomeEmployees =
+  zipWith
+    (\a b -> ((fst a) { fgtbMaritalStatus = FgtbMarriedOneIncome }, b))
+    fgtbSingleEmployees
+    [ FgtbOutput  1307  1307  10000      0    0    0  10000
+    , FgtbOutput 11763 11763  90000      0    0    0  90000
+    , FgtbOutput 14313 14313 109510      0    0    0 109510
+    , FgtbOutput 23526 17811 174285    356  356    0 174285
+    , FgtbOutput 25426 14622 183734   2764 2764    0 183734
+    , FgtbOutput 26140 13423 187283   3566 3566  415 186868
+    , FgtbOutput 28626  9251 199643   7397 3066 1860 193452
+    , FgtbOutput 47052     0 312948  51331    0 3411 258206
+    , FgtbOutput 78927     0 524955 153010    0 6094 365851
+    , FgtbOutput 84955     0 565045 174677    0 6094 384274
+    ]
 
 
 --------------------------------------------------------------------------------
