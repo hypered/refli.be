@@ -24,9 +24,24 @@ temps partiel . heures temps plein: 160
 
 # Situation familliale:
 # Isolé, marié seul revenu, marié deux revenus
-isolé: oui
-marié seul revenu: non
-marié deux revenus: non
+situation familliale:
+  formule:
+    une possibilité:
+      choix obligatoire: oui
+      possibilités:
+        - isolé
+        - marié seul revenu
+        - marié deux revenus
+
+situation familliale . isolé:
+  formule: situation familliale = 'isolé'
+
+situation familliale . marié seul revenu:
+  formule: situation familliale = 'marié seul revenu'
+
+situation familliale . marié deux revenus:
+  formule: situation familliale = 'marié deux revenus'
+
 
 # Réductions supplémentaires du précompte professionnel
 # Handicapé, enfants à charge, dont handicapés
@@ -125,11 +140,11 @@ précompte professionnel:
 # Le précompte professionnel sans les réductions de précompte
 précompte professionnel xxx:
   variations:
-    - si: isolé
+    - si: situation familliale = 'isolé'
       alors: barème I
-    - si: marié seul revenu
+    - si: situation familliale = 'marié seul revenu'
       alors: barème II
-    - si: marié deux revenus
+    - si: situation familliale = 'marié deux revenus'
       alors: barème I
 
 réduction de précompte professionnel:
@@ -143,7 +158,7 @@ réduction de précompte professionnel:
 
 réduction isolé:
   valeur: 26 EUR
-  applicable si: isolé
+  applicable si: situation familliale = 'isolé'
 
 réduction handicap:
   valeur: 37 EUR
@@ -199,7 +214,7 @@ réduction enfants isolé:
   valeur: 37 EUR
   applicable si:
     toutes ces conditions:
-      - isolé
+      - situation familliale = 'isolé'
       - enfants à charge > 0
 
 réduction bas salaire: non
@@ -225,8 +240,8 @@ cotisation spéciale pour la sécurité sociale:
     variations:
       - si:
           une de ces conditions:
-            - isolé
-            - marié seul revenu
+            - situation familliale = 'isolé'
+            - situation familliale = 'marié seul revenu'
         alors:
           variations:
             - si: brut <= 1945.38 EUR
@@ -242,7 +257,7 @@ cotisation spéciale pour la sécurité sociale:
                   - brut <= 6038.82 EUR
               alors: 18.60 EUR + 0.011 * (brut - 2190.18 EUR)
             - sinon: 60.94 EUR
-      - si: marié deux revenus
+      - si: situation familliale = 'marié deux revenus'
         alors:
           variations:
             - si: brut < 1095.10 EUR

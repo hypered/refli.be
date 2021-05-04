@@ -6,6 +6,7 @@
 
 @test "simple case  100,00 EUR" {
   run ./run-publicodes.sh \
+    --set "situation familliale" "'isolé'" \
     --set "revenu brut mensuel" 100
   [ "$status" -eq 0 ]
   [ "${lines[0]}" = "revenu brut mensuel: 100 EUR." ]
@@ -20,6 +21,7 @@
 
 @test "simple case  900,00 EUR" {
   run ./run-publicodes.sh \
+    --set "situation familliale" "'isolé'" \
     --set "revenu brut mensuel" 900
   [ "$status" -eq 0 ]
   [ "${lines[0]}" = "revenu brut mensuel: 900 EUR." ]
@@ -34,6 +36,7 @@
 
 @test "simple case 1095,10 EUR" {
   run ./run-publicodes.sh \
+    --set "situation familliale" "'isolé'" \
     --set "revenu brut mensuel" "1095.10"
   [ "$status" -eq 0 ]
   [ "${lines[0]}" = "revenu brut mensuel: 1 095,1 EUR." ]
@@ -47,7 +50,9 @@
 }
 
 @test "simple case 1800,00 EUR" {
-  run ./run-publicodes.sh
+  run ./run-publicodes.sh \
+    --set "situation familliale" "'isolé'" \
+    --set "revenu brut mensuel" "1800"
   [ "$status" -eq 0 ]
   [ "${lines[0]}" = "revenu brut mensuel: 1 800 EUR." ]
   [ "${lines[1]}" = "cotisations sociales personnelles: 235,26 EUR." ]
@@ -61,6 +66,7 @@
 
 @test "simple case 1945,38 EUR" {
   run ./run-publicodes.sh \
+    --set "situation familliale" "'isolé'" \
     --set "revenu brut mensuel" "1945.38"
   [ "$status" -eq 0 ]
   [ "${lines[0]}" = "revenu brut mensuel: 1 945,38 EUR." ]
@@ -76,6 +82,7 @@
 
 @test "simple case 2000,00 EUR" {
   run ./run-publicodes.sh \
+    --set "situation familliale" "'isolé'" \
     --set "revenu brut mensuel" 2000
   [ "$status" -eq 0 ]
   [ "${lines[0]}" = "revenu brut mensuel: 2 000 EUR." ]
@@ -91,6 +98,7 @@
 
 @test "simple case 2190,18 EUR" {
   run ./run-publicodes.sh \
+    --set "situation familliale" "'isolé'" \
     --set "revenu brut mensuel" "2190.18"
   [ "$status" -eq 0 ]
   [ "${lines[0]}" = "revenu brut mensuel: 2 190,18 EUR." ]
@@ -106,6 +114,7 @@
 
 @test "simple case 3600,00 EUR" {
   run ./run-publicodes.sh \
+    --set "situation familliale" "'isolé'" \
     --set "revenu brut mensuel" 3600
   [ "$status" -eq 0 ]
   [ "${lines[0]}" = "revenu brut mensuel: 3 600 EUR." ]
@@ -120,6 +129,7 @@
 
 @test "simple case 6038,82 EUR" {
   run ./run-publicodes.sh \
+    --set "situation familliale" "'isolé'" \
     --set "revenu brut mensuel" "6038.82"
   [ "$status" -eq 0 ]
   [ "${lines[0]}" = "revenu brut mensuel: 6 038,82 EUR." ]
@@ -134,6 +144,7 @@
 
 @test "simple case 6500,00 EUR" {
   run ./run-publicodes.sh \
+    --set "situation familliale" "'isolé'" \
     --set "revenu brut mensuel" 6500
   [ "$status" -eq 0 ]
   [ "${lines[0]}" = "revenu brut mensuel: 6 500 EUR." ]
