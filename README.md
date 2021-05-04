@@ -31,8 +31,13 @@ intermediate values can be done with the helper script `run-publicodes.sh`.
 
 # Existing simulations
 
+- CSC: [Calculez votre salaire en net](https://www.lacsc.be/outil-de-calcul/salaire-brut-net)
 - FGTB: [Calculateur de salaire brut - net](https://www.fgtb.be/calcul-salaire-brut-net)
+- Jobat: [Calculez votre salaire](https://www.jobat.be/fr/art/que-reste-t-il-de-mon-brut)
+- Liantis: [Calculateur brut/net](https://www.liantis.be/fr/politique-du-personnel/remuneration/calculateur-brut-net)
+- Partena Professional: [Simulateur de salaire brut-net](https://www.partena-professional.be/fr/knowledge-center/des-simulateurs-et-des-calculateurs/simulateur-de-salaire-brut-net)
 - SD Worx: [Simulation salariale](www.sd.be/loonsimulator/public/?lang=FR)
+- Securex: [Brut Net](https://hrcalculations.securex.eu/)
 
 Some data collected manually using those simulations are in
 [`tests/examples.hs`](tests/examples.hs).
