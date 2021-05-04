@@ -43,7 +43,7 @@ data FgtbWorkingRegime =
   | FgtbPartTime Int Int
     -- ^ paid hours, hours of a full-time
 
-data FgtbMaritalStatus = FgtbSingle | FgtbMariedOneIncome | FgtbMariedTwoIncome
+data FgtbMaritalStatus = FgtbSingle | FgtbMarriedOneIncome | FgtbMarriedTwoIncome
 
 data FgtbOutput = FgtbOutput
   { fgtbPersonnalSocialContribution :: Int
@@ -77,8 +77,8 @@ showFgtb (FgtbInput{..}, FgtbOutput{..}) = unwords
         show actual ++ "hours/" ++ show full
   , case fgtbMaritalStatus of
       FgtbSingle -> "single"
-      FgtbMariedOneIncome -> "married-1"
-      FgtbMariedTwoIncome -> "married-2"
+      FgtbMarriedOneIncome -> "married-1"
+      FgtbMarriedTwoIncome -> "married-2"
   , case fgtbWorkerIsDisabled of
       True -> "disabled"
       False -> "able-bodied"
