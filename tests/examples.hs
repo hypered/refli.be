@@ -161,6 +161,7 @@ fgtbOneIncomeEmployees =
     , FgtbOutput 84955     0 565045 174677    0 6094 384274
     ]
 
+-- Same as above, but married 2 income
 fgtbTwoIncomeEmployees =
   zipWith
     (\a b -> ((fst a) { fgtbMaritalStatus = FgtbMarriedTwoIncome }, b))
@@ -176,6 +177,26 @@ fgtbTwoIncomeEmployees =
     , FgtbOutput 78927     0 524955 195542    0 5164 324249
     , FgtbOutput 84955     0 565045 217210    0 5164 342671
     ]
+
+-- Same as above, single, disabled
+-- This is the same as substracting 37 EUR from fgtbWithholdingTax (capped at
+-- 0) and thus adding the same amount to the net.
+fgtbSingleDisabledEmployees =
+  zipWith
+    (\a b -> ((fst a) { fgtbWorkerIsDisabled = True }, b))
+    fgtbSingleEmployees
+    [ FgtbOutput  1307  1307  10000      0    0    0  10000
+    , FgtbOutput 11763 11763  90000      0    0    0  90000
+    , FgtbOutput 14313 14313 109510      0    0    0 109510
+    , FgtbOutput 23526 17811 174285  15425 5903    0 164763
+    , FgtbOutput 25426 14622 183734  19277 4846    0 169303
+    , FgtbOutput 26140 13423 187283  20561 4448  415 170755
+    , FgtbOutput 28626  9251 199643  26339 3066 1860 174510
+    , FgtbOutput 47052     0 312948  80040    0 3411 229497
+    , FgtbOutput 78927     0 524955 189242    0 6094 329619
+    , FgtbOutput 84955     0 565045 210910    0 6094 348041
+    )
+  ]
 
 
 --------------------------------------------------------------------------------
