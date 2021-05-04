@@ -108,7 +108,8 @@ pad n s = replicate (n - length s) '0' ++ s
 fgtbExamples :: [(FgtbInput, FgtbOutput)]
 fgtbExamples =
   fgtbSingleEmployees ++
-  fgtbOneIncomeEmployees
+  fgtbOneIncomeEmployees ++
+  fgtbTwoIncomeEmployees
 
 fgtbSingleEmployees =
   [ ( FgtbInput "012021" FgtbEmployee FgtbFullTime FgtbSingle False 0 0  10000
@@ -158,6 +159,22 @@ fgtbOneIncomeEmployees =
     , FgtbOutput 47052     0 312948  51331    0 3411 258206
     , FgtbOutput 78927     0 524955 153010    0 6094 365851
     , FgtbOutput 84955     0 565045 174677    0 6094 384274
+    ]
+
+fgtbTwoIncomeEmployees =
+  zipWith
+    (\a b -> ((fst a) { fgtbMaritalStatus = FgtbMarriedTwoIncome }, b))
+    fgtbSingleEmployees
+    [ FgtbOutput  1307  1307  10000      0    0    0  10000
+    , FgtbOutput 11763 11763  90000      0    0    0  90000
+    , FgtbOutput 14313 14313 109510   2893 2893    0 109510
+    , FgtbOutput 23526 17811 174285  21725 5903  930 157533
+    , FgtbOutput 25426 14622 183734  25577 4846  930 162073
+    , FgtbOutput 26140 13423 187283  26861 4448  930 163940
+    , FgtbOutput 28626  9251 199643  32639 3066 1860 168210
+    , FgtbOutput 47052     0 312948  86340    0 3411 223197
+    , FgtbOutput 78927     0 524955 195542    0 5164 324249
+    , FgtbOutput 84955     0 565045 217210    0 5164 342671
     ]
 
 
