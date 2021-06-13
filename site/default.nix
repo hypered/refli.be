@@ -52,6 +52,7 @@ in rec
     mkdir -p $out/
 
     cp ${html.pages.index} $out/index.html
+    cp ${html.pages.contact} $out/contact.html
 
     ${pkgs.bash}/bin/bash ${replace-md-links} $out
   '';
