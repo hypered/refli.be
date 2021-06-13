@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html><head><meta charset="utf-8"><title>$title$</title><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>@import url($prefix$/static/css/$font$.css);@import url($prefix$/static/css/tachyons.min.v4.11.1.css);@import url($prefix$/static/css/style.css);@import url($prefix$/static/css/styles.css);</style></head><body class="hy-$font$"><div class="flex flex-column justify-between min-height-vh-100 mw8 center pa3 pa4-ns lh-copy"><div><header><nav class="flex justify-between align-items-center lh-copy mb4 pv3"><div>$for(nav)$<a class="link mr3 black hover-blue" href="$nav.href$">$nav.name$</a>$endfor$</div></nav></header><main><article class="mw7"><div class="mb4"><h1 class="f1 lh-title mv2 tracked-tight">$title$</h1></div>$body$</article>
+</main>
+</div>
+
+$if(nav-block)$
+<nav class="bg-near-white pa4 db w-100 mw8 br1">
+  <div class="flex flex-wrap nl3 nr3">
+$for(nav-block)$
+<div class="w-100 w-25-m w-25-l ph3">
+<h3 class="f5 ttu mv1">$nav-block.title$</h3>
+<ul class="list pl0 mb3 mt0">
+$for(nav-block.nav)$
+<li><a class="black no-underline hy-hover-blue" href="$nav-block.nav.href$">$nav-block.nav.name$</a></li>
+$endfor$
+</ul>
+</div>
+$endfor$
+  </div>
+</nav>
+$endif$
+
+<hr class="bt bb-0 br-0 bl-0 mh0 mt4 pb1 w4 bw1 b--black">
+<div class="mv5 flex-ns">
+<section class="w-60-ns pr4 mb5">
+<h1 class="f5 ttu lh-title mb3">Refli</h1>
+<ul class="list pa0 ma0 lh-copy">
+  <li class=mr4><a href="/about.html">A propos</a>
+  <li class=mr4><a href="/contact.html">Contact</a>
+  <li class=mr4><a href="/disclaimer.html">Disclaimer</a>
+</ul>
+</section>
+<section class="w-50-ns pr4 mb5">
+<h1 class="f5 ttu lh-title mb3">Précompte professionnel</h1>
+<ul class="list pa0 ma0 lh-copy">
+  <li class=mr4><a href="scale-1.html">Barème I</a>
+  <li class=mr4><a href="scale-2.html">Barème II</a>
+  <li class=mr4><a href="scale-3.html">Barème III</a>
+</ul>
+</section>
+</div>
+
+<footer><hr class="bt bb-0 br-0 bl-0 mh0 mt1 pb4 w4 bw1 b--black"><p class="inline-flex lh-copy">$footer$</p></footer></div></body></html>

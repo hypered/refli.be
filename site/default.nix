@@ -12,7 +12,11 @@ let
     rev = design-system-version;
     sha256 = "0wxvwwhj2xwhflnv02jffim4h6jgwziybv82z2mifmjczbvxhizn";
   };
-  inherit (import design-system {}) template lua-filter replace-md-links static;
+  inherit (import design-system {}) lua-filter replace-md-links static;
+
+  # Normally the template comes from design-system, but here we create a
+  # custom one (mainly to get a custom footer).
+  template = ./default.html;
 
   to-html-with-metadata = src: metadata:
     pkgs.runCommand "html" {} ''
