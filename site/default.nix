@@ -55,8 +55,10 @@ in rec
   html.all = pkgs.runCommand "all" {} ''
     mkdir -p $out/
 
-    cp ${html.pages.index} $out/index.html
-    cp ${html.pages.contact} $out/contact.html
+    cp ${html.pages.index}      $out/index.html
+    cp ${html.pages.about}      $out/about.html
+    cp ${html.pages.contact}    $out/contact.html
+    cp ${html.pages.disclaimer} $out/disclaimer.html
 
     ${pkgs.bash}/bin/bash ${replace-md-links} $out
   '';
