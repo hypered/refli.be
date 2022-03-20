@@ -45,8 +45,4 @@ Some data collected manually using those simulations are in
 
 # refli.be
 
-[Refli.be](https://refli.be) is currently configured to serve the content of
-the [`docs/`](docs/) directory through GitHub Pages.
-
-This will be replaced by the result of building `site/`. The result can be
-served locally with the `serve.sh` script.
+[Refli.be](https://refli.be) is hosted on a droplet at Digital Ocean.
