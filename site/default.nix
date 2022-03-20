@@ -18,7 +18,7 @@ let
   # custom one (mainly to get a custom footer).
   template = ./default.html;
 
-  to-html-with-metadata = src: metadata:
+  to-html-with-metadata = name: src: metadata:
     pkgs.runCommand "html" {} ''
     ${pkgs.pandoc}/bin/pandoc \
       --from markdown \
@@ -27,13 +27,14 @@ let
       --template ${template} \
       -M prefix="" \
       -M font="ibm-plex" \
+      --variable "this-file:${name}.md" \
       --lua-filter ${lua-filter} \
       --output $out \
       ${metadata} \
       ${src}
   '';
 
-  to-html = src: to-html-with-metadata src ./metadata.yml;
+  to-html = k: src: to-html-with-metadata k src ./metadata.yml;
 
   dirsToMds = dir:
     lib.mapAttrs'
@@ -50,7 +51,7 @@ in rec
   md.pages = (dirsToMds ../pages);
 
   # nix-build site/ -A html.pages.index
-  html.pages = builtins.mapAttrs (_: v: to-html v) md.pages;
+  html.pages = builtins.mapAttrs (k: v: to-html k v) md.pages;
 
   html.all = pkgs.runCommand "all" {} ''
     mkdir -p $out/
