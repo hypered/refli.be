@@ -1,16 +1,18 @@
 #!/usr/bin/env bash
 
+set -e
+
 echo Employee, single
-./run-tests-single.sh
+bats tests/publicodes-single.bats
 
 echo Employee, married, one income
-./run-tests-one-income.sh
+bats tests/publicodes-one-income.bats
 
 echo Employee, married, two income
-./run-tests-two-income.sh
+bats tests/publicodes-two-income.bats
 
 echo Employee, single, disabled
-./run-tests-single-disabled.sh
+bats tests/publicodes-single-disabled.bats
 
 echo Employee, single, part-time
-./run-tests-single-part-time.sh
+bats tests/publicodes-single-part-time.bats
