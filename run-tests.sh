@@ -11,3 +11,6 @@ echo Employee, married, two income
 
 echo Employee, single, disabled
 ./run-tests-single-disabled.sh
+
+echo Employee, single, part-time
+./run-tests-single-part-time.sh
