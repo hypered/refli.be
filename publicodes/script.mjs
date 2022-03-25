@@ -17,7 +17,7 @@ try {
   process.exit(1);
 }
 
-// Initializee Publicodes.
+// Initialize Publicodes.
 const engine = new Engine(rules);
 
 // Set the inputs.
