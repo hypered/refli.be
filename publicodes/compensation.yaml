@@ -2,6 +2,10 @@
 # Publicodes is a simple expression language using YAML as its concrete
 # representation. The available constructs are in French. Thus I have used
 # French for the rule names too.
+#
+# See the run-publicodes.sh script to execute these rules. In particular,
+# default values can be overridden, as can be seen in the tests. Those can be
+# exercised with the run-publicodes-tests.sh script.
 
 
 ################################################################################
