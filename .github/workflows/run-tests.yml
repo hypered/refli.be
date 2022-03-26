@@ -20,5 +20,5 @@ jobs:
     - name: Install Publicodes
       run: nix-shell -p nodejs --run 'cd publicodes ; npm i publicodes@1.0.0-beta.13'
     - name: Run Publicodes Bats tests
-      run: nix-shell --run ./run-tests.sh
+      run: nix-shell --run ./run-publicodes-tests.sh
 
