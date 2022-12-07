@@ -1,6 +1,12 @@
 # Refli
 
-Exploring how Belgian compensations are computed.
+→ Exploring how Belgian compensations are computed.
+
+The goal of Refli is to make Belgian employee compensation rules approachable
+for everyone, by providing documentation, data, and computation tools. Those
+should be relevant for everyone, including professionals and developers.
+
+This project is currently in an early stage.
 
 
 # Withholding tax

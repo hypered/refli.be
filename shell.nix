@@ -4,6 +4,7 @@
       pkgs.bats
       pkgs.ghcid
       (pkgs.haskellPackages.ghcWithPackages (hpkgs: [
+        hpkgs.Decimal
         hpkgs.yaml
       ]))
     ];
