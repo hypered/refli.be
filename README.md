@@ -42,6 +42,32 @@ intermediate values can be done with the helper script `run-publicodes.sh`.
 Some data collected manually using those simulations are in
 [`tests/examples.hs`](tests/examples.hs).
 
+# Serving refli.be
+
+The `refli.be` website is currently just some static files. To create a root
+directory and serve it locally, use the `scripts/serve.sh` script:
+
+```
+$ scripts/serve.sh
+/nix/store/bh131nxx7rpgmlsb72l8anlx53kxdc92-all-with-static
+You can now visit http://127.0.0.1:9000/.
+^C
+```
+
+Under NixOS, adding an Nginx virtual host looks like this (where `refli-be` is
+this directory, and `static` is provided by
+[`hypered/design-system`](https://github.be/hypered/design-system)):
+
+```
+    virtualHosts."refli.be" = {
+      forceSSL = true;
+      enableACME = true;
+      locations = {
+        "/".alias = (import refli-be {}).site + "/";
+        "/static/".alias = static + "/";
+      };
+    };
+```
 
 # refli.be
 
