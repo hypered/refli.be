@@ -34,16 +34,23 @@ let
       ${src}
   '';
 
-  to-html = k: src: to-html-with-metadata k src ./metadata.yml;
+  to-html = name: src: to-html-with-metadata name src ./metadata.yml;
 
   dirsToMds = dir:
     lib.mapAttrs'
-      (n: v: if v == "regular" || v == "symlink"
-             then lib.nameValuePair (lib.removeSuffix ".md" n) (dir + "/${n}")
-             else lib.nameValuePair n (dirsToMds (dir + "/${n}")))
+      (name: type: if type == "regular" || type == "symlink"
+                   then lib.nameValuePair (lib.removeSuffix ".md" name) (dir + "/${name}")
+                   else lib.nameValuePair name (dirsToMds (dir + "/${name}")))
       (lib.filterAttrs
-        (name: _: lib.hasSuffix ".md" name)
+        (name: type: lib.hasSuffix ".md" name || type == "directory")
         (builtins.readDir dir));
+
+  mdsToHtml = dir:
+    builtins.mapAttrs
+      (name: src: if builtins.typeOf src == "path"
+                  then to-html name src
+                  else mdsToHtml src)
+      dir;
 
 in rec
 {
@@ -51,7 +58,7 @@ in rec
   md.pages = (dirsToMds ../pages);
 
   # nix-build site/ -A html.pages.index
-  html.pages = builtins.mapAttrs (k: v: to-html k v) md.pages;
+  html.pages = mdsToHtml md.pages;
 
   html.all = pkgs.runCommand "all" {} ''
     mkdir -p $out/
