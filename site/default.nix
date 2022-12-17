@@ -61,13 +61,15 @@ in rec
   html.pages = mdsToHtml md.pages;
 
   html.all = pkgs.runCommand "all" {} ''
-    mkdir -p $out/
+    mkdir -p $out/documentation
 
-    cp ${html.pages.index}      $out/index.html
-    cp ${html.pages.about}      $out/about.html
-    cp ${html.pages.changelog}  $out/changelog.html
-    cp ${html.pages.contact}    $out/contact.html
-    cp ${html.pages.disclaimer} $out/disclaimer.html
+    cp ${html.pages.index}                $out/index.html
+    cp ${html.pages.about}                $out/about.html
+    cp ${html.pages.changelog}            $out/changelog.html
+    cp ${html.pages.contact}              $out/contact.html
+    cp ${html.pages.disclaimer}           $out/disclaimer.html
+    cp ${html.pages.documentation.index}  $out/documentation.html
+    cp ${html.pages.documentation.social} $out/documentation/social.html
 
     ${pkgs.bash}/bin/bash ${replace-md-links} $out
   '';
