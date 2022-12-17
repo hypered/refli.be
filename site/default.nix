@@ -58,6 +58,7 @@ in rec
 
     cp ${html.pages.index}      $out/index.html
     cp ${html.pages.about}      $out/about.html
+    cp ${html.pages.changelog}  $out/changelog.html
     cp ${html.pages.contact}    $out/contact.html
     cp ${html.pages.disclaimer} $out/disclaimer.html
 
