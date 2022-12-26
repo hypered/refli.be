@@ -1,12 +1,11 @@
-{ nixpkgs ? <nixpkgs>
-}:
-
 let
-  pkgs = import nixpkgs {};
-  lib = pkgs.lib;
+  sources = import ../nix/sources.nix;
+  overlays = import ../nix/overlays.nix;
+  nixpkgs = import sources.nixpkgs { inherit overlays; };
+  lib = nixpkgs.lib;
 
   design-system-version = "51694bea56d2e5c9545d88b35f11ccffbc536742";
-  design-system = pkgs.fetchFromGitHub {
+  design-system = nixpkgs.fetchFromGitHub {
     owner = "hypered";
     repo = "design-system";
     rev = design-system-version;
@@ -19,8 +18,8 @@ let
   template = ./default.html;
 
   to-html-with-metadata = name: src: metadata:
-    pkgs.runCommand "html" {} ''
-    ${pkgs.pandoc}/bin/pandoc \
+    nixpkgs.runCommand "html" {} ''
+    ${nixpkgs.pandoc}/bin/pandoc \
       --from markdown \
       --to html \
       --standalone \
@@ -60,7 +59,7 @@ in rec
   # nix-build site/ -A html.pages.index
   html.pages = mdsToHtml md.pages;
 
-  html.all = pkgs.runCommand "all" {} ''
+  html.all = nixpkgs.runCommand "all" {} ''
     mkdir -p $out/documentation
 
     cp ${html.pages.index}                $out/index.html
@@ -71,11 +70,11 @@ in rec
     cp ${html.pages.documentation.index}  $out/documentation.html
     cp ${html.pages.documentation.social} $out/documentation/social.html
 
-    ${pkgs.bash}/bin/bash ${replace-md-links} $out
+    ${nixpkgs.bash}/bin/bash ${replace-md-links} $out
   '';
 
   # all + static, to serve locally with serve.sh
-  html.all-with-static = pkgs.runCommand "all-with-static" {} ''
+  html.all-with-static = nixpkgs.runCommand "all-with-static" {} ''
     mkdir $out
     cp -r ${html.all}/* $out/
     ln -s ${static} $out/static
