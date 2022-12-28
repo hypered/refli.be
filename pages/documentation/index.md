@@ -5,11 +5,11 @@ title: Documentation
 <br />
 <br />
 
-- [A propos](/about.html)
-- [Administration sociale](/documentation/social.html)
-- [Changelog](/changelog.html)
-- [Contact](/contact.html)
-- [Disclaimer](/disclaimer.html)
+- [A propos](/pages/about.md)
+- [Administration sociale](/pages/documentation/social.md)
+- [Changelog](/pages/changelog.md)
+- [Contact](/pages/contact.md)
+- [Disclaimer](/pages/disclaimer.md)
 
 <br />
 <br />

@@ -14,10 +14,10 @@ written down here.
 
 - [refli.be](https://refli.be) is a static site made of a few pages, mainly written in French:
   - The [homepage](/).
-  - An ["about"](/about.html) page.
-  - This ["changelog"](/changelog.html) page.
-  - A ["contact"](/contact.html) page.
-  - A (currently empty) ["disclaimer"](/disclaimer.html) page.
+  - An ["about"](/pages/about.md) page.
+  - This ["changelog"](/pages/changelog.md) page.
+  - A ["contact"](/pages/contact.md) page.
+  - A (currently empty) ["disclaimer"](/pages/disclaimer.md) page.
 - It is deployed on DigitalOcean as an Nginx Nix configuration. That
   configuration is used in a NixOS VM image which is not part of Refli itself.
 - The pages are written using Markdown, and rendered to HTML using Pandoc. They

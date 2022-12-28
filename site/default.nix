@@ -4,12 +4,12 @@ let
   nixpkgs = import sources.nixpkgs { inherit overlays; };
   lib = nixpkgs.lib;
 
-  design-system-version = "51694bea56d2e5c9545d88b35f11ccffbc536742";
+  design-system-version = "6d26329efd5cec955e4dedad8d7b182c9cc38220";
   design-system = nixpkgs.fetchFromGitHub {
     owner = "hypered";
     repo = "design-system";
     rev = design-system-version;
-    sha256 = "0wxvwwhj2xwhflnv02jffim4h6jgwziybv82z2mifmjczbvxhizn";
+    hash = "sha256-HOQ7bZPmttMMUbo0B130IPnbyhjsVaOi1ULIwiHcttI=";
   };
   inherit (import design-system {}) lua-filter replace-md-links static;
 
@@ -70,7 +70,7 @@ in rec
     cp ${html.pages.documentation.index}  $out/documentation.html
     cp ${html.pages.documentation.social} $out/documentation/social.html
 
-    ${nixpkgs.bash}/bin/bash ${replace-md-links} $out
+    ${nixpkgs.bash}/bin/bash ${replace-md-links} $out /pages
   '';
 
   # all + static, to serve locally with serve.sh
