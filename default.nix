@@ -5,7 +5,9 @@ let
 in
 {
   # Build with nix-build -A <attr>
-  site = (import ./site).html.all;
+  # This has links with no extensions.
+  site = (import ./site).content;
+  # This has .html links.
   public = (import ./site).html.all-with-static;
   static = (import ./site).static;
 }
