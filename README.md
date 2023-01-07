@@ -37,13 +37,36 @@ intermediate values can be done with the helper script `run-publicodes.sh`.
 
 # Existing simulations
 
-- CSC: [Calculez votre salaire en net](https://www.lacsc.be/outil-de-calcul/salaire-brut-net)
-- FGTB: [Calculateur de salaire brut - net](https://www.fgtb.be/calcul-salaire-brut-net)
+- Acerta: [Calculateur
+  brut/net](https://www.acerta.be/fr/portail-client/employeurs/votre-guide-acerta/simulations-et-verifications-rapides/calculateur-brut-net)
+- Attentia: [Calculez votre
+  salaire](https://www.attentia.be/fr/outil/easy-payroll/brut-net-calculateur)
+(powered by Jobat)
+- Bright Plus: [Calculez votre salaire
+  net](https://www.brightplus.be/fr/tools/calculateur-brut-net)
+- CSC: [Calculez votre salaire en
+  net](https://www.lacsc.be/outil-de-calcul/salaire-brut-net)
+- FGTB: [Calculateur de salaire brut -
+  net](https://www.fgtb.be/calcul-salaire-brut-net)
+- Group S: [Salary Sim](https://online.groups.be/salarysim/ibrunet.aspx?lg=fr)
+- HelloSafe: [Calcul salaire brut en
+  net](https://hellosafe.be/outils/salaire-brut-en-net) (can be embedded)
 - Jobat: [Calculez votre salaire](https://www.jobat.be/fr/art/que-reste-t-il-de-mon-brut)
-- Liantis: [Calculateur brut/net](https://www.liantis.be/fr/politique-du-personnel/remuneration/calculateur-brut-net)
-- Partena Professional: [Simulateur de salaire brut-net](https://www.partena-professional.be/fr/knowledge-center/des-simulateurs-et-des-calculateurs/simulateur-de-salaire-brut-net)
+- Kluwer: [Brut-Net](https://tools.kluwer.be/Brut-Net/)
+- Liantis: [Calculateur
+  brut/net](https://www.liantis.be/fr/politique-du-personnel/remuneration/calculateur-brut-net)
+- Partena Professional: [Simulateur de salaire
+  brut-net](https://www.partena-professional.be/fr/knowledge-center/des-simulateurs-et-des-calculateurs/simulateur-de-salaire-brut-net)
+- References (Le Soir): [Calculateur
+  brut/net](https://references.lesoir.be/article/calculateur-brut-net/)
+  (powered by SD Worx)
 - SD Worx: [Simulation salariale](https://www.sd.be/loonsimulator/public/?lang=FR)
 - Securex: [Brut Net](https://hrcalculations.securex.eu/)
+- SSN (Fednot): [](https://www.ssn.be/fr/e-tools/calculateur-brut-net)
+  (specific to notaries)
+- Talent: [Calcul du salaire brut /
+  net](https://be.talent.com/fr/tax-calculator?from=month&region=Belgium)
+
 
 Some data collected manually using those simulations are in
 [`tests/examples.hs`](tests/examples.hs).
