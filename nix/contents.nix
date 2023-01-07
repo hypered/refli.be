@@ -13,12 +13,13 @@ in {
   # The used directory should be the path of the directory relative to the root
   # of the project.
   pkgList = {
-    #refli-be = nix-filter {
-    #  root = ../.;
-    #  include = with nix-filter; [
-    #    ...
-    #  ];
-    #};
+    refli-be = nix-filter {
+      root = ../.;
+      include = with nix-filter; [
+        "refli-be.cabal"
+        (and "src" (or_ (matchExt "hs") isDirectory))
+      ];
+    };
   };
 
   # Get an attribute from a string path from a larger attrSet

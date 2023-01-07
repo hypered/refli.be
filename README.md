@@ -17,7 +17,7 @@ Finance] website (although only in Dutch and French).
 
 In particular there are three links. The data of the second one, [Barèmes 1er
 janvier 2021], are available in source code form in
-[`withholding-tax/scales.hs`](withholding-tax/scales.hs).
+[`Refli.Data.Scales`](src/Refli/Data/Scales.hs).
 
 [FPS Finance]:
 https://finances.belgium.be/fr/entreprises/personnel_et_remuneration/precompte_professionnel/calcul
@@ -33,6 +33,13 @@ gross income is provided in
 
 Provided the `publicodes` NPM package is installed, displaying the result with
 intermediate values can be done with the helper script `run-publicodes.sh`.
+
+Some code in `compensation.yaml` is generated with the
+`withholding-tax/scales.hs` script. E.g.:
+
+```
+$ nix-shell --run 'runghc -isrc/ -XNoImplicitPrelude withholding-tax/scales.hs worker-scale-1'
+```
 
 
 # Existing simulations
