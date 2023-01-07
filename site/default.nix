@@ -7,7 +7,7 @@ let
   design-system-version = "d2ea2b56df1c4966e50ec2aff6e3d1dafa3415c0";
   design-system = nixpkgs.fetchFromGitHub {
     owner = "hypered";
-    repo = "design-system";
+    repo = "design";
     rev = design-system-version;
     hash = "sha256-AtnLoSa2B+aQKHAGVk0T8qM9L6z6lk8WOSB+/QyRG/4=";
   };

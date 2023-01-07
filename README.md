@@ -93,7 +93,7 @@ You can now visit http://127.0.0.1:9000/.
 
 Under NixOS, adding an Nginx virtual host looks like this (where `refli-be` is
 this directory, and `static` is provided by
-[`hypered/design-system`](https://github.be/hypered/design-system)):
+[`hypered/design`](https://github.be/hypered/design)):
 
 ```
     virtualHosts."refli.be" = {

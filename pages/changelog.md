@@ -21,7 +21,7 @@ written down here.
 - It is deployed on DigitalOcean as an Nginx Nix configuration. That
   configuration is used in a NixOS VM image which is not part of Refli itself.
 - The pages are written using Markdown, and rendered to HTML using Pandoc. They
-  use the Hypered [design system](https://github.com/hypered/design-system)
+  use the Hypered [design system](https://github.com/hypered/design)
   (which is currently not yet a real design system, nor very mature).
 - Each rendered page has a link to its source Markdown file on GitHub.
 
