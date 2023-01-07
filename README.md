@@ -80,7 +80,8 @@ Some data collected manually using those simulations are in
 
 # Serving refli.be
 
-The `refli.be` website is currently just some static files. To create a root
+The `refli.be` website is running some closed source code, but most of its
+content is a set of static files defined in this repository. To create a root
 directory and serve it locally, use the `scripts/serve.sh` script:
 
 ```
@@ -104,6 +105,10 @@ this directory, and `static` is provided by
       };
     };
 ```
+
+Note: Some pages use HTML comments triggering the SSI (server-side include)
+feature of Nginx. It means they pull some additional content served, normally,
+by the closed source backend.
 
 # refli.be
 
