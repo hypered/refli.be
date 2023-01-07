@@ -69,11 +69,11 @@ $ nix-shell --run 'runghc -isrc/ -XNoImplicitPrelude withholding-tax/scales.hs w
   (powered by SD Worx)
 - SD Worx: [Simulation salariale](https://www.sd.be/loonsimulator/public/?lang=FR)
 - Securex: [Brut Net](https://hrcalculations.securex.eu/)
-- SSN (Fednot): [](https://www.ssn.be/fr/e-tools/calculateur-brut-net)
-  (specific to notaries)
+- SSN (Fednot): [Calculateur
+  brut-net](https://www.ssn.be/fr/e-tools/calculateur-brut-net) (specific to
+  notaries)
 - Talent: [Calcul du salaire brut /
   net](https://be.talent.com/fr/tax-calculator?from=month&region=Belgium)
-
 
 Some data collected manually using those simulations are in
 [`tests/examples.hs`](tests/examples.hs).
