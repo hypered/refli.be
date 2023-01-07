@@ -42,7 +42,7 @@ intermediate values can be done with the helper script `run-publicodes.sh`.
 - Jobat: [Calculez votre salaire](https://www.jobat.be/fr/art/que-reste-t-il-de-mon-brut)
 - Liantis: [Calculateur brut/net](https://www.liantis.be/fr/politique-du-personnel/remuneration/calculateur-brut-net)
 - Partena Professional: [Simulateur de salaire brut-net](https://www.partena-professional.be/fr/knowledge-center/des-simulateurs-et-des-calculateurs/simulateur-de-salaire-brut-net)
-- SD Worx: [Simulation salariale](www.sd.be/loonsimulator/public/?lang=FR)
+- SD Worx: [Simulation salariale](https://www.sd.be/loonsimulator/public/?lang=FR)
 - Securex: [Brut Net](https://hrcalculations.securex.eu/)
 
 Some data collected manually using those simulations are in
