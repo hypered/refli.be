@@ -18,7 +18,7 @@ jobs:
     - name: Checkout this repository
       uses: actions/checkout@v2.4.0
     - name: Install Publicodes
-      run: nix-shell -p nodejs --run 'cd publicodes ; npm i publicodes@1.0.0-beta.13'
+      run: nix-shell -p nodejs --run 'cd publicodes ; npm i publicodes@1.0.0-beta.37 yaml@2.2.1'
     - name: Run Publicodes Bats tests
       run: nix-shell --run ./run-publicodes-tests.sh
 

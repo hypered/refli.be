@@ -124,7 +124,7 @@ bonus à l'emploi pour les bas salaires . montant de base:
           - si: salaire mensuel de référence <= 1674.49 EUR
             alors: 205.65 EUR
           - si: salaire mensuel de référence <= 2611.78 EUR
-            alors: 205.65 EUR - (0.2194 * (salaire mensuel de référence - 1674.49))
+            alors: 205.65 EUR - (0.2194 * (salaire mensuel de référence - 1674.49 EUR))
           - sinon: 0 EUR
     - si: ouvrier
       alors:
@@ -132,7 +132,7 @@ bonus à l'emploi pour les bas salaires . montant de base:
           - si: salaire mensuel de référence <= 1674.49 EUR
             alors: 222.10 EUR
           - si: salaire mensuel de référence <= 2611.78 EUR
-            alors: 222.10 EUR - (0.2370 * (salaire mensuel de référence - 1674.49))
+            alors: 222.10 EUR - (0.2370 * (salaire mensuel de référence - 1674.49 EUR))
           - sinon: 0 EUR
 
 bonus à l'emploi pour les bas salaires . salaire mensuel de référence:
@@ -161,7 +161,7 @@ précompte professionnel:
     - somme:
       - précompte professionnel xxx
       - (- réduction de précompte professionnel)
-    - 0
+    - 0 EUR
 
 
 # Le précompte professionnel sans les réductions de précompte
@@ -327,7 +327,7 @@ revenu net:
 
 barème I:
   grille:
-    assiette: revenu brut imposable - 15
+    assiette: revenu brut imposable - 15 EUR
     tranches:
 # The line below are generated with runghc withholding-tax/scales.hs worker-scale-1.
       - montant: 0.0 EUR
@@ -1243,7 +1243,7 @@ barème I:
 
 barème II:
   grille:
-    assiette: revenu brut imposable - 15
+    assiette: revenu brut imposable - 15 EUR
     tranches:
 # The line below are generated with runghc withholding-tax/scales.hs worker-scale-2.
       - montant: 0.0 EUR

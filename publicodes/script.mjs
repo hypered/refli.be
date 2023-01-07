@@ -2,8 +2,9 @@
 // compensation.yaml.
 // Input variables can be set using `--set "rule name" "value"`.
 
-import Engine, { formatValue } from 'publicodes';
 import * as fs from 'fs';
+import Engine, { formatValue } from 'publicodes';
+import { parse } from 'yaml'
 
 // The filename to parse.
 const source_file = process.argv[2];
@@ -17,8 +18,10 @@ try {
   process.exit(1);
 }
 
+const parsedRules = parse(rules)
+
 // Initialize Publicodes.
-const engine = new Engine(rules);
+const engine = new Engine(parsedRules);
 
 // Set the inputs.
 var inputs = {};
