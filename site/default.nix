@@ -70,6 +70,7 @@ in rec
     cp ${html.pages.documentation.index}  $out/documentation.html
     cp ${html.pages.documentation.social} $out/documentation/social.html
     cp ${html.pages.documentation.withholding-tax} $out/documentation/withholding-tax.html
+    cp ${html.pages.documentation.contributions} $out/documentation/contributions.html
 
     ${nixpkgs.bash}/bin/bash ${replace-md-links} $out /pages
   '';
@@ -85,6 +86,7 @@ in rec
     cp ${html.pages.documentation.index}  $out/documentation.html
     cp ${html.pages.documentation.social} $out/documentation/social.html
     cp ${html.pages.documentation.withholding-tax} $out/documentation/withholding-tax.html
+    cp ${html.pages.documentation.contributions} $out/documentation/contributions.html
 
     ${nixpkgs.bash}/bin/bash ${replace-md-links} $out /pages 1
   '';
