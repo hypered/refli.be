@@ -4,14 +4,8 @@ let
   nixpkgs = import sources.nixpkgs { inherit overlays; };
   lib = nixpkgs.lib;
 
-  design-system-version = "d2ea2b56df1c4966e50ec2aff6e3d1dafa3415c0";
-  design-system = nixpkgs.fetchFromGitHub {
-    owner = "hypered";
-    repo = "design";
-    rev = design-system-version;
-    hash = "sha256-AtnLoSa2B+aQKHAGVk0T8qM9L6z6lk8WOSB+/QyRG/4=";
-  };
-  inherit (import design-system {}) lua-filter replace-md-links static;
+  inherit (sources) hypered-design;
+  inherit (import hypered-design) lua-filter replace-md-links static;
 
   # Normally the template comes from design-system, but here we create a
   # custom one (mainly to get a custom footer).

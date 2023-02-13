@@ -11,6 +11,18 @@
         "url": "https://github.com/hercules-ci/gitignore/archive/211907489e9f198594c0eb0ca9256a1949c9d412.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
+    "hypered-design": {
+        "branch": "main",
+        "description": "",
+        "homepage": "",
+        "owner": "hypered",
+        "repo": "design",
+        "rev": "d521146a47b17d34d06e783b850fba4dd280bd60",
+        "sha256": "1qjslsm8s14cd2s0gx1r4x6q4w3vy7aj18avqshsyxw2sh891b8z",
+        "type": "tarball",
+        "url": "https://github.com/hypered/design/archive/d521146a47b17d34d06e783b850fba4dd280bd60.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "niv": {
         "branch": "master",
         "description": "Easy dependency management for Nix projects",
