@@ -1,0 +1,10 @@
+<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <font-face>
+      <font-face-src>
+        <font-face-uri href="ibm-plex-mono.ttf"/>
+      </font-face-src>
+    </font-face>
+  </defs>
+  <text x="8" y="208" font-size="224" font-family="IBM Plex Mono">R.</text>
+</svg>

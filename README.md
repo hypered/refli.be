@@ -113,3 +113,15 @@ by the closed source backend.
 # refli.be
 
 [Refli.be](https://refli.be) is hosted on a droplet at Digital Ocean.
+
+
+# Favicon
+
+The favicon is a manually written SVG file, converted to PNG, then to ICO:
+
+```
+$ nix-shell -p inkscape --run \
+  'inkscape -w 512 -h 512 letter-R-favicon.svg --export-filename letter-R-favicon.png'
+$ nix-shell -p imagemagick --run \
+  'convert letter-R-favicon.png -define icon:auto-resize=256,64,48,32,16 favicon.ico'
+```

@@ -91,12 +91,15 @@ in rec
     ${nixpkgs.bash}/bin/bash ${replace-md-links} $out /pages 1
   '';
 
-  # all + static, to serve locally with serve.sh
+  # all + static, to serve locally with scripts/serve.sh
   html.all-with-static = nixpkgs.runCommand "all-with-static" {} ''
     mkdir $out
     cp -r ${html.all}/* $out/
     ln -s ${static} $out/static
+    ln -s ${favicon} $out/favicon.ico
   '';
+
+  favicon = ../images/favicon.ico;
 
   inherit static;
 }

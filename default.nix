@@ -10,6 +10,7 @@ in
   # This has .html links.
   public = (import ./site).html.all-with-static;
   static = (import ./site).static;
+  favicon = (import ./site).favicon;
 
   # This is actually a library for now.
   binaries = nixpkgs.haskellPackages.refli-be;
