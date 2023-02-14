@@ -63,6 +63,7 @@ in rec
     cp ${html.pages.disclaimer}           $out/disclaimer.html
     cp ${html.pages.documentation.index}  $out/documentation.html
     cp ${html.pages.documentation.social} $out/documentation/social.html
+    cp ${html.pages.documentation.secretariats} $out/documentation/secretariats.html
     cp ${html.pages.documentation.withholding-tax} $out/documentation/withholding-tax.html
     cp ${html.pages.documentation.contributions} $out/documentation/contributions.html
     cp ${html.pages.documentation.ssi}    $out/documentation/ssi.html
@@ -80,6 +81,7 @@ in rec
     cp ${html.pages.disclaimer}           $out/disclaimer.html
     cp ${html.pages.documentation.index}  $out/documentation.html
     cp ${html.pages.documentation.social} $out/documentation/social.html
+    cp ${html.pages.documentation.secretariats} $out/documentation/secretariats.html
     cp ${html.pages.documentation.withholding-tax} $out/documentation/withholding-tax.html
     cp ${html.pages.documentation.contributions} $out/documentation/contributions.html
     cp ${html.pages.documentation.ssi}    $out/documentation/ssi.html
