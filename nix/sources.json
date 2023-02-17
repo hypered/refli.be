@@ -17,10 +17,10 @@
         "homepage": "",
         "owner": "hypered",
         "repo": "design",
-        "rev": "e2df62bcd8d1ebe5b48bfd637048095c341c1e38",
-        "sha256": "06kzb6hg59q0gyshshqfa3wnjvxp77xwlgd36q3sp45b9nk9gkgb",
+        "rev": "cbe14f54ffe889f6250193986c6345e3bc198860",
+        "sha256": "0di635l7y6qry8lxl03577vr0j97f97xim5plmjk4cnbciasv9c6",
         "type": "tarball",
-        "url": "https://github.com/hypered/design/archive/e2df62bcd8d1ebe5b48bfd637048095c341c1e38.tar.gz",
+        "url": "https://github.com/hypered/design/archive/cbe14f54ffe889f6250193986c6345e3bc198860.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "niv": {
