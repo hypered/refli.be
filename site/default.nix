@@ -53,8 +53,9 @@ in rec
   # nix-build site/ -A html.pages.index
   html.pages = mdsToHtml md.pages;
 
-  html.all = nixpkgs.runCommand "all" {} ''
-    mkdir -p $out/documentation
+  # This has unprocessed links.
+  html.unprocessed = nixpkgs.runCommand "all" {} ''
+    mkdir -p $out/{documentation,.well-known}
 
     cp ${html.pages.index}                $out/index.html
     cp ${html.pages.about}                $out/about.html
@@ -68,25 +69,27 @@ in rec
     cp ${html.pages.documentation.contributions} $out/documentation/contributions.html
     cp ${html.pages.documentation.ssi}    $out/documentation/ssi.html
 
-    ${nixpkgs.bash}/bin/bash ${replace-md-links} $out /pages
+    cp ${../content/robots.txt} $out/robots.txt
+    cp ${../content/humans.txt} $out/humans.txt
+    cp ${../content/.well-known/security.txt} $out/.well-known/security.txt
+    cp ${../content/index.xml} $out/index.xml
+    gzip --best --stdout ${../content/sitemap-0.xml} > $out/sitemap-0.xml.gz
   '';
 
+  # This has links with no extensions.
   content = nixpkgs.runCommand "all" {} ''
-    mkdir -p $out/documentation
-
-    cp ${html.pages.index}                $out/index.html
-    cp ${html.pages.about}                $out/about.html
-    cp ${html.pages.changelog}            $out/changelog.html
-    cp ${html.pages.contact}              $out/contact.html
-    cp ${html.pages.disclaimer}           $out/disclaimer.html
-    cp ${html.pages.documentation.index}  $out/documentation.html
-    cp ${html.pages.documentation.social} $out/documentation/social.html
-    cp ${html.pages.documentation.secretariats} $out/documentation/secretariats.html
-    cp ${html.pages.documentation.withholding-tax} $out/documentation/withholding-tax.html
-    cp ${html.pages.documentation.contributions} $out/documentation/contributions.html
-    cp ${html.pages.documentation.ssi}    $out/documentation/ssi.html
+    mkdir $out
+    cp -r --no-preserve=mode ${html.unprocessed}/* $out/
 
     ${nixpkgs.bash}/bin/bash ${replace-md-links} $out /pages 1
+  '';
+
+  # This has .html links.
+  html.all = nixpkgs.runCommand "all" {} ''
+    mkdir $out
+    cp -r --no-preserve=mode ${html.unprocessed}/* $out/
+
+    ${nixpkgs.bash}/bin/bash ${replace-md-links} $out /pages
   '';
 
   # all + static, to serve locally with scripts/serve.sh

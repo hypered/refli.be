@@ -1,0 +1,7 @@
+Sitemap: https://refli.be/index.xml
+User-agent: *
+Allow: /describe$
+Allow: /describe/1800.00$
+Allow: /describe/3600.00$
+Disallow: /describe/
+Allow: /
