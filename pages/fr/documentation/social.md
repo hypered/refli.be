@@ -28,7 +28,7 @@ indique:
 
 # Sur ce site
 
-- [Secrétariats sociaux](/pages/documentation/secretariats.md)
+- [Secrétariats sociaux](/pages/fr/documentation/secretariats.md)
 
 # Voir aussi
 

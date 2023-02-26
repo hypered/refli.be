@@ -1,0 +1,17 @@
+---
+title: Documentation
+---
+
+<br />
+<br />
+
+- [A propos](/pages/fr/about.md)
+- [Administration sociale](/pages/fr/documentation/social.md)
+  - [Secrétariats sociaux](/pages/fr/documentation/secretariats.md)
+- [Changelog](/pages/changelog.md)
+- [Contact](/pages/fr/contact.md)
+- [Disclaimer](/pages/fr/disclaimer.md)
+
+<br />
+<br />
+<br />

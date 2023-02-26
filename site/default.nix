@@ -55,19 +55,23 @@ in rec
 
   # This has unprocessed links.
   html.unprocessed = nixpkgs.runCommand "all" {} ''
-    mkdir -p $out/{documentation,.well-known}
+    mkdir -p $out/.well-known
+    mkdir -p $out/fr/documentation
 
-    cp ${html.pages.index}                $out/index.html
-    cp ${html.pages.about}                $out/about.html
-    cp ${html.pages.changelog}            $out/changelog.html
-    cp ${html.pages.contact}              $out/contact.html
-    cp ${html.pages.disclaimer}           $out/disclaimer.html
-    cp ${html.pages.documentation.index}  $out/documentation.html
-    cp ${html.pages.documentation.social} $out/documentation/social.html
-    cp ${html.pages.documentation.secretariats} $out/documentation/secretariats.html
-    cp ${html.pages.documentation.withholding-tax} $out/documentation/withholding-tax.html
-    cp ${html.pages.documentation.contributions} $out/documentation/contributions.html
-    cp ${html.pages.documentation.ssi}    $out/documentation/ssi.html
+    cp ${html.pages.changelog}               $out/changelog.html
+    cp ${html.pages.fr.index}                $out/fr/index.html
+    cp ${html.pages.fr.about}                $out/fr/about.html
+    cp ${html.pages.fr.contact}              $out/fr/contact.html
+    cp ${html.pages.fr.disclaimer}           $out/fr/disclaimer.html
+    cp ${html.pages.fr.documentation.index}  $out/fr/documentation.html
+    cp ${html.pages.fr.documentation.social} $out/fr/documentation/social.html
+    cp ${html.pages.fr.documentation.secretariats} \
+      $out/fr/documentation/secretariats.html
+    cp ${html.pages.fr.documentation.withholding-tax} \
+      $out/fr/documentation/withholding-tax.html
+    cp ${html.pages.fr.documentation.contributions} \
+      $out/fr/documentation/contributions.html
+    cp ${html.pages.fr.documentation.ssi}    $out/fr/documentation/ssi.html
 
     cp ${../content/robots.txt} $out/robots.txt
     cp ${../content/humans.txt} $out/humans.txt

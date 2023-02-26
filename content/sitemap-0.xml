@@ -4,12 +4,15 @@
     <loc>https://refli.be/</loc>
   </url>
   <url>
-    <loc>https://refli.be/describe</loc>
+    <loc>https://refli.be/fr</loc>
   </url>
   <url>
-    <loc>https://refli.be/describe/1800.00</loc>
+    <loc>https://refli.be/fr/describe</loc>
   </url>
   <url>
-    <loc>https://refli.be/describe/3600.00</loc>
+    <loc>https://refli.be/fr/describe/1800.00</loc>
+  </url>
+  <url>
+    <loc>https://refli.be/fr/describe/3600.00</loc>
   </url>
 </urlset>

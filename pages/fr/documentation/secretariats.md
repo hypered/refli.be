@@ -103,4 +103,4 @@ n'est pas repris à l'USS.
 
 # Sur ce site
 
-- [Administration sociale](/pages/documentation/social.md)
+- [Administration sociale](/pages/fr/documentation/social.md)
