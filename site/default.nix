@@ -64,6 +64,8 @@ in rec
     cp ${html.pages.fr.contact}              $out/fr/contact.html
     cp ${html.pages.fr.disclaimer}           $out/fr/disclaimer.html
     cp ${html.pages.fr.documentation.index}  $out/fr/documentation.html
+    cp ${html.pages.fr.documentation.computation} \
+      $out/fr/documentation/computation.html
     cp ${html.pages.fr.documentation.social} $out/fr/documentation/social.html
     cp ${html.pages.fr.documentation.secretariats} \
       $out/fr/documentation/secretariats.html

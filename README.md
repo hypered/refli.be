@@ -49,6 +49,8 @@ $ nix-shell --run 'runghc -isrc/ -XNoImplicitPrelude withholding-tax/scales.hs w
 - Attentia: [Calculez votre
   salaire](https://www.attentia.be/fr/outil/easy-payroll/brut-net-calculateur)
 (powered by Jobat)
+- Billy: [Billy.tech](https://billy.tech/optimisateur) (for freelancers, and
+  not really a simulation)
 - Bright Plus: [Calculez votre salaire
   net](https://www.brightplus.be/fr/tools/calculateur-brut-net)
 - CSC: [Calculez votre salaire en
