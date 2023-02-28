@@ -47,3 +47,14 @@ l'emploi](https://www.socialsecurity.be/employer/instructions/dmfa/fr/latest/ins
     sur le site portail de la sécurité sociale.
  - Les plafonds [mis à
    jour](https://www.socialsecurity.be/employer/instructions/dmfa/fr/latest/intermediates#bonus-a-l-emploi-plafonds).
+
+# Cotisation spéciale
+
+La cotisation spéciale pour la sécurité sociale est une retenue supplémentaire.
+Elle varie en fonction de la situation familliale du travailleur, démultipliant
+dès lors les examples possibles.
+
+Examples pour le cas employé:
+
+<!--# include virtual="/partials/fr/tables/special-contributions-examples" -->
+
