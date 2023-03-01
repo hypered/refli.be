@@ -56,5 +56,9 @@ dès lors les examples possibles.
 
 Examples pour le cas employé:
 
-<!--# include virtual="/partials/fr/tables/special-contributions-examples" -->
+<!--# include virtual="/partials/fr/tables/special-contributions-employee-examples" -->
+
+Examples pour le cas ouvrier:
+
+<!--# include virtual="/partials/fr/tables/special-contributions-worker-examples" -->
 
