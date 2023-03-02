@@ -20,7 +20,7 @@ Le total vaut
 Il est à prélever sur 100% ou 108% du salaire brut suivant que l'on
 est employé ou ouvrier.
 
-Examples:
+Exemples:
 
 <!--# include virtual="/partials/fr/tables/personal-contributions-examples" -->
 
@@ -36,7 +36,7 @@ page](https://www.socialsecurity.be/employer/instructions/dmfa/fr/latest/instruc
 La cotisation personnelle du travailleur telle que calculée ci-dessus peut être
 diminuée pour les bas salaires.
 
-Examples:
+Exemples:
 
 <!--# include virtual="/partials/fr/tables/employment-bonus-examples" -->
 
@@ -54,20 +54,45 @@ La cotisation spéciale pour la sécurité sociale est une retenue supplémentai
 Elle varie en fonction de la situation familliale du travailleur, démultipliant
 dès lors les examples possibles.
 
-Examples pour le cas employé:
+Exemples pour le cas employé:
 
 <!--# include virtual="/partials/fr/tables/special-contributions-employee-examples" -->
 
-Examples pour le cas ouvrier:
+Exemples pour le cas ouvrier:
 
 <!--# include virtual="/partials/fr/tables/special-contributions-worker-examples" -->
 
 # Méthode d'arrondi
 
-Durant le calcul du salaire, certaines valeurs intermédiaires sont arrondies à
-deux décimales. La "formule clé" produite par le SPF finance indique la méthode
-d'arrondi à suivre. Le calcul du bonus à l'emploi semble suivre la même
-méthode.
+Durant le calcul du salaire, certaines valeurs sont arrondies à deux décimales.
+La "formule clé" produite par le SPF finance indique la méthode d'arrondi à
+suivre. Le calcul du bonus à l'emploi semble suivre la même méthode.
+
+La "formule clé" utilise des variations de la phrase "arrondir le montant
+\[...\] au cent supérieur ou inférieur selon que le chiffre des millièmes
+atteint ou non 5". Il arrive que cette phrase soit accompagnée d'un exemple.
+
+Le calcul du bonus à l'emploi indique lui: "arrondie à l'eurocent le plus
+proche (0,005 EUR devient 0,01 EUR)."
+
+Il semble donc que la méthode utilisée corresponde en français à l'[arrondi
+arithmétique](https://fr.wikipedia.org/wiki/Arrondi_\(math%C3%A9matiques\)#Arrondi_arithm%C3%A9tique)
+et en anglais au [rounding
+half-up](https://en.wikipedia.org/wiki/Rounding#Rounding_half_up) et c'est ce
+que Refli utilise.
+
+Dans les exemples ci-dessous, les deux premiers viennent de la "formule clé" et
+le dernier vient du calcul du bonus à l'emploi.
+
+Exemples:
+
+<!--# include virtual="/partials/fr/tables/rounding-examples" -->
+
+Note: Les deux exemples de la "formule clé" utilisent le chiffre sept comme
+nombre des millièmes, et dans les deux cas le chiffre des centièmes est pair
+(six et quatre). Il serait intéressant de voir des exemples pour des nombres
+avec un chiffre des millièmes égale à 5 et inférieur à 5, et pour un chiffre
+des centièmes impair.
 
 # Arrondi du précompte professionnel
 
@@ -101,8 +126,8 @@ conservant suffisamment de précision, le précompte devient:
    317.31 (après arrondi final)
 ```
 
-Par contre, si on exprime les montants de façon mensuelle mais en effectuant
-déjà un arrondi à deux décimales:
+(Soit le même résultat.) Par contre, si on exprime les montants de façon
+mensuelle mais en effectuant déjà un arrondi à deux décimales:
 
 ```
    373.98   -  12.00   -  44.68 (division avec 2 chiffres après la virgule)
@@ -110,5 +135,8 @@ déjà un arrondi à deux décimales:
 ```
 
 Nous pouvons observer 0.01 EUR de différence et la valeur correcte est bien
-317.31 EUR. Eventuellement, nous pourions choisir de les afficher avec une
-précision plus élevée dans le futur (comme ci-dessus).
+317.31 EUR.
+
+Note: Refli affiche les réductions avec deux chiffres après la virgule,
+mais nous pourions choisir de les afficher avec une précision plus élevée dans
+le futur (comme ci-dessus) pour mieux rendre compte de cette subtilité.

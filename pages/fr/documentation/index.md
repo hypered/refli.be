@@ -11,6 +11,8 @@ title: Documentation
   - [Cotisations personnelles](/fr/documentation/computation#cotisations-personnelles)
   - [Bonus à l'emploi](/fr/documentation/computation#bonus-à-lemploi)
   - [Cotisation spéciale](/fr/documentation/computation#cotisation-spéciale)
+  - [Méthode d'arrondi](/fr/documentation/computation#méthode-darrondi)
+  - [Arrondi du précompte professionnel](/fr/documentation/computation#arrondi-du-précompte-professionnel)
 - [Changelog](/pages/changelog.md)
 - [Contact](/pages/fr/contact.md)
 - [Disclaimer](/pages/fr/disclaimer.md)
