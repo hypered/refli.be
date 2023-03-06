@@ -66,6 +66,10 @@ Exemples pour le cas ouvrier:
 
 <!--# include virtual="/partials/fr/content/fixed-professional-fees" -->
 
+Exemples:
+
+<!--# include virtual="/partials/fr/tables/fixed-professional-fees-examples" -->
+
 # Méthode d'arrondi
 
 Durant le calcul du salaire, certaines valeurs sont arrondies à deux décimales.
