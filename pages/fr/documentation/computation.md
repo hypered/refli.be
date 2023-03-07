@@ -70,6 +70,19 @@ Exemples:
 
 <!--# include virtual="/partials/fr/tables/fixed-professional-fees-examples" -->
 
+# Barème de base
+
+L'impôt de base est progressif en fonction des revenus. Chaque tranche des
+revenus est taxée différemment suivant le tableau suivant et les montants
+correspondants à chaque tranche doivent être additionnés:
+
+<!--# include virtual="/partials/fr/content/progressive-rates" -->
+
+En pratique, la formule clé du SPF Finance préfère un barème où les montants
+dûs aux tranches plus basses sont déjà pré-calculés:
+
+<!--# include virtual="/partials/fr/content/precomputed-rates" -->
+
 # Méthode d'arrondi
 
 Durant le calcul du salaire, certaines valeurs sont arrondies à deux décimales.
