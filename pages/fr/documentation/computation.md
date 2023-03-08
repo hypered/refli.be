@@ -54,6 +54,8 @@ La cotisation spéciale pour la sécurité sociale est une retenue supplémentai
 Elle varie en fonction de la situation familliale du travailleur, démultipliant
 dès lors les examples possibles.
 
+<!--# include virtual="/partials/fr/tables/special-without-second-revenue" -->
+
 Exemples pour le cas employé:
 
 <!--# include virtual="/partials/fr/tables/special-contributions-employee-examples" -->
