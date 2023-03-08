@@ -83,6 +83,16 @@ dûs aux tranches plus basses sont déjà pré-calculés:
 
 <!--# include virtual="/partials/fr/content/precomputed-rates" -->
 
+Exemples:
+
+<!--# include virtual="/partials/fr/tables/pre-base-tax-examples" -->
+
+Note: les quatre premiers exemples correspondent aux limites des tranches de
+revenu et donc aux montants pré-calculés du barème de base ci-dessus.
+
+Note\*: les montants des exemples ne tiennent pas compte de la quotité de revenu
+exemptée d'impôt.
+
 # Méthode d'arrondi
 
 Durant le calcul du salaire, certaines valeurs sont arrondies à deux décimales.
