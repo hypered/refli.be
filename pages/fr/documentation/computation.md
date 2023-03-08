@@ -128,6 +128,22 @@ Exemples:
 
 <!--# include virtual="/partials/fr/tables/spouse-revenue-b-reduction" -->
 
+# Réduction pour personnes à charge de 65+ ans, situation de dépendance
+
+<!--# include virtual="/partials/fr/tables/65-plus-dependency-reduction" -->
+
+# Réduction pour personnes à charge de 65+ ans, mesure transitoire
+
+<!--# include virtual="/partials/fr/tables/65-plus-transient-reduction" -->
+
+# Réduction pour autres personnes
+
+<!--# include virtual="/partials/fr/tables/other-person-reduction" -->
+
+# Réduction pour bonus à l'emploi
+
+<!--# include virtual="/partials/fr/tables/employment-bonus-reduction" -->
+
 # Méthode d'arrondi
 
 Durant le calcul du salaire, certaines valeurs sont arrondies à deux décimales.
