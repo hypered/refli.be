@@ -104,6 +104,30 @@ Exemples:
 
 <!--# include virtual="/partials/fr/tables/children-reduction-examples" -->
 
+# Réduction pour bénéficiaire isolé
+
+<!--# include virtual="/partials/fr/tables/isolated-reduction" -->
+
+# Réduction pour bénéficiaire isolé avec enfants à charge
+
+<!--# include virtual="/partials/fr/tables/isolated-with-children-reduction" -->
+
+# Réduction pour bénéficiaire avec handicap
+
+<!--# include virtual="/partials/fr/tables/disability-reduction" -->
+
+# Réduction pour conjoint sans revenu avec handicap
+
+<!--# include virtual="/partials/fr/tables/spouse-no-revenue-disability-reduction" -->
+
+# Réduction pour conjoint avec revenu limité
+
+<!--# include virtual="/partials/fr/tables/spouse-revenue-a-reduction" -->
+
+# Réduction pour conjoint avec pension limitée
+
+<!--# include virtual="/partials/fr/tables/spouse-revenue-b-reduction" -->
+
 # Méthode d'arrondi
 
 Durant le calcul du salaire, certaines valeurs sont arrondies à deux décimales.
