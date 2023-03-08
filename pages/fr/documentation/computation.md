@@ -87,11 +87,22 @@ Exemples:
 
 <!--# include virtual="/partials/fr/tables/pre-base-tax-examples" -->
 
-Note: les quatre premiers exemples correspondent aux limites des tranches de
+Note: Les quatre premiers exemples correspondent aux limites des tranches de
 revenu et donc aux montants pré-calculés du barème de base ci-dessus.
 
-Note\*: les montants des exemples ne tiennent pas compte de la quotité de revenu
+Note\*: Les montants des exemples ne tiennent pas compte de la quotité de revenu
 exemptée d'impôt.
+
+# Réductions pour enfants à charge
+
+Note\*: Dans cette section, nous ne distinguons pas un enfant avec ou sans
+handicap. A la place, un enfant à charge avec un handicap compte double.
+
+<!--# include virtual="/partials/fr/tables/children-reductions" -->
+
+Exemples:
+
+<!--# include virtual="/partials/fr/tables/children-reduction-examples" -->
 
 # Méthode d'arrondi
 
