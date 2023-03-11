@@ -60,12 +60,12 @@ tableau suivant:
 <!--# include virtual="/partials/fr/tables/special-individual-revenue" -->
 
 Dans le cas d'une imposition commune avec un conjoint qui a des revenus
-professionels:
+professionnels:
 
 <!--# include virtual="/partials/fr/tables/special-with-second-revenue" -->
 
 Enfin, dans le cas d'une imposition commune avec un conjoint qui n'a pas de
-revenus professionels:
+revenus professionnels:
 
 <!--# include virtual="/partials/fr/tables/special-without-second-revenue" -->
 
