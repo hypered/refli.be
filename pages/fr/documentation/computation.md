@@ -36,6 +36,14 @@ page](https://www.socialsecurity.be/employer/instructions/dmfa/fr/latest/instruc
 La cotisation personnelle du travailleur telle que calculée ci-dessus peut être
 diminuée pour les bas salaires.
 
+Pour un employé, la réduction est calculée avec le tableau suivant:
+
+<!--# include virtual="/partials/fr/tables/employee-employment-bonus" -->
+
+Pour un ouvrier, le tableau est légèrement différent:
+
+<!--# include virtual="/partials/fr/tables/worker-employment-bonus" -->
+
 Exemples:
 
 <!--# include virtual="/partials/fr/tables/employment-bonus-examples" -->
