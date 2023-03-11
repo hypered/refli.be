@@ -54,7 +54,18 @@ La cotisation spéciale pour la sécurité sociale est une retenue supplémentai
 Elle varie en fonction de la situation familliale du travailleur, démultipliant
 dès lors les examples possibles.
 
+Dans le cas d'une imposition individuelle, la retenue se calcule avec le
+tableau suivant:
+
+<!--# include virtual="/partials/fr/tables/special-individual-revenue" -->
+
+Dans le cas d'une imposition commune avec un conjoint qui a des revenus
+professionels:
+
 <!--# include virtual="/partials/fr/tables/special-with-second-revenue" -->
+
+Enfin, dans le cas d'une imposition commune avec un conjoint qui n'a pas de
+revenus professionels:
 
 <!--# include virtual="/partials/fr/tables/special-without-second-revenue" -->
 
