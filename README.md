@@ -42,7 +42,7 @@ $ nix-shell --run 'runghc -isrc/ -XNoImplicitPrelude withholding-tax/scales.hs w
 ```
 
 
-# Existing simulations
+# Gross/net salary simulations
 
 - Acerta: [Calculateur
   brut/net](https://www.acerta.be/fr/portail-client/employeurs/votre-guide-acerta/simulations-et-verifications-rapides/calculateur-brut-net)
@@ -69,6 +69,7 @@ $ nix-shell --run 'runghc -isrc/ -XNoImplicitPrelude withholding-tax/scales.hs w
 - References (Le Soir): [Calculateur
   brut/net](https://references.lesoir.be/article/calculateur-brut-net/)
   (powered by SD Worx)
+- Refli (this project): [Calcul de salaire](https://refli.be/fr/describe)
 - SD Worx: [Simulation salariale](https://www.sd.be/loonsimulator/public/?lang=FR)
 - Securex: [Brut Net](https://hrcalculations.securex.eu/)
 - SSN (Fednot): [Calculateur
