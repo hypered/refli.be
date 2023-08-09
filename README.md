@@ -96,6 +96,7 @@ Some data collected manually using those simulations are in
   cotisations](https://cnh-eloket.ventouris.be/ELoket2/bijdrageberekening)
 - Group S (Via E-Loket): [Outil de
   simulation](https://groeps-eloket.ventouris.be/ELoket2/bijdrageberekening)
+- Liantis: [Calcul des cotisations sociales](https://www.liantis.be/fr/tools/module-de-cotisations)
 - Partena Professional: [Cotisimul](http://www.cotisimul.partena-professional.be/)
 
 # Other simulations
