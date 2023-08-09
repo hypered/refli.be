@@ -84,6 +84,7 @@ Some data collected manually using those simulations are in
 
 # Self-employed social contributions simulations
 
+- Acerta: [Simulateur cotisations sociales](https://www.acerta.be/fr/portail-client/independants/client-dacerta/simulations-et-calculs/simulez-cotisations-sociales)
 - Avixi (Via E-Loket): [Simulation calcul de
   cotisations](https://avixi-eloket.ventouris.be/ELoket2/bijdrageberekening)
 - Securex: [Calcul cotisations
