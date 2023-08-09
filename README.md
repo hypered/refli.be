@@ -46,6 +46,7 @@ $ nix-shell --run 'runghc -isrc/ -XNoImplicitPrelude withholding-tax/scales.hs w
 
 - Acerta: [Calculateur
   brut/net](https://www.acerta.be/fr/portail-client/employeurs/votre-guide-acerta/simulations-et-verifications-rapides/calculateur-brut-net)
+- Acerta: [Calcul brut-net en Belgique](https://www.acerta.be/fr/portail-client/independants/client-dacerta/simulations-et-calculs/simulateur-brut-net)
 - Attentia: [Calculez votre
   salaire](https://www.attentia.be/fr/outil/easy-payroll/brut-net-calculateur)
 (powered by Jobat)
@@ -80,6 +81,27 @@ $ nix-shell --run 'runghc -isrc/ -XNoImplicitPrelude withholding-tax/scales.hs w
 
 Some data collected manually using those simulations are in
 [`tests/examples.hs`](tests/examples.hs).
+
+# Self-employed social contributions simulations
+
+- Avixi (Via E-Loket): [Simulation calcul de
+  cotisations](https://avixi-eloket.ventouris.be/ELoket2/bijdrageberekening)
+- Securex: [Calcul cotisations
+  sociales](https://www.securex.eu/izi/public/fr/SocialContributionCalculation/Contribution)
+- UCM: [Calcul de
+  cotisations](https://e-services.ucm.be/casSimulCalCot/calcul.Main)
+- Xerius: [Simulation de cotisations
+  sociales](https://www.xerius.be/fr-be/devenir-independant/votre-preparation/simulation-cotisations-sociales)
+- CNH (Via E-Loket): [Simulation calcul de
+  cotisations](https://cnh-eloket.ventouris.be/ELoket2/bijdrageberekening)
+- Group S (Via E-Loket): [Outil de
+  simulation](https://groeps-eloket.ventouris.be/ELoket2/bijdrageberekening)
+- Partena Professional: [Cotisimul](http://www.cotisimul.partena-professional.be/)
+
+# Other simulations
+
+- Group S: [Simulation de la rémunération d'un dirigeant
+  d’entreprise](https://services.groups.be/independentsim/?lg=FR)
 
 # Serving refli.be
 
