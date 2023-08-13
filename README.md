@@ -100,6 +100,9 @@ Some data collected manually using those simulations are in
 - Liantis: [Calcul des cotisations sociales](https://www.liantis.be/fr/tools/module-de-cotisations)
 - Partena Professional: [Cotisimul](http://www.cotisimul.partena-professional.be/)
 
+The e-loket (or e-guichet, e-counter) seems to be Ventouris, an application
+written by Cegeka for multiple SIFs.
+
 # Other simulations
 
 - Group S: [Simulation de la rémunération d'un dirigeant
