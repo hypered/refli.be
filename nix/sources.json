@@ -13,14 +13,14 @@
     },
     "hypered-design": {
         "branch": "main",
-        "description": "",
-        "homepage": "",
+        "description": "A design system for Hypered projects",
+        "homepage": "https://hypered.design",
         "owner": "hypered",
         "repo": "design",
-        "rev": "be7fc7cd9d78e809e5d5448c74db12c2cb44be34",
-        "sha256": "089gaaci0msk4ypsqgcq83q6ycfk9rrm29g631s8732wj5djkc08",
+        "rev": "04d00ea1de0662570bfaf83da26851f4b9e52861",
+        "sha256": "0xw5ini5119xb37119cj0qikhn797x0jp25abs4cbsa96l6yfi6y",
         "type": "tarball",
-        "url": "https://github.com/hypered/design/archive/be7fc7cd9d78e809e5d5448c74db12c2cb44be34.tar.gz",
+        "url": "https://github.com/hypered/design/archive/04d00ea1de0662570bfaf83da26851f4b9e52861.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "niv": {
