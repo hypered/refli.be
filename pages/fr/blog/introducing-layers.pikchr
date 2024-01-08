@@ -1,0 +1,20 @@
+    scale = 0.75
+    fontscale = 1.1
+    lineht *= 0.4
+    charht *= 1.15
+    down
+
+    $margin = lineht * 2.5
+
+L3: box "Computations" width 150% height 75% fill white
+    arrow
+L2: box same "Data"
+    arrow
+L1: box same "Legislative texts"
+
+    box height (L3.north.y - L1.south.y) + $margin \
+      width L3.width + $margin \
+      at L2 fill 0xFFF4C1 \
+      behind L3
+    line invisible from 0.25 * $margin east of last.sw up last.height \
+      "Core" italic aligned

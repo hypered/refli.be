@@ -155,3 +155,11 @@ $ nix-shell -p inkscape --run \
 $ nix-shell -p imagemagick --run \
   'convert letter-R-favicon.png -define icon:auto-resize=256,64,48,32,16 favicon.ico'
 ```
+
+# pikchr
+
+For files with the `.pikchr` extension, use something like
+
+```
+$ pikchr --svg-only pages/fr/blog/introducing-layers.pikchr > introducing-layers.svg
+```
