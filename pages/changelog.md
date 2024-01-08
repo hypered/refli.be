@@ -5,7 +5,24 @@ title: Changelog
 This changelog tries to be quite complete, and as such contains technical
 details.
 
-# 2022-02-14
+# 2024-01-08
+
+This changelog entry is about an experimental subsection of Refli: Lex Iterata.
+
+- [Lex Iterata](https://refli.be/fr/lex) is a novel rendition of some content
+  of the Official Belgian Journal: the consolidated texts (Justel) as found
+  through the ELI (European Legislation Identifier) indexes.
+- For each original document, we offer a novel rendition (as an HTML page), and
+  a JSON representation.
+- There is also a Markdown version of each document offered in the
+  [`hypered/iterata-md`](https://github.com/hypered/iterata-md) Git repository.
+- There is also the original version of each document offered in the
+  [`hypered/iterata-src`](https://github.com/hypered/iterata-src) Git repository.
+- The most important feature is not yet visible per se but enables the above
+  new representations: each document is parsed and a structured representation
+  is recovered.
+
+# 2023-02-14
 
 This changelog entry is about the first version of Refli where a useful feature
 is added: a gross/net salary computation. It is currently very limited (it
