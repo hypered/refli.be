@@ -1,4 +1,6 @@
 ---
+msgid-documentation: Documentation
+msgid-compute-salaries: Compute salaries
 nav:
 - name: Refli
   href: "/"

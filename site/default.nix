@@ -8,10 +8,15 @@ let
   inherit (import hypered-design) lua-filter replace-md-links static;
 
   # Normally the template comes from design-system, but here we create a
-  # custom one (mainly to get a custom footer).
+  # custom one (mainly to get a custom footer, translations, ...).
   template = ./default.html;
 
   to-html-with-metadata = name: src: metadata: metadata-lang:
+    let basename =
+      if builtins.match (".*/documentation/index.*") (toString src) != null
+      then "documentation"
+      else name;
+    in
     nixpkgs.runCommand "html" {} ''
     ${nixpkgs.pandoc}/bin/pandoc \
       --from markdown \
@@ -19,9 +24,8 @@ let
       --standalone \
       --template ${template} \
       -M prefix="" \
-      -M font="ibm-plex" \
       --variable "this-file:${name}.md" \
-      --lua-filter ${lua-filter} \
+      --variable "this-basename:${basename}" \
       --output $out \
       ${metadata} \
       ${metadata-lang} \

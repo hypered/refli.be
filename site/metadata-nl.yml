@@ -1,5 +1,7 @@
 ---
 lang: nl
+msgid-documentation: Documentatie
+msgid-compute-salaries: Salarisberekeningen
 nav:
 - name: Refli
   href: "/nl"
