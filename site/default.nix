@@ -57,13 +57,25 @@ in rec
   html.unprocessed = nixpkgs.runCommand "all" {} ''
     mkdir -p $out/.well-known
     mkdir -p $out/fr/documentation/computation
+    mkdir -p $out/{en,nl}/documentation
 
     cp ${html.pages.changelog}               $out/changelog.html
+    cp ${html.pages.en.about}                $out/en/about.html
+    cp ${html.pages.en.contact}              $out/en/contact.html
+    cp ${html.pages.en.disclaimer}           $out/en/disclaimer.html
+    cp ${html.pages.en.documentation.index}  $out/en/documentation.html
+
     cp ${html.pages.fr.index}                $out/fr/index.html
     cp ${html.pages.fr.about}                $out/fr/about.html
     cp ${html.pages.fr.contact}              $out/fr/contact.html
     cp ${html.pages.fr.disclaimer}           $out/fr/disclaimer.html
     cp ${html.pages.fr.documentation.index}  $out/fr/documentation.html
+
+    cp ${html.pages.nl.about}                $out/nl/about.html
+    cp ${html.pages.nl.contact}              $out/nl/contact.html
+    cp ${html.pages.nl.disclaimer}           $out/nl/disclaimer.html
+    cp ${html.pages.nl.documentation.index}  $out/nl/documentation.html
+
     cp ${html.pages.fr.documentation.computation.index} \
       $out/fr/documentation/computation.html
     cp ${html.pages.fr.documentation.computation.contribution} \
