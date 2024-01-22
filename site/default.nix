@@ -11,7 +11,7 @@ let
   # custom one (mainly to get a custom footer).
   template = ./default.html;
 
-  to-html-with-metadata = name: src: metadata:
+  to-html-with-metadata = name: src: metadata: metadata-lang:
     nixpkgs.runCommand "html" {} ''
     ${nixpkgs.pandoc}/bin/pandoc \
       --from markdown \
@@ -24,10 +24,17 @@ let
       --lua-filter ${lua-filter} \
       --output $out \
       ${metadata} \
+      ${metadata-lang} \
       ${src}
   '';
 
-  to-html = name: src: to-html-with-metadata name src ./metadata.yml;
+  extractLangMetadata = path:
+    if builtins.match (".*pages/en/.*") (toString path) != null then ./metadata-en.yml
+    else if builtins.match (".*pages/fr/.*") (toString path) != null then ./metadata-fr.yml
+    else if builtins.match (".*pages/nl/.*") (toString path) != null then ./metadata-nl.yml
+    else ./metadata-en.yml;
+
+  to-html = name: src: to-html-with-metadata name src ./metadata.yml (extractLangMetadata src);
 
   dirsToMds = dir:
     lib.mapAttrs'
