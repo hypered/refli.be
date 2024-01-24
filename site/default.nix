@@ -11,11 +11,23 @@ let
   # custom one (mainly to get a custom footer, translations, ...).
   template = ./default.html;
 
+  # Given a path that looks like
+  # /home/.../refli.be/pages/fr/documentation/ssi.md, return
+  # /documentation/ssi.
+  extractLocalPath = s:
+    let
+      result = builtins.match ".*/(pages/fr/|pages/nl/|pages/en/|pages/)(.*).md"
+        (toString s);
+    in if result != null then builtins.elemAt result 1 else (toString s);
+
   to-html-with-metadata = name: src: metadata: metadata-lang:
     let basename =
-      if builtins.match (".*/documentation/index.*") (toString src) != null
+      # Normally we force documentation/index to documentation,
+      # but we do that for any path because it is not yet translated
+      # and /documentation is a little message in nl and en.
+      if builtins.match (".*/documentation/.*") (toString src) != null
       then "documentation"
-      else name;
+      else extractLocalPath src;
     in
     nixpkgs.runCommand "html" {} ''
     ${nixpkgs.pandoc}/bin/pandoc \
