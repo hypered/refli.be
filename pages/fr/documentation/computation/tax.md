@@ -46,10 +46,6 @@ Exemples:
 
 <!--# include virtual="/partials/fr/tables/children-reduction-examples" -->
 
-### Réduction pour bénéficiaire isolé
-
-<!--# include virtual="/partials/fr/tables/isolated-reduction" -->
-
 ### Réduction pour bénéficiaire isolé avec enfants à charge
 
 <!--# include virtual="/partials/fr/tables/isolated-with-children-reduction" -->
