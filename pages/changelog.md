@@ -5,6 +5,16 @@ title: Changelog
 This changelog tries to be quite complete, and as such contains technical
 details.
 
+# 2024-04-11
+
+The gross-to-net salary computation is updated to reflect the work bonus
+changes as stated in the [legislative
+text](https://refli.be/fr/lex/2024002395).
+
+# 2024-02-17
+
+The gross-to-net salary computation is updated to the 2024 rules.
+
 # 2024-01-08
 
 This changelog entry is about an experimental subsection of Refli: Lex Iterata.
