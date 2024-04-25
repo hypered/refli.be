@@ -156,6 +156,15 @@ $ nix-shell -p imagemagick --run \
   'convert letter-R-favicon.png -define icon:auto-resize=256,64,48,32,16 favicon.ico'
 ```
 
+To add a white background:
+
+```
+$ inkscape -w 512 -h 512 -b FFFFFF letter-R-favicon.svg --export-filename letter-R-favicon.png
+```
+
+Note: I had to remove the font-face definition from the SVG file, or I add an
+error.
+
 # pikchr
 
 For files with the `.pikchr` extension, use something like
