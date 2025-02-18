@@ -73,8 +73,34 @@ in rec
   # nix-instantiate --eval --strict site/ -A md.pages.index
   md.pages = (dirsToMds ../pages);
 
+  # .md pages
   # nix-build site/ -A html.pages.index
   html.pages = mdsToHtml md.pages;
+
+  # .slab pages
+  # nix-build site/ -A html.slab
+  html.slab = nixpkgs.stdenv.mkDerivation {
+    name = "site";
+    src = ../pages;
+    buildInputs = [
+      (import sources.red).wrapped-binaries
+      (import sources.slab).binaries
+      nixpkgs.glibcLocales
+    ];
+    buildPhase = ''
+      # Make sure we don't rely on an existing _site.
+      rm -rf _site
+
+      export LANG="en_US.UTF-8"
+      export LC_ALL="en_US.UTF-8"
+
+      slab build en/
+      mv _site $out
+    '';
+    installPhase = ''
+      # Nothing.
+    '';
+  };
 
   # This has unprocessed links.
   html.unprocessed = nixpkgs.runCommand "all" {} ''
@@ -129,6 +155,8 @@ in rec
     cp -r --no-preserve=mode ${html.unprocessed}/* $out/
 
     ${nixpkgs.bash}/bin/bash ${replace-md-links} $out /pages 1
+
+    ${nixpkgs.rsync}/bin/rsync -aP ${html.slab}/ $out/en/
   '';
 
   # This has .html links.
@@ -143,6 +171,7 @@ in rec
   html.all-with-static = nixpkgs.runCommand "all-with-static" {} ''
     mkdir $out
     cp -r ${html.all}/* $out/
+    ${nixpkgs.rsync}/bin/rsync -aP ${html.slab}/ $out/en/
     ln -s ${static} $out/static
     ln -s ${favicon} $out/favicon.ico
   '';

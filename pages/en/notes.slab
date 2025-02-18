@@ -1,0 +1,19 @@
+doctype html
+html(dir="ltr", lang="en")
+  head
+    meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    link(rel="stylesheet", href="/static/css/struct.css")
+  body.u-container-vertical
+    .u-container
+      .c-text.flow
+        h1 Notes
+        p These are in-progress notes that we collect to help us build Refli. We keep them publicly available, but they are mainly for our own use. They are incomplete and may contain errors.
+
+        h2 Documents
+        p This is a list of documents that Refli offers or plans to offer in the future. If you see something you are interested in, please contact us.
+        ul
+          li
+            a(href="/en/notes/a") A
+          li
+            a(href="/en/notes/b") B
