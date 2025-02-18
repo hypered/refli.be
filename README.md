@@ -6,7 +6,8 @@ The goal of Refli is to make Belgian employee compensation rules approachable
 for everyone, by providing documentation, data, and computation tools. Those
 should be relevant for everyone, including professionals and developers.
 
-This project is currently in an early stage.
+This project is currently in an early stage. See also [our public
+notes](https://refli.be/en/notes).
 
 
 # Withholding tax
