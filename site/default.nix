@@ -50,6 +50,8 @@ let
     else if builtins.match (".*pages/nl/.*") (toString path) != null then ./metadata-nl.yml
     else ./metadata-en.yml;
 
+in rec
+{
   to-html = name: src: to-html-with-metadata name src ./metadata.yml (extractLangMetadata src);
 
   dirsToMds = dir:
@@ -68,8 +70,6 @@ let
                   else mdsToHtml src)
       dir;
 
-in rec
-{
   # nix-instantiate --eval --strict site/ -A md.pages.index
   md.pages = (dirsToMds ../pages);
 

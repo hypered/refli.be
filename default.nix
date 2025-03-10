@@ -14,4 +14,7 @@ in
 
   # This is actually a library for now.
   binaries = nixpkgs.haskellPackages.refli-be;
+
+  # Export some functions.
+  inherit (import ./site) dirsToMds mdsToHtml;
 }
