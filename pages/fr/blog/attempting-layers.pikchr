@@ -1,0 +1,30 @@
+scale = 1.1
+    fontscale = 1.1
+    lineht *= 0.4
+    charht *= 1.15
+    down
+
+    $margin = lineht * 2.5
+
+L3: box "Computations" width 150% height 75% fill white
+    arrow
+L2: box same "Data"
+    arrow
+L1: box same "Legislative texts"
+
+    # Adding the new stack to the right
+    $xoffset = $margin * 2
+
+R3: box "Playground" width 150% height 75% fill 0xFFF4C1 at L3.e + ($xoffset, 0)
+    arrow
+R2: box same "Concepts" fill 0xFFF4C1
+    arrow
+R1: box same "Lex Iterata" fill 0xFFF4C1
+
+    # Core box that contains both stacks
+    box height (L3.north.y - L1.south.y) + $margin \
+      width (R3.e.x - L3.w.x) + $margin \
+      at 0.5*(L3.w.x + R3.e.x), L2.y fill white \
+      behind L3
+    line invisible from 0.25 * $margin east of last.sw up last.height \
+      "Core" italic aligned
