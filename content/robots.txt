@@ -4,4 +4,6 @@ Allow: /fr/describe$
 Allow: /fr/describe/1800.00$
 Allow: /fr/describe/3600.00$
 Disallow: /fr/describe/
+Disallow: /en/lex/
+Disallow: /nl/lex/
 Allow: /
