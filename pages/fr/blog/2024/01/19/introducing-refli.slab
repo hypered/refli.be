@@ -1,0 +1,9 @@
+include ../../../../../layouts/page-fr.slab
+page("/blog/2024/01/19/introducing-refli")
+    with canonical
+        link(rel="canonical", href="https://refli.be/fr/blog/2024/01/19/introducing-refli")
+
+    with titl
+        title Découvrons Refli
+
+    include ../../../../../partials/fr/blog/introducing-refli.slab

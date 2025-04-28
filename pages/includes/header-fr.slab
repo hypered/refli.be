@@ -1,0 +1,20 @@
+--- A variant of the main header without the login/signup links.
+ul
+    li
+        .menu-item
+            a(href="/fr/blog").menu-link Blog
+
+    li
+        .menu-item
+            a(href="/fr/lex").menu-link Lex
+
+    li
+        .menu-item(tabindex="-1")
+            i.menu-mask(tabindex="-1")
+            a.menu-dropdown Playground
+            .menu-dropdown-content
+                a(href="/fr/describe") Calculs de salaires
+
+    li
+        .menu-item
+            a(href="/fr/documentation").menu-link Documentation

@@ -1,0 +1,110 @@
+.c-content.flow-all.limit-42em
+    h1 Découvrons Refli
+    small.breadcrumb 2024-01-19
+.switcher
+    .flow-all
+        p Près d'un an après le début de son développement, il est temps de présenter Refli. Ce blog post est notre première étape pour partager le concept et la vision derrière notre projet, qui se concentre sur la simplification des calculs de salaires belges.
+
+    div
+        --- empty
+
+.c-content.flow-all.limit-42em
+    p Refli se consacre principalement à rendre les calculs de salaires belges plus clairs et plus accessibles. Notre travail est conçu pour servir un large public, y compris les étudiants, les professionnels de la paie et les développeurs, en fournissant des outils et des informations essentiels sur une plate-forme unique, unifiée et complète.
+
+    p Afin d'établir une base solide pour Refli, nous la construisons autour d'un noyau à trois couches. Ce noyau commence par les textes législatifs belges et progresse vers des calculs détaillés et précis. Cette approche en couches est illustrée dans le diagramme ci-dessous, qui montre comment chaque couche s'appuie sur la précédente:
+
+    .blog-post-centered-svg
+      include ../../../../static/images/introducing-layers.svg
+
+    h2 Textes législatifs
+
+    p En partant du bas du schéma ci-dessus, la première couche est un ensemble de textes législatifs (par exemple des lois ou des ordonnances). La version officielle de ces textes est publiée sous forme de PDFs (la version "papier", parfois aussi appelée "images") sur le <a href="https://www.ejustice.just.fgov.be">site web du Moniteur belge</a> (géré par le SPF Justice).
+
+    p Outre ces PDFs, le SPF Justice propose également trois autres représentations: une version HTML de ces PDFs, mais aussi des PDFs et leurs contreparties HTML de textes "consolidés". Les textes consolidés sont proposés dans une partie distincte de leur site web appelée <a href="https://www.ejustice.just.fgov.be/cgi_loi/loi.pl">Justel</a>. (HTML est le principal code informatique utilisé pour créer des pages web. Il est interprété par les navigateurs web tels que Firefox, Chrome et Safari pour afficher du contenu sur le web).
+
+    p Pour créer cette première couche, nous traitons la version HTML consolidée des textes législatifs. C'est sur cette couche que nous avons concentré nos efforts jusqu'à présent, et c'est elle qui a reçu le plus de temps de développement par rapport aux autres couches. Dans Refli, nous appelons cette première couche <a href="https://refli.be/fr/lex">Lex Iterata</a>.
+
+    p Iterata est un mot latin qui signifie "répété". Il ressemble également au mot "itéré". Nous voulons faire comprendre que nous présentons les textes législatifs "à nouveau", d'une manière nouvelle, et que nous avons l'intention de construire progressivement le reste de Refli sur cette base.
+
+    p Le traitement des textes consolidés implique la récupération de la structure de haut niveau (titres, articles, paragraphes, ...) des textes eux-mêmes et de certaines métadonnées (par exemple un lien vers le PDF original ou son numéro de page à l'intérieur de celui-ci). Nous récupérons également certaines structures plus fines telles que les numéros d'articles (selon qu'ils utilisent des chiffres romains ou arabes, des adverbes numéraux (par exemple bis, ter, quater, ...), des séparateurs de nombres (parfois des points, parfois des barres obliques, ...)). Ce contenu structuré est ensuite stocké dans une base de données relationnelle en vue d'un traitement et de requêtes ultérieurs.
+
+    p En d'autres termes, Lex Iterata offre les textes consolidés du Moniteur belge sous une nouvelle forme HTML, mais nous voulons aller un peu plus loin en tirant parti de notre représentation structurée.
+
+    p Pour mieux voir les différentes formes que peuvent prendre les textes législatifs, voici quelques liens vers un même exemple de texte proposé par le SPF Justice:
+
+    ul
+      li
+        a(href="https://www.ejustice.just.fgov.be/mopdf/2023/12/27_2.pdf#Page266") L' "image" PDF officielle
+      li
+        a(href="https://www.ejustice.just.fgov.be/eli/arrete/2023/12/17/2023206853/moniteur") Sa version HTML
+      li
+        a(href="https://www.ejustice.just.fgov.be/img_l/pdf/2023/12/17/2023206853_F.pdf") Sa version consolidée PDF
+      li
+        a(href="https://www.ejustice.just.fgov.be/eli/arrete/2023/12/17/2023206853/justel") Sa version consolidée HTML
+
+    p Et voici un lien vers le même texte tel que fourni par Lex Iterata:
+
+    ul
+      li
+        a(href="https://refli.be/fr/lex/2023206853") Une nouvelle version consolidée HTML
+
+.c-content.flow-all.limit-42em.blog-post-details
+    p Pour les lecteurs ayant un bagage technique ou pour ceux qui sont simplement curieux, nous approfondissons certaines représentations supplémentaires que nous fournissons. N'hésitez pas à sauter cette section si vous préférez.
+
+    p Outre notre propre représentation HTML, Lex Iterata propose d'autres formats pour un même texte:
+
+    ul
+      li
+        a(href="https://refli.be/lex/2023206853") Une représentation structurée en JSON
+      li
+        a(href="https://raw.githubusercontent.com/hypered/iterata-md/main/texts/2023/20/2023206853.md") Une représentation en Markdown
+      li
+        a(href="https://github.com/hypered/iterata-md/blob/main/texts/2023/20/2023206853.md") La représentation Markdown telle que rendue par GitHub
+
+    p La représentation JSON est une représentation technique destinée aux développeurs de logiciels (et, plus précisément, aux logiciels qu'ils pourraient créer) qui est plus facile à traiter par les machines qu'une page HTML.
+
+    p La représentation Markdown est un format texte simple qui est populaire auprès des développeurs de logiciels. Il est conçu pour être facile à écrire (pour les humains) et facile à traiter (pour les machines). Par exemple, le dernier lien ci-dessus montre comment GitHub (un service populaire d'hébergement de code source et d'autres formats textes) peut l'afficher.
+
+    p Notez que le bloc compris entre les lignes <code>---</code> en haut du fichier Markdown est un ajout au format Markdown; il s'agit d'un autre format texte similaire à JSON, appelé YAML. Dans le rendu GitHub ci-dessus, il correspond au tableau affiché au-dessus du texte lui-même.
+
+    p Puisque nous parlons beaucoup de différents formats, vous voudrez peut-être jeter un coup d'œil à de l'HTML. Vous pouvez le faire directement dans votre navigateur web en faisant un clic droit sur une page et en sélectionnant "Voir la source de la page". Le raccourci clavier pour la même opération est généralement <code>Ctrl-u</code>. Par exemple, vous pouvez faire cela sur n'importe lequel des liens ci-dessus qui pointent vers une représentation HTML.
+
+    p Le fait de fournir une représentation en Markdown des textes législatifs a un effet secondaire intéressant: il est plus facile de voir comment ils évoluent. Sur <a href="https://github.com/hypered/iterata-md/commit/b38d0897ac3395161a13adcd386d1d50c9053dde">cette page GitHub</a>, vous pouvez voir comment deux versions des mêmes textes ont été modifiées. Ce type de visualisation des modifications est également très populaire auprès des développeurs de logiciels.
+
+    p Par commodité, nous conservons également les pages HTML originales du SPF Justice sur GitHub, et nous pouvons voir <a href="https://github.com/hypered/iterata-src/commit/e66fbef1c87168dd9673984348665cad8b6e6f6c">la page correspondante</a> pour les mêmes changements conceptuels. En raison de la nature plus légère du Markdown par rapport à l'HTML, nous pouvons voir que les changements sont plus faciles à discerner dans le premier cas.
+
+.c-content.flow-all.limit-42em
+    p Ce travail n'est qu'un début et il y a de nombreuses façons de continuer ce que nous avons aujourd'hui:
+
+    ul
+      li Actuellement, nous avons traité plus de 202 000 documents. À l'avenir, nous aimerions étendre notre travail à d'autres sources de documents officiels (par exemple, les données commerciales de la banque nationale, la jurisprudence, ...).
+      li Nous devons exposer des informations supplémentaires que le SPF Justice fournit, telles que des liens vers des errata ou des versions archivées (antérieures) d'un texte.
+      li Nous pouvons améliorer le traitement que nous effectuons pour récupérer une structure encore plus fine. Par exemple, nous pourrions identifier les dates ou transformer les références qui apparaissent dans les textes en liens vers les textes référencés.
+      li Nous pouvons offrir un accès plus direct aux données structurées sous-jacentes que nous récupérons. La représentation JSON ci-dessus en est un exemple, mais nous pourrions également fournir, par exemple, une copie de notre base de données relationnelle.
+      li Nous devons créer une interface de recherche. Nous pourrions l'étendre à de nouvelles méthodes d'interrogation de nos données (par exemple en utilisant une base de données vectorielle ou un LLM).
+
+    h2 Données
+
+    p La deuxième couche de notre schéma concerne les données, c'est-à-dire les valeurs qui sont significatives et qui peuvent être modifiées ultérieurement. Les valeurs peuvent être "simples", comme des nombres ou des mots, ou plus riches, comme des listes ou des tableaux.
+
+    p L'exemple de texte législatif ci-dessus est un parfait exemple de ces données, car il définit les (nouvelles) valeurs de deux fractions décrites et utilisées dans <a href="https://refli.be/fr/lex/1967072702">un autre texte législatif</a> pour l'année 2024.
+
+    p Alors que la première couche prend une vie propre en tant que Lex Iterata, cette deuxième couche est plus conceptuelle. Dans Refli, nous pouvons voir cette couche prendre forme dans certains des tableaux qui apparaissent dans notre documentation sur le calcul brut-net, par exemple sur les <a href="https://refli.be/fr/documentation/computation/contribution">cotisations à la sécurité sociale</a>.
+
+    p Contrairement à Lex Iterata, qui incarne très clairement la première couche de notre schéma, cette deuxième couche n'est pas encore clairement délimitée au sein de Refli, mais c'est un point sur lequel nous voulons insister.
+
+    h2 Calculs
+
+    p La troisième couche est le cœur logique de Refli. C'est ici que Refli cesse d'être une source d'informations et de données pour devenir un logiciel en ligne. Son objectif est de simplifier l'<em>application</em> des règles légales, lorsque ces règles peuvent être suivies par un ordinateur, et de mettre cette simplification à la disposition d'un large public.
+
+    p Actuellement, Refli propose un seul calcul: étant donné un montant de salaire brut, quel devrait être le montant net correspondant. Voici un <a href="https://refli.be/fr/describe/3600.00?details">exemple pour un montant brut de 3600EUR</a>.
+
+    h2 Un début
+
+    p Les trois couches décrites ci-dessus constituent le fondement conceptuel de Refli. Chacune d'entre elles peut être étendue de manière significative avec son propre ensemble de fonctionnalités plus riches, mais le plus important est que Refli lui-même se développe.
+
+    p Au-dessus de ces couches, nous devons construire des fonctionnalités supplémentaires (comme des comptes d'utilisateurs pour les particuliers ou les entreprises, une interface de recherche, l'enregistrement des résultats ou leur présentation sous forme de PDF, la gestion de calculs multiples à travers le temps, ...).
+
+    p En fonction des intérêts et de retours éventuels, nous pourrions nous concentrer sur différentes choses à l'avenir. Par exemple, il pourrait s'agir de Lex Iterata (c'est-à-dire les textes législatifs), ou d'un autre aspect essentiel de Refli. Par exemple, nous pouvons offrir les capacités de calcul brutes de Refli par l'intermédiaire d'une API réseau, ou en faire un produit orienté vers l'utilisateur final.
+
+    p Nous sommes spécialisés dans le développement de logiciels, mais nous n'avons pas de formation formelle en matière de ressources humaines, de paie ou de questions juridiques. Vous êtes peut-être enseignant ou étudiant et nous pourrions améliorer notre calcul du brut au net pour qu'il vous soit plus utile. Ou peut-être utilisez-vous le Moniteur belge tous les jours et avez-vous des suggestions tout à fait différentes. Vos idées sont importantes pour nous permettre d'améliorer Refli. Si vous êtes intéressé par ce que nous construisons, <a href="https://refli.be/fr/contact">n'hésitez pas à nous contacter</a>, nous serions ravis de discuter avec vous.

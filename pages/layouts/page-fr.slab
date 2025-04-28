@@ -3,7 +3,7 @@ include ../includes/current-copyright-year.slab
 
 frag page(url){canonical,titl}
   doctype html
-  html(dir="ltr", lang="en")
+  html(dir="ltr", lang="fr")
     head
         meta(charset="utf-8")
         meta(name="viewport", content="width=device-width, initial-scale=1")
@@ -23,7 +23,7 @@ frag page(url){canonical,titl}
                             a(href="/en")
                                 img(src="/static/images/logo.svg", alt="Refli")
                     .u-bar__right
-                        include ../includes/header-en.slab
+                        include ../includes/header-fr.slab
 
         main
             .u-container
@@ -37,19 +37,19 @@ frag page(url){canonical,titl}
                         h4 Refli
                         ul.no-disc
                             li
-                                a(href="/en/about") About
+                                a(href="/fr/about") A propos
                             li
-                                a(href="/en/blog") Blog
+                                a(href="/fr/blog") Blog
                             li
-                                a(href="/en/documentation") Documentation
+                                a(href="/fr/documentation") Documentation
                             li
-                                a(href="/en/contact") Contact
+                                a(href="/fr/contact") Contact
                             li
-                                a(href="/en/disclaimer") Disclaimer
+                                a(href="/fr/disclaimer") Disclaimer
                             li
                                 a(href="/changelog") Changelog
                             li
-                                a(href="/en/lex") Lex Iterata
+                                a(href="/fr/lex") Lex Iterata
                         hr
                         ul.no-disc.horizontal
                             li
@@ -62,5 +62,5 @@ frag page(url){canonical,titl}
                         -- Empty
 
                 .flow.u-flow-c-4
-                    img(src="/static/images/belgium-flag.svg", alt="The flag of Belgium", width="15px", height="13px")
+                    img(src="/static/images/belgium-flag.svg", alt="Le drapeau de l Belgique", width="15px", height="13px")
                     span &nbsp; &nbsp; &nbsp; © <a class="normal-link" href="https://hypered.be">Hypered SRL</a>, 2023-#(current-copyright-year).

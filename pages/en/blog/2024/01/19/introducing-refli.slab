@@ -1,5 +1,7 @@
 include ../../../../../layouts/page-en.slab
-page
+page("/blog/2024/01/19/introducing-refli")
+    with canonical
+        link(rel="canonical", href="https://refli.be/en/blog/2024/01/19/introducing-refli")
 
     with titl
         title Introducing Refli

@@ -1,0 +1,110 @@
+.c-content.flow-all.limit-42em
+    h1 Refli introduceren
+    small.breadcrumb 2024-01-19
+.switcher
+    .flow-all
+        p Na bijna een jaar ontwikkeling is het tijd om Refli voor te stellen. Deze blogpost is onze eerste stap om het concept en de visie achter ons project te delen, dat gericht is op het vereenvoudigen van Belgische loonberekeningen.
+
+    div
+        --- empty
+
+.c-content.flow-all.limit-42em
+    p Refli richt zich in de eerste plaats op het duidelijker en toegankelijker maken van Belgische loonberekeningen. Ons werk is ontworpen om een breed publiek te bedienen, waaronder studenten, payroll professionals en ontwikkelaars, door essentiële tools en informatie aan te bieden in één enkel, uniform en uitgebreid platform.
+
+    p Om Refli een solide basis te geven, bouwen we het op rond een kern van drie lagen. Het begint met de Belgische wetteksten en gaat verder met gedetailleerde, nauwkeurige berekeningen. Deze gelaagde aanpak wordt gevisualiseerd in het onderstaande diagram, dat laat zien hoe elke laag voortbouwt op de vorige:
+
+    .blog-post-centered-svg
+      include ../../../../static/images/introducing-layers.svg
+
+    h2 Wetgevende teksten
+
+    p Beginnend onderaan het bovenstaande schema, is de eerste laag een reeks wetteksten (bv. wetten of ordonnanties). De officiële versie van deze teksten wordt als PDF (de "papieren" versie, soms ook "afbeeldingen" genoemd) gepubliceerd op de <a href="https://www.ejustice.just.fgov.be">website van het Belgisch Staatsblad</a> (beheerd door de FOD Justitie).
+
+    p Naast deze PDF's biedt de FOD Justitie nog drie andere weergaven: een HTML-versie van deze PDF's, maar ook PDF's en hun HTML-tegenhangers van "geconsolideerde" teksten. De geconsolideerde teksten worden aangeboden in een apart deel van hun website dat <a href="https://www.ejustice.just.fgov.be/cgi_loi/loi.pl">Justel</a> heet. (HTML is de primaire computercode die wordt gebruikt om webpagina's te maken. Het wordt geïnterpreteerd door webbrowsers zoals Firefox, Chrome en Safari om inhoud op het web weer te geven).
+
+    p Om deze eerste laag te maken, verwerken we de geconsolideerde HTML-versie van de wetgevende teksten. Dit is tot nu toe het belangrijkste aandachtspunt geweest en heeft de meeste ontwikkelingstijd gekregen in vergelijking met de andere lagen. In Refli noemen we deze eerste laag <a href="https://refli.be/fr/lex">Lex Iterata</a>.
+
+    p Iterata is een Latijns woord dat "herhaald" betekent. Het lijkt ook op het woord "iterated". We willen duidelijk maken dat we wetgevende teksten "opnieuw" presenteren, op een nieuwe manier, en dat we van plan zijn om de rest van Refli er geleidelijk bovenop te bouwen.
+
+    p Het verwerken van de geconsolideerde teksten omvat het terugvinden van de structuur op hoog niveau (koppen, artikelen, alinea's, ...) van de teksten zelf en enkele metadata (bijvoorbeeld een link naar de originele PDF of het paginanummer daarin). We herstellen ook wat structuur op een lager niveau, zoals artikelnummers (of ze Romeinse of Arabische cijfers gebruiken, telwoordelijke bijwoorden (bijv. bis, ter, quater, ...), cijferscheidingstekens (soms punten, soms voorwaartse schuine strepen, ...)). Deze gestructureerde inhoud wordt vervolgens opgeslagen in een relationele database voor verdere verwerking en bevraging.
+
+    p Met andere woorden, Lex Iterata biedt de geconsolideerde teksten van het Belgisch Staatsblad aan in een nieuwe HTML-vorm, maar we willen nog een stapje verder gaan door gebruik te maken van onze gestructureerde weergave.
+
+    p Om een beter beeld te krijgen van de verschillende vormen die wetteksten kunnen aannemen, vindt u hier enkele links naar een voorbeeldtekst van de FOD Justitie:
+
+    ul
+      li
+        a(href="https://www.ejustice.just.fgov.be/mopdf/2023/12/27_2.pdf#Page266") De officiële "afbeelding" in PDF-formaat
+      li
+        a(href="https://www.ejustice.just.fgov.be/eli/arrete/2023/12/17/2023206853/moniteur") De HTML-versie
+      li
+        a(href="https://www.ejustice.just.fgov.be/img_l/pdf/2023/12/17/2023206853_F.pdf") De geconsolideerde PDF-versie
+      li
+        a(href="https://www.ejustice.just.fgov.be/eli/arrete/2023/12/17/2023206853/justel")  De geconsolideerde HTML-versie
+
+    p En hier is een link naar dezelfde tekst zoals aangeboden door Lex Iterata:
+
+    ul
+      li
+        a(href="https://refli.be/fr/lex/2023206853") Een nieuwe geconsolideerde HTML-versie
+
+.c-content.flow-all.limit-42em.blog-post-details
+    p Voor lezers met een technische achtergrond of lezers die gewoon nieuwsgierig zijn, gaan we dieper in op enkele aanvullende weergaven die we bieden. Voel je vrij om dit gedeelte over te slaan als je dat liever doet.
+
+    p Naast onze eigen HTML-weergave biedt Lex Iterata nog andere formaten voor dezelfde tekst:
+
+    ul
+      li
+        a(href="https://refli.be/lex/2023206853") Een gestructureerde weergave als JSON
+      li
+        a(href="https://raw.githubusercontent.com/hypered/iterata-md/main/texts/2023/20/2023206853.md") Een Markdown representatie
+      li
+        a(href="https://github.com/hypered/iterata-md/blob/main/texts/2023/20/2023206853.md") De Markdown representatie zoals weergegeven door GitHub
+
+    p De JSON-weergave is een technische weergave voor softwareontwikkelaars (en meer specifiek voor de software die ze zouden kunnen maken) die voor machines gemakkelijker te verwerken is dan een HTML-pagina.
+
+    p De Markdown representatie is een eenvoudig tekstformaat dat populair is bij softwareontwikkelaars. Het is ontworpen om eenvoudig te schrijven (voor mensen) en eenvoudig te verwerken (voor machines). De laatste link hierboven laat bijvoorbeeld zien hoe GitHub (een populaire service voor het hosten van broncode en andere tekstformaten) het kan weergeven.
+
+    p Merk op dat het blok ingesloten tussen de regels <code>---</code> bovenaan het Markdown bestand een toevoeging is aan het Markdown formaat; het is nog een ander tekstformaat vergelijkbaar met JSON, genaamd YAML. In de GitHub rendering hierboven, komt dit overeen met de tabel die boven de tekst zelf wordt weergegeven.
+
+    p Omdat we het veel over verschillende indelingen hebben, wil je misschien even naar HTML kijken. Je kunt dit rechtstreeks in je webbrowser doen door met de rechtermuisknop op een pagina te klikken en "Paginabron weergeven" te selecteren. Een sneltoets voor dezelfde handeling is meestal <code>Ctrl-u</code>. Je kunt dit bijvoorbeeld doen op elk van de bovenstaande links die naar een HTML-weergave verwijzen.
+
+    p Een leuk neveneffect van het aanbieden van een Markdown representatie van de wetgevende teksten is dat het makkelijker maakt om te zien hoe ze evolueren. Op <a href="https://github.com/hypered/iterata-md/commit/b38d0897ac3395161a13adcd386d1d50c9053dde">deze GitHub pagina</a> kun je zien hoe twee versies van dezelfde teksten zijn veranderd. Dit soort visualisatie van wijzigingen is ook erg populair bij softwareontwikkelaars.
+
+    p Voor het gemak bewaren we ook de originele HTML pagina's van de FPS Justice op GitHub, en kunnen we <a href="https://github.com/hypered/iterata-src/commit/e66fbef1c87168dd9673984348665cad8b6e6f6c">de corresponderende pagina</a> zien voor dezelfde conceptuele veranderingen. Omdat Markdown lichter is dan HTML, zien we dat de wijzigingen in het eerste geval makkelijker te begrijpen zijn.
+
+.c-content.flow-all.limit-42em
+    p Dit werk is nog maar het begin en er zijn veel manieren om verder te bouwen op wat we nu hebben:
+
+    ul
+      li Op dit moment hebben we meer dan 202.000 documenten verwerkt. In de toekomst willen we ons werk uitbreiden met andere bronnen van officiële documenten (bv. bedrijfsgegevens van de nationale bank, rechtspraak, ...).
+      li We moeten bijkomende informatie blootleggen die de FOD Justitie levert, zoals links naar errata of gearchiveerde (vorige) versies van een tekst.
+      li We kunnen de verwerking verbeteren om nog meer fijnkorrelige structuur terug te vinden. We kunnen bijvoorbeeld data identificeren of verwijzingen die in de teksten voorkomen omzetten in links naar de teksten waarnaar verwezen wordt.
+      li We kunnen een directere toegang bieden tot de onderliggende gestructureerde gegevens die we herstellen. De JSON representatie hierboven is een voorbeeld, maar we kunnen ook bijvoorbeeld een kopie van onze relationele database aanbieden.
+      li We moeten een zoekinterface bouwen. We kunnen deze uitbreiden met nieuwere manieren om onze gegevens te bevragen (bijvoorbeeld met behulp van een vectordatabase of een LLM).
+
+    h2 Gegevens
+
+    p De tweede laag in ons schema gaat over gegevens, d.w.z. waarden die betekenisvol zijn en later kunnen veranderen. Waarden kunnen "eenvoudig" zijn, zoals getallen of woorden, of ze kunnen rijker zijn, zoals lijsten of tabellen.
+
+    p De wetgevende tekst hierboven is een perfect voorbeeld van zulke gegevens, omdat het de (nieuwe) waarden van twee breuken definieert die worden beschreven en gebruikt in een <a href="https://refli.be/fr/lex/1967072702">andere wetgevende tekst</a> voor het jaar 2024.
+
+    p Terwijl de eerste laag een eigen leven gaat leiden als Lex Iterata, is deze tweede laag op zichzelf vrij conceptueel. Binnen Refli zien we deze laag vorm krijgen in enkele van de tabellen die voorkomen in onze documentatie van de bruto-netto berekening, bijvoorbeeld over <a href="https://refli.be/fr/documentation/computation/contribution">socialezekerheidsbijdragen</a>.
+
+    p In tegenstelling tot Lex Iterata, die heel duidelijk de eerste laag van ons schema belichaamt, heeft deze tweede laag nog geen duidelijke afbakening binnen Refli, maar dit is iets dat we willen benadrukken.
+
+    h2 Berekeningen
+
+    p De derde laag is de rekenkundige kern van Refli. Dit is waar Refli ophoudt over informatie en gegevens te gaan en begint een online computersoftware te worden. Het doel is om de <em>toepassing</em> van wettelijke regels te vereenvoudigen, wanneer die regels gevolgd kunnen worden door een computer, en om die vereenvoudiging beschikbaar te maken voor een breed publiek.
+
+    p Op dit moment biedt Refli één enkele berekening: gegeven een brutoloon, wat moet het bijbehorende nettobedrag zijn. Hier is een <a href="https://refli.be/fr/describe/3600.00?details">voorbeeld voor een brutobedrag van 3600 EUR</a>.
+
+    h2 Een begin
+
+    p De drie hierboven beschreven lagen vormen het conceptuele fundament van Refli. Elk van hen kan aanzienlijk worden uitgebreid met zijn eigen set rijkere functies, maar belangrijker is dat Refli zelf zou moeten groeien.
+
+    p Bovenop deze lagen moeten we extra functies bouwen (zoals gebruikersaccounts voor individuen of bedrijven, zoekinterface, resultaten opslaan of aanbieden als PDF, meerdere berekeningen beheren in de tijd, ...).
+
+    p Afhankelijk van interesses en feedback willen we ons in de toekomst misschien op andere dingen richten. Dit kan bijvoorbeeld Lex Iterata zijn (d.w.z. wetteksten), of een ander kernaspect van Refli. We kunnen bijvoorbeeld de ruwe rekencapaciteiten van Refli aanbieden via een netwerk-API, of er een op zichzelf staand product voor de gebruiker van maken.
+
+    p Onze expertise ligt in softwareontwikkeling, maar we hebben geen formele training in HR, salarisadministratie of juridische zaken. Misschien ben je een leerkracht of een student en kunnen we onze bruto-netto berekening verbeteren om ze nuttiger te maken voor jou. Of misschien gebruik je het Belgisch Staatsblad elke dag en heb je heel andere suggesties. Uw ideeën zijn belangrijk voor ons om Refli te verbeteren. Als u geïnteresseerd bent in wat we aan het bouwen zijn, <a href="https://refli.be/fr/contact">neem dan contact met ons op</a>, we praten graag met u.
