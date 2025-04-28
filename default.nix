@@ -10,6 +10,7 @@ in
   # This has .html links.
   public = (import ./site).html.all-with-static;
   static = (import ./site).static;
+  static-joined = (import ./site).static-joined;
   favicon = (import ./site).favicon;
 
   # This is actually a library for now.
