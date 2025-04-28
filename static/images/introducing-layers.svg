@@ -1,0 +1,15 @@
+<svg xmlns='http://www.w3.org/2000/svg' class="pikchr" width="261" height="324" viewBox="0 0 238.32 295.92">
+<path d="M2,293L236,293L236,2L2,2Z"  style="fill:rgb(255,244,193);stroke-width:2.16;stroke:rgb(0,0,0);" />
+<path d="M38,92L200,92L200,38L38,38Z"  style="fill:rgb(255,255,255);stroke-width:2.16;stroke:rgb(0,0,0);" />
+<text x="119" y="65" text-anchor="middle" fill="rgb(0,0,0)" font-size="110%" dominant-baseline="central">Computations</text>
+<polygon points="119,120 114,109 123,109" style="fill:rgb(0,0,0)"/>
+<path d="M119,92L119,115"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<path d="M38,174L200,174L200,120L38,120Z"  style="fill:rgb(255,255,255);stroke-width:2.16;stroke:rgb(0,0,0);" />
+<text x="119" y="147" text-anchor="middle" fill="rgb(0,0,0)" font-size="110%" dominant-baseline="central">Data</text>
+<polygon points="119,203 114,192 123,192" style="fill:rgb(0,0,0)"/>
+<path d="M119,174L119,198"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<path d="M38,257L200,257L200,203L38,203Z"  style="fill:rgb(255,255,255);stroke-width:2.16;stroke:rgb(0,0,0);" />
+<text x="119" y="230" text-anchor="middle" fill="rgb(0,0,0)" font-size="110%" dominant-baseline="central">Legislative texts</text>
+<text x="20" y="147" text-anchor="middle" font-style="italic" fill="rgb(0,0,0)" font-size="110%" transform="rotate(-90 20,147)" dominant-baseline="central">Core</text>
+</svg>
+

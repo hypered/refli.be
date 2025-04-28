@@ -4,6 +4,8 @@ let
   nixpkgs = import sources.nixpkgs { inherit overlays; };
   lib = nixpkgs.lib;
 
+  nix-filter = import sources.nix-filter;
+
   inherit (sources) hypered-design;
   inherit (import hypered-design) lua-filter replace-md-links static;
 
@@ -81,7 +83,13 @@ in rec
   # nix-build site/ -A html.slab
   html.slab = nixpkgs.stdenv.mkDerivation {
     name = "site";
-    src = ../pages;
+    src = nix-filter {
+      root = ../.;
+      include = with nix-filter; [
+        "pages"
+        "static"
+      ];
+    };
     buildInputs = [
       (import sources.red).wrapped-binaries
       (import sources.slab).binaries
@@ -94,7 +102,9 @@ in rec
       export LANG="en_US.UTF-8"
       export LC_ALL="en_US.UTF-8"
 
-      slab build en/
+      slab build pages/
+      rm -r _site/includes
+      rm -r _site/layouts
       mv _site $out
     '';
     installPhase = ''
@@ -156,7 +166,7 @@ in rec
 
     ${nixpkgs.bash}/bin/bash ${replace-md-links} $out /pages 1
 
-    ${nixpkgs.rsync}/bin/rsync -aP ${html.slab}/ $out/en/
+    ${nixpkgs.rsync}/bin/rsync -aP ${html.slab}/ $out/
   '';
 
   # This has .html links.
@@ -171,12 +181,18 @@ in rec
   html.all-with-static = nixpkgs.runCommand "all-with-static" {} ''
     mkdir $out
     cp -r ${html.all}/* $out/
-    ${nixpkgs.rsync}/bin/rsync -aP ${html.slab}/ $out/en/
-    ln -s ${static} $out/static
+    ${nixpkgs.rsync}/bin/rsync -aP ${static}/ $out/static/
+    ${nixpkgs.rsync}/bin/rsync -aP ${../static}/ $out/static/
     ln -s ${favicon} $out/favicon.ico
+    ${nixpkgs.rsync}/bin/rsync -aP ${html.slab}/ $out/
   '';
 
   favicon = ../images/favicon.ico;
 
   inherit static;
+
+  static-joined = nixpkgs.symlinkJoin {
+    name = "static";
+    paths = [static ../static];
+  };
 }

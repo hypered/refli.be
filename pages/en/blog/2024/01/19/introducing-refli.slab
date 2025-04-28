@@ -1,0 +1,7 @@
+include ../../../../../layouts/page-en.slab
+page
+
+    with titl
+        title Introducing Refli
+
+    include ../../../../../partials/en/blog/introducing-refli.slab

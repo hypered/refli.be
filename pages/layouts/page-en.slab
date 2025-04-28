@@ -1,0 +1,67 @@
+include ../includes/icons.slab
+include ../includes/current-copyright-year.slab
+
+frag page{canonical,titl}
+  doctype html
+  html(dir="ltr", lang="en")
+    head
+        meta(charset="utf-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1")
+        link(rel="stylesheet", href="/static/css/struct.css")
+        link(rel="stylesheet", href="/static/css/struct/lorem.css")
+        default canonical
+            --
+              By default, noindex. You should use a link rel="canonical"
+              when creating a prototype page, and point to the real page.
+            meta(name="robots", content="noindex")
+        default titl
+    body.u-container-vertical
+        header
+            .u-container
+                .u-bar.u-bar--top-aligned
+                    .u-bar__left
+                        .menu-item-height
+                            a(href="/en")
+                                img(src="/static/images/logo.svg", alt="Refli")
+                    .u-bar__right
+                        include ../includes/header.slab
+
+        main
+            .u-container
+                default content
+
+        footer
+            .u-container
+                hr
+                .switcher
+                    .c-content.flow
+                        h4 Refli
+                        ul.no-disc
+                            li
+                                a(href="/about.html") About
+                            li
+                                a(href="/prototypes/refli/blog-index.html") Blog
+                            li
+                                a(href="/documentation.html") Documentation
+                            li
+                                a(href="/contact.html") Contact
+                            li
+                                a(href="/disclaimer.html") Disclaimer
+                            li
+                                a(href="/changelog.html") Changelog
+                            li
+                                a(href="/prototypes/refli/motherboard-index.html") Lex Iterata
+                        hr
+                        ul.no-disc.horizontal
+                            li
+                                a(href="#") EN
+                            li
+                                a(href="#") FR
+                            li
+                                a(href="#") NL
+                    .c-content.flow
+                        -- Empty
+
+                .flow.u-flow-c-4
+                    img(src="/static/images/belgium-flag.svg", alt="The flag of Belgium", width="15px", height="13px")
+                    span &nbsp; &nbsp; &nbsp; © <a class="normal-link" href="https://hypered.be">Hypered SRL</a>, 2023-#(current-copyright-year).
