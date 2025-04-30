@@ -1,0 +1,25 @@
+<svg xmlns='http://www.w3.org/2000/svg' class="pikchr" width="509" height="324" viewBox="0 0 463.32 295.92">
+<path d="M2.16,293.76L461.16,293.76L461.16,2.16L2.16,2.16Z"  style="fill:rgb(255,255,255);stroke-width:2.16;stroke:rgb(0,0,0);" />
+<path d="M38.16,92.16L200.16,92.16L200.16,38.16L38.16,38.16Z"  style="fill:rgb(255,255,255);stroke-width:2.16;stroke:rgb(0,0,0);" />
+<text x="119.16" y="65.16" text-anchor="middle" fill="rgb(0,0,0)" font-size="110%" dominant-baseline="central">Computations</text>
+<polygon points="119.16,120.96 114.84,109.44 123.48,109.44" style="fill:rgb(0,0,0)"/>
+<path d="M119.16,92.16L119.16,115.2"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<path d="M38.16,174.96L200.16,174.96L200.16,120.96L38.16,120.96Z"  style="fill:rgb(255,255,255);stroke-width:2.16;stroke:rgb(0,0,0);" />
+<text x="119.16" y="147.96" text-anchor="middle" fill="rgb(0,0,0)" font-size="110%" dominant-baseline="central">Data</text>
+<polygon points="119.16,203.76 114.84,192.24 123.48,192.24" style="fill:rgb(0,0,0)"/>
+<path d="M119.16,174.96L119.16,198"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<path d="M38.16,257.76L200.16,257.76L200.16,203.76L38.16,203.76Z"  style="fill:rgb(255,255,255);stroke-width:2.16;stroke:rgb(0,0,0);" />
+<text x="119.16" y="230.76" text-anchor="middle" fill="rgb(0,0,0)" font-size="110%" dominant-baseline="central">Legislative texts</text>
+<path d="M263.16,92.16L425.16,92.16L425.16,38.16L263.16,38.16Z"  style="fill:rgb(255,244,193);stroke-width:2.16;stroke:rgb(0,0,0);" />
+<text x="344.16" y="65.16" text-anchor="middle" fill="rgb(0,0,0)" font-size="110%" dominant-baseline="central">Playground</text>
+<polygon points="344.16,120.96 339.84,109.44 348.48,109.44" style="fill:rgb(0,0,0)"/>
+<path d="M344.16,92.16L344.16,115.2"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<path d="M263.16,174.96L425.16,174.96L425.16,120.96L263.16,120.96Z"  style="fill:rgb(255,244,193);stroke-width:2.16;stroke:rgb(0,0,0);" />
+<text x="344.16" y="147.96" text-anchor="middle" fill="rgb(0,0,0)" font-size="110%" dominant-baseline="central">Concepts</text>
+<polygon points="344.16,203.76 339.84,192.24 348.48,192.24" style="fill:rgb(0,0,0)"/>
+<path d="M344.16,174.96L344.16,198"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<path d="M263.16,257.76L425.16,257.76L425.16,203.76L263.16,203.76Z"  style="fill:rgb(255,244,193);stroke-width:2.16;stroke:rgb(0,0,0);" />
+<text x="344.16" y="230.76" text-anchor="middle" fill="rgb(0,0,0)" font-size="110%" dominant-baseline="central">Lex Iterata</text>
+<text x="20.16" y="147.96" text-anchor="middle" font-style="italic" fill="rgb(0,0,0)" font-size="110%" transform="rotate(-90 20.16,147.96)" dominant-baseline="central">Core</text>
+</svg>
+

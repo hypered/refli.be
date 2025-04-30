@@ -1,0 +1,13 @@
+include ../../layouts/page-en.slab
+page("/en/lex/0000000000")
+    with canonical
+        link(rel="canonical", href="https://refli.be/fr/lex/0000000000")
+
+    with titl
+        title Lex Iterata
+
+    .flow-all.limit-42em.u-container-bottom
+        h3 Lex Iterata
+        small.breadcrumb Text 0000000000
+
+    include ../../partials/en/blog/0000000000.slab

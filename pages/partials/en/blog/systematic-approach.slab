@@ -1,0 +1,145 @@
+.c-content.flow-all
+    h1 Attempting a systematic approach
+    small.breadcrumb 2025-05-01
+.switcher
+    .flow-all
+        p In our <a href="https://refli.be/en/blog/2024/01/19/introducing-refli">previous blog post</a>, we outlined how we envisioned a solid three-layer core as the foundation for Refli. In this blog post, we explain how we're making the second and third layers more concrete. We use a simple running example before applying our approach to a computation we recently implemented: the social security contributions of freelancers. We also explain how we hope this approach can be systematically applied to other computations.
+
+    div
+        --- empty
+
+.c-content.flow-all.limit-42em
+    p Time flies and it's been more than a year since our last blog post. In the meantime, we have (partially) updated the gross-to-net calculation, but otherwise our resources have been consumed by <a href="https://hypered.be/">other commitments</a>.
+
+    p More recently, we've been working on making the layered core of Refli more concrete. The conceptual layers we introduced earlier were computations, data, and legislative texts, where each layer successively rests on top of the next one. Those layers can be seen in the following diagram, on the left half:
+
+    .blog-post-centered-svg
+      include ../../../../static/images/attempting-layers.svg
+
+    p On the right half, we introduce similar layers, but with different names. They map the conceptual layers from the left to their concrete embodiments within Refli, displayed in yellow:
+
+    ul
+      li Starting from the bottom layer, we see that the legislative texts exist within Refli as a mini site called <a href="/en/lex">"Lex Iterata"</a>. We strive to keep Refli URLs well organized; the corresponding URLs here start with <code>/en/lex</code>. Lex Iterata, as presented on Refli, is essentially just a new rendition of texts available elsewhere (particularly on the website of the Official Belgian Journal). But for us working with it, it also exists as files, database, and code to manipulate it, giving us additional possibilities to process it.
+
+      li Moving to the middle layer, we have a small knowledge base, called <a href="/en/concepts">"Concepts"</a>. Its URL is predictably <code>/en/concepts</code>. The knowledge base records small bits of information about the concepts a legislative text describes (such as documents, computations, and variables), and the relationships between them.
+
+      li Finally, the top layer contains the implementation of computations described in the legislative texts. We group those computations and make them available in a mini site called <a href="/en/playground">"Playground"</a>, at the URL <code>/en/playground</code>.
+
+    p While the purpose of Lex Iterata is easy to understand, we will expand on the two other layers in the next sections. To have something concrete to discuss, we'll use a contrived example, presented below. We will also point to a real-life scenario: the computation of social security contributions for freelancers.
+
+    h2 Legislative texts
+
+    p We start at the bottom of the diagram, with legislative texts. For our simple example, we use the made up text <a href="https://refli.be/en/lex/0000000000"><code>0000000000</code></a>:
+
+.c-text.flow-all.limit-42em.blog-post-details
+    .u-container
+        include 0000000000.slab
+
+.c-content.flow-all.limit-42em
+
+    p Working with such a text might remind you of homework from your childhood: you need to carefully read the text, identifying relevant information and dismissing noise.
+
+    p For instance, the sentence in Art. 1. can be discarded as it doesn't specify the computation. On the other hand, the first sentence of Art. 2. introduces two variables and how they should be multiplied together: this is the core of our computation.
+
+    p Moving on to a real-world scenario, the computation of social security contributions is described in the text <a href="https://refli.be/fr/lex/1967072702"><code>1967072702</code></a>, "27 JUILLET 1967. - Arrêté royal n° 38 organisant le statut social des travailleurs indépendants". Other texts appearing each year update some values used in the computation, while the overall description of the computation remains the same (here is a text fixing new values for 2025: <a href="https://refli.be/fr/lex/2024205904"><code>2024205904</code></a>).
+
+    p <b>Note:</b> Some texts, including those mentioned in this section, now contain an additional metadata field: "Refli Concepts ✓". This is the first step we have taken to clearly mark texts that are linked to Refli-specific additional information. This additional information will be introduced in the next section.
+
+    h2 Concepts and their relationship
+
+    p Moving from the legislative texts layer to the knowledge base layer, our goal here is to name and record the concepts we identified earlier, together with their relationships. The concepts typically include the text itself, a computation described in the text, and the variables involved.
+
+    p To name a text, we simply use its number, e.g. <code>1967072702</code>. For computations and variables, we need to be creative. We want short names that can be easily used, for instance, in the source code of a computer program, but we also need to ensure they are distinctive enough within the complete knowledge base we are assembling. In addition to the (technical) name, we also record a more human-friendly short description. (The technical name uses English and should never be translated, while the human-friendly representation should.)
+
+    p Let's assume that we record in our knowledge base that a document titled "Déclaration de revenu indexé" shows one of the variables of the above example computation, say, "Revenu indexé". (This can be done, for instance, by using a relational database with a table called <code>presents</code>, containing two columns, <code>document</code> and <code>variable</code>.) We can use a graphical representation of such a piece of information like this:
+
+    .blog-post-centered-svg
+      include ../../../../static/images/minimal_1.svg
+
+    p The diagram shows a document (a rectangle with a thicker border), and a variable (the ellipsis). Documents are grouped together in a larger rectangle, as are variables (we use a dotted purple border in both cases). In addition, we use a blue arrow to represent the <code>presents</code> relationship.
+
+    p Here is another example, where we show that our above example legislative text, "Article sur le calcul du revenu indexé", specifies the value of a variable called "Fraction d'indexation":
+
+    .blog-post-centered-svg
+      include ../../../../static/images/minimal_2.svg
+
+    p We can also add in our little database some other concepts and relations (computations, describes (to record that a computation is described by a specific text), input and output variables). The complete computation (together with the document that is not described in the above text) looks like this:
+
+    .blog-post-centered-svg
+      include ../../../../static/images/example.svg
+
+    p <b>Note:</b> We don't record explicitly in the database things such as whether a variable is a constant or an intermediate variable. Instead, these characteristics are easily inferred from the recorded knowledge: an output variable that is not presented by any document is only used to structure a computation, and thus is considered an intermediate variable; an input variable that is set by a text is labeled as constant.
+
+    p Returning to our real-world case, the text describes a computation for different scenarios (e.g., whether it applies to a student, an artist, and so on). We view each case as a separate computation and thus create a distinct diagram for each. We also try to identify a "base" case. This can be used as a reference computation, allowing us to specify other cases only where they differ. As one example, you can visit the <a href="https://refli.be/en/concepts/quarterly_selfempl_ssc_base_comp">page for the base case concepts</a>.
+
+    h2 Notes
+
+    p In addition to recording simple facts about a computation in our knowledge base, we also write down a very short summary of the computation. This is much less structured knowledge but still useful for adding context to the page. Such a description is added below the graphical representation on the computation page. Here is the <a href="https://refli.be/en/concepts/indexed_income_comp#description">example computation description</a>.
+
+    p We also use such descriptions to indicate when a computation is one case among multiple cases, and in particular to identify the "base" case.
+
+    h2 Knowledge base
+
+    p A year ago, the (very vague) idea of the Data layer was simply to attach to certain texts a list, for example, of variables. What we have described above is a bit more general: we have created a mini database where we have recorded concepts, relationships, and notes. The result is a knowledge base that we can further process and use as a foundation to build Refli.
+
+    p This representation is extremely simple, yet easy to generalize. For example, we can imagine adding the features we envision for Refli, the different types of users (e.g., accountants and freelancers), operations that can be performed with documents, and who can make them, and so on. With those additional concepts, we can further imagine using the knowledge base as a product roadmap.
+
+    h2 Mini-site generation
+
+    p Once we have recorded the facts we identified within a text and written down a short description for a computation (or for a document), it becomes trivial to automatically generate dedicated web pages: each page contains a graphical representation of its related concepts, the manually written description, and then a more explicit list of its concepts with links to other concept pages.
+
+    p In a way, these pages are redundant with the initial graphic: everything is already stated there. But having these dedicated pages is useful for "zooming in" on a specific part that interests us and can guide us in implementing the described computations.
+
+    h2 Playground
+
+    p Given a legislative text describing a computation, augmented with its knowledge base, our next step is to move to the third layer of Refli's core: the playground.
+
+    p The playground offers implementations of computations: basically, they appear as a form on a web page. For instance, see our example <a href="https://refli.be/en/playground/indexed_income_comp"><code>indexed_income_comp</code></a>.
+
+    p The playground is not meant to be a user-friendly way to run the computations offered by Refli but is there as a documentation tool. Just like the knowledge base, it's principally something we use ourselves to build Refli but make available publicly, hoping it can be useful to others (if it is useful to you, please let us know).
+
+    p One interesting aspect worth mentioning is that just as we could derive whether a variable is a constant or an intermediate variable from the relationships recorded in the knowledge base to render them differently in our diagrams, we can automatically derive the computation forms and the results pages: the forms need to capture user inputs (i.e., input variables that are not constants), and the results can show variables that are "presented" in documents.
+
+    p To properly automate the creation of forms and results pages, we need additional information in our knowledge base: mainly the <i>type</i> of the variables (e.g., whether they are integers or floating point numbers), which is something we would like to add in the future.
+
+    h2 Systematicity
+
+    p The key insight of the presented approach, or at least that's our hope, is that we can use it to systematically implement the legislative texts relevant to Refli.
+
+    p Indeed, a major challenge regarding the implementation of software like Refli is the large quantity of texts and cases described therein, as well as their evolution over time. It is therefore important to structure an approach that we hope can be easily reused.
+
+    p In effect, implementing new legislative texts would require following these steps:
+
+    ul
+      li Identify a relevant legislative text that we want to implement, and add it to the knowledge base.
+      li Identify related texts, and add them to the knowledge base.
+      li Identify, within the above texts, computations (and possibly different cases of those computations), variables, and documents the texts describe, and add them to the knowledge base.
+      li Provide additional notes that appear below the Description title to add context and help drive the implementation later.
+      li Given an updated knowledge base, regenerate the "Concepts" mini site. (Diagrams and most of the specific web pages are derived automatically from the data in the knowledge base.)
+      li Write code to describe the forms associated with the computations. Basic forms can be generated automatically from the knowledge base by determining which variables are computation inputs but are not set to specific values by the legislative texts.
+      li Write code to present the computation results. Again, simple presentations of the results can be generated automatically.
+      li Finally, implement the computations themselves. This is the more challenging task but is made slightly easier with the above documentation.
+
+    h2 Integration
+
+    p Our work on Refli tries to integrate into a single object, the software behind <code>refli.be</code>, everything related to its creation, whether it's the mini database of our knowledge base, the generation of diagrams derived from it, the documentation of calculations, or their use.
+
+    p We can observe this deep integration even on this page: the rendering of images are not simple screenshots copied/pasted into this blog post but are displayed exactly in the same way as you can find them in the Concepts mini-site. We've even integrated the example text of this blog post into Refli, creating its related pages, forms, and actual implementation.
+
+    p The core of Refli is taking shape. As this blog post demonstrates, it already makes concrete three clear conceptual layers and connects them in a coherent whole. The connections are especially practical as they are often links from web pages from one layer to other pages in the same or different layers.
+
+    h2 Challenges and improvements
+
+    p As we continue to develop Refli and solidify its layered architecture, we have identified several challenges and areas for improvement that will guide our future work.
+
+    p A primary enhancement would be to better pinpoint specific articles or paragraphs within legislative texts that relate to our concepts. This granular approach would strengthen the connections between our layers and provide more precise navigation through the system.
+
+    p We also need reliable example data to validate our implementations. It's easy to misinterpret texts or make errors when taking notes or writing code. With trusted examples, we can run automated tests and incorporate these examples into our knowledge base as reference points.
+
+    p Our current knowledge base captures only a snapshot in time, without accounting for legislative evolution. Similarly, Lex Iterata presents only current versions of texts. A key future improvement will be to maintain historical computation versions, allowing users to access and understand implementations as they existed at different points in time.
+
+    p Beyond computations, we aim to enrich our knowledge base with additional concepts crucial for Refli's development as a complete application: personae, access rights, tasks, and more. This expanded concept map could serve as a visual roadmap, complementing existing project management tools.
+
+    p Technical challenges also exist with certain source materials. Some legislative texts push important details into annexes available only as PDFs, or present information in formats resistant to machine processing. Addressing these edge cases will be necessary for comprehensive coverage of Belgian legislation.
+
+    p By systematically addressing these challenges – just as we've approached our layered architecture – we believe we can continue expanding Refli's capabilities while maintaining its coherent foundation.
