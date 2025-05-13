@@ -7,7 +7,7 @@
             dd 00-00-0000
             dt Nummer
             dd 0000000000
-            dt <dfn title="This text is present in the Refli knowledge base">Refli Concepts ✓</dfn>
+            dt <dfn title="Deze tekst is te vinden in de Refli kennisbank">Refli Concepts ✓</dfn>
             dd <a href="/en/concepts">Bekijk in de kennisbank</a>
 
     p

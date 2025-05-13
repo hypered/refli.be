@@ -9,7 +9,7 @@
         --- empty
 
 .c-content.flow-all.limit-42em
-    p Time flies and it's been more than a year since our last blog post. In the meantime, we have (partially) updated the gross-to-net calculation, but otherwise our resources have been consumed by <a href="https://hypered.be/">other commitments</a>.
+    p Time flies and it's been more than a year since our last blog post. In the meantime, we have (partially) updated the gross-to-net calculation, but otherwise our resources have been consumed by <a href="https://hypered.be/en/">other commitments</a>.
 
     p More recently, we've been working on making the layered core of Refli more concrete. The conceptual layers we introduced earlier were computations, data, and legislative texts, where each layer successively rests on top of the next one. Those layers can be seen in the following diagram, on the left half:
 

@@ -1,0 +1,147 @@
+.c-content.flow-all
+    h1 Vers une approche systématique
+    small.breadcrumb 2025-05-14
+.switcher
+    .flow-all
+        p Dans notre <a href="https://refli.be/fr/blog/2024/01/19/introducing-refli">précédent billet de blog</a>, nous avons décrit comment nous envisagions un noyau solide à trois couches comme fondement de Refli. Dans ce billet, nous expliquons comment nous rendons les deuxième et troisième couches plus concrètes. Nous utilisons un exemple simple avant d'appliquer notre approche à un calcul que nous avons récemment implémenté : les cotisations sociales des indépendants. Nous expliquons également comment nous espérons que cette approche pourra être appliquée systématiquement à d'autres calculs.
+
+    div
+        --- empty
+
+.c-content.flow-all.limit-42em
+    p Le temps passe vite et cela fait plus d'un an depuis notre dernier billet de blog. Entre-temps, nous avons (partiellement) mis à jour le calcul du brut au net, mais nos ressources ont par ailleurs été absorbées par <a href="https://hypered.be/">d'autres engagements</a>.
+
+    p Plus récemment, nous avons travaillé à rendre le noyau en couches de Refli plus concret. Les couches conceptuelles que nous avions présentées précédemment étaient les calculs, les données et les textes législatifs, chaque couche reposant successivement sur la suivante. Ces couches sont visibles dans le diagramme suivant, sur la moitié gauche :
+
+    .blog-post-centered-svg
+      include ../../../../static/images/attempting-layers.svg
+
+    p Sur la moitié droite, nous introduisons des couches similaires, mais avec des noms différents. Elles correspondent aux couches conceptuelles de gauche dans leurs incarnations concrètes au sein de Refli, affichées en jaune :
+
+    ul
+      li En partant de la couche inférieure, nous voyons que les textes législatifs existent au sein de Refli sous forme d'un mini-site appelé <a href="/fr/lex">"Lex Iterata"</a>. Nous nous efforçons de maintenir les URL de Refli bien organisées ; les URL correspondantes commencent ici par <code>/fr/lex</code>. Lex Iterata, tel que présenté sur Refli, est essentiellement une nouvelle présentation de textes disponibles ailleurs (notamment sur le site du Moniteur belge). Mais pour nous qui travaillons avec, il existe également sous forme de fichiers, de base de données et de code pour le manipuler, ce qui nous donne des possibilités supplémentaires pour le traiter.
+
+      li Passant à la couche intermédiaire, nous avons une petite base de connaissances, appelée <a href="/en/concepts">"Concepts"</a>. Son URL est logiquement <code>/en/concepts</code> (ces pages ne sont disponibles qu'en anglais). Cette base de connaissances enregistre de petits éléments d'information sur les concepts qu'un texte législatif décrit (tels que les documents, les calculs et les variables), et les relations entre eux.
+
+      li Enfin, la couche supérieure contient l'implémentation des calculs décrits dans les textes législatifs. Nous regroupons ces calculs et les rendons disponibles dans un mini-site appelé <a href="/en/playground">"Playground"</a>, à l'URL <code>/en/playground</code>.
+
+    p Bien que l'objectif de Lex Iterata soit facile à comprendre, nous allons développer les deux autres couches dans les sections suivantes. Pour avoir quelque chose de concret à discuter, nous utiliserons un exemple artificiel, présenté ci-dessous. Nous ferons également référence à un scénario réel : le calcul des cotisations sociales des indépendants.
+
+    h2 Textes législatifs
+
+    p Nous commençons au bas du diagramme, avec les textes législatifs. Pour notre exemple simple, nous utilisons le texte fictif <a href="https://refli.be/fr/lex/0000000000"><code>0000000000</code></a> :
+
+.c-text.flow-all.limit-42em.blog-post-details
+    .u-container
+        include 0000000000.slab
+
+.c-content.flow-all.limit-42em
+
+    p Travailler avec un tel texte pourrait vous rappeler les devoirs de votre enfance : vous devez lire attentivement le texte, en identifiant les informations pertinentes et en écartant le bruit.
+
+    p Par exemple, la phrase de l'Art. 1. peut être écartée car elle ne spécifie pas le calcul. D'autre part, la première phrase de l'Art. 2. introduit deux variables et comment elles doivent être multipliées ensemble : c'est le cœur de notre calcul.
+
+    p Passant à un scénario réel, le calcul des cotisations sociales est décrit dans le texte <a href="https://refli.be/fr/lex/1967072702"><code>1967072702</code></a>, "27 JUILLET 1967. - Arrêté royal n° 38 organisant le statut social des travailleurs indépendants". D'autres textes apparaissant chaque année mettent à jour certaines valeurs utilisées dans le calcul, tandis que la description globale du calcul reste la même (voici un texte fixant de nouvelles valeurs pour 2025 : <a href="https://refli.be/fr/lex/2024205904"><code>2024205904</code></a>).
+
+    p <b>Note :</b> Certains textes, y compris ceux mentionnés dans cette section, contiennent maintenant un champ de métadonnées supplémentaire : "Refli Concepts ✓". C'est la première étape que nous avons prise pour marquer clairement les textes liés à des informations additionnelles spécifiques à Refli. Ces informations additionnelles seront présentées dans la section suivante.
+
+    h2 Concepts et leurs relations
+
+    p En passant de la couche des textes législatifs à la couche de la base de connaissances, notre objectif est de nommer et d'enregistrer les concepts que nous avons identifiés précédemment, ainsi que leurs relations. Les concepts incluent généralement le texte lui-même, un calcul décrit dans le texte et les variables impliquées.
+
+    p Pour nommer un texte, nous utilisons simplement son numéro, par exemple <code>1967072702</code>. Pour les calculs et les variables, nous devons être créatifs. Nous voulons des noms courts qui peuvent être facilement utilisés, par exemple, dans le code source d'un programme informatique, mais nous devons également nous assurer qu'ils sont suffisamment distinctifs au sein de la base de connaissances complète que nous assemblons. En plus du nom (technique), nous enregistrons également une description courte plus conviviale. (Le nom technique utilise l'anglais et ne devrait jamais être traduit, tandis que la représentation conviviale devrait l'être.)
+
+    p Supposons que nous enregistrions dans notre base de connaissances qu'un document intitulé "Déclaration de revenu indexé" présente l'une des variables du calcul de l'exemple ci-dessus, disons, "Revenu indexé". (Cela peut être fait, par exemple, en utilisant une base de données relationnelle avec une table appelée <code>presents</code>, contenant deux colonnes, <code>document</code> et <code>variable</code>.) Nous pouvons utiliser une représentation graphique d'une telle information comme celle-ci :
+
+    .blog-post-centered-svg
+      include ../../../../static/images/minimal_1.svg
+
+    p Le diagramme montre un document (un rectangle avec une bordure plus épaisse) et une variable (l'ellipse). Les documents sont regroupés dans un rectangle plus grand, tout comme les variables (nous utilisons une bordure violette en pointillés dans les deux cas). De plus, nous utilisons une flèche bleue pour représenter la relation <code>presents</code>.
+
+    p Voici un autre exemple, où nous montrons que notre texte législatif d'exemple ci-dessus, "Article sur le calcul du revenu indexé", spécifie la valeur d'une variable appelée "Fraction d'indexation" :
+
+    .blog-post-centered-svg
+      include ../../../../static/images/minimal_2.svg
+
+    p Nous pouvons également ajouter dans notre petite base de données d'autres concepts et relations (calculs, describes (pour enregistrer qu'un calcul est décrit par un texte spécifique), variables d'entrée et de sortie). Le calcul complet (avec le document qui n'est pas décrit dans le texte ci-dessus) ressemble à ceci :
+
+    .blog-post-centered-svg
+      include ../../../../static/images/example.svg
+
+    p <b>Note :</b> Nous n'enregistrons pas explicitement dans la base de données des éléments tels que si une variable est une constante ou une variable intermédiaire. Au lieu de cela, ces caractéristiques sont facilement déduites des connaissances enregistrées : une variable de sortie qui n'est présentée par aucun document est uniquement utilisée pour structurer un calcul, et est donc considérée comme une variable intermédiaire ; une variable d'entrée qui est définie par un texte est étiquetée comme constante.
+
+    p Revenant à notre cas réel, le texte décrit un calcul pour différents scénarios (par exemple, s'il s'applique à un étudiant, un artiste, etc.). Nous considérons chaque cas comme un calcul distinct et créons donc un diagramme distinct pour chacun. Nous essayons également d'identifier un cas "de base". Celui-ci peut être utilisé comme calcul de référence, nous permettant de spécifier d'autres cas uniquement là où ils diffèrent. Comme exemple, vous pouvez visiter la <a href="https://refli.be/en/concepts/quarterly_selfempl_ssc_base_comp">page pour les concepts du cas de base</a>.
+
+    h2 Notes
+
+    p En plus d'enregistrer des faits simples sur un calcul dans notre base de connaissances, nous rédigeons également un très court résumé du calcul. Il s'agit d'une connaissance beaucoup moins structurée, mais néanmoins utile pour ajouter du contexte à la page. Une telle description est ajoutée sous la représentation graphique sur la page de calcul. Voici la <a href="https://refli.be/en/concepts/indexed_income_comp#description">description du calcul d'exemple</a>.
+
+    p Nous utilisons également ces descriptions pour indiquer quand un calcul est un cas parmi plusieurs, et en particulier pour identifier le cas "de base".
+
+    h2 Base de connaissances
+
+    p Il y a un an, l'idée (très vague) de la couche de Données consistait simplement à attacher à certains textes une liste, par exemple, de variables. Ce que nous avons décrit ci-dessus est un peu plus général : nous avons créé une mini base de données où nous avons enregistré des concepts, des relations et des notes. Le résultat est une base de connaissances que nous pouvons traiter davantage et utiliser comme fondement pour construire Refli.
+
+    p Cette représentation est extrêmement simple, mais facile à généraliser. Par exemple, nous pouvons imaginer ajouter les fonctionnalités que nous envisageons pour Refli, les différents types d'utilisateurs (par exemple, les comptables et les indépendants), les opérations qui peuvent être effectuées avec des documents, et qui peut les réaliser, etc. Avec ces concepts supplémentaires, nous pouvons imaginer utiliser la base de connaissances comme une feuille de route pour le produit.
+
+    h2 Génération de mini-site
+
+    p Une fois que nous avons enregistré les faits que nous avons identifiés dans un texte et rédigé une courte description pour un calcul (ou pour un document), il devient trivial de générer automatiquement des pages web dédiées : chaque page contient une représentation graphique de ses concepts liés, la description rédigée manuellement, puis une liste plus explicite de ses concepts avec des liens vers d'autres pages de concepts.
+
+    p D'une certaine manière, ces pages sont redondantes avec le graphique initial : tout y est déjà indiqué. Mais avoir ces pages dédiées est utile pour "zoomer" sur une partie spécifique qui nous intéresse et peut nous guider dans l'implémentation des calculs décrits.
+
+    p <b>Note :</b> pour rappel, voici <a href="https://refli.be/en/concepts/indexed_income_comp">la page pour notre calcul d'exemple</a>, et <a href="https://refli.be/en/concepts/quarterly_selfempl_ssc_base_comp">la page pour notre cas réel</a>.
+
+    h2 Playground
+
+    p Étant donné un texte législatif décrivant un calcul, augmenté de sa base de connaissances, notre prochaine étape consiste à passer à la troisième couche du noyau de Refli : le playground.
+
+    p Le playground offre des implémentations de calculs : fondamentalement, ils apparaissent sous forme de formulaire sur une page web. Par exemple, voir notre exemple <a href="https://refli.be/en/playground/indexed_income_comp"><code>indexed_income_comp</code></a> ou <a href="https://refli.be/en/playground/quarterly_selfempl_ssc_base_comp">le cas réel</a>.
+
+    p Le playground n'est pas destiné à être un moyen convivial d'exécuter les calculs offerts par Refli, mais est présent comme un outil de documentation. Tout comme la base de connaissances, c'est principalement quelque chose que nous utilisons nous-mêmes pour construire Refli mais que nous rendons disponible publiquement, espérant que cela puisse être utile à d'autres (si c'est le cas pour vous, veuillez nous le faire savoir).
+
+    p Un aspect intéressant à mentionner est que, tout comme nous pouvions déduire si une variable est une constante ou une variable intermédiaire à partir des relations enregistrées dans la base de connaissances pour les représenter différemment dans nos diagrammes, nous pouvons dériver automatiquement les formulaires de calcul et les pages de résultats : les formulaires doivent capturer les entrées utilisateur (c'est-à-dire les variables d'entrée qui ne sont pas des constantes), et les résultats peuvent montrer les variables qui sont "présentées" dans les documents.
+
+    p Pour automatiser correctement la création de formulaires et de pages de résultats, nous avons besoin d'informations supplémentaires dans notre base de connaissances : principalement le <i>type</i> des variables (par exemple, s'il s'agit d'entiers ou de nombres à virgule flottante), ce que nous aimerions ajouter à l'avenir.
+
+    h2 Systématicité
+
+    p L'idée clé de l'approche présentée, ou du moins c'est notre espoir, est que nous pouvons l'utiliser pour implémenter systématiquement les textes législatifs pertinents pour Refli.
+
+    p En effet, un défi majeur concernant l'implémentation d'un logiciel comme Refli est la grande quantité de textes et de cas qui y sont décrits, ainsi que leur évolution dans le temps. Il est donc important de structurer une approche que nous espérons pouvoir facilement réutiliser.
+
+    p En pratique, l'implémentation de nouveaux textes législatifs nécessiterait de suivre ces étapes :
+
+    ul
+      li Identifier un texte législatif pertinent que nous voulons implémenter, et l'ajouter à la base de connaissances.
+      li Identifier les textes connexes, et les ajouter à la base de connaissances.
+      li Identifier, dans les textes ci-dessus, les calculs (et éventuellement différents cas de ces calculs), les variables et les documents que les textes décrivent, et les ajouter à la base de connaissances.
+      li Fournir des notes supplémentaires qui apparaissent sous le titre Description pour ajouter du contexte et aider à orienter l'implémentation ultérieure.
+      li Étant donné une base de connaissances mise à jour, régénérer le mini-site "Concepts". (Les diagrammes et la plupart des pages web spécifiques sont dérivés automatiquement des données de la base de connaissances.)
+      li Écrire du code pour décrire les formulaires associés aux calculs. Les formulaires de base peuvent être générés automatiquement à partir de la base de connaissances en déterminant quelles variables sont des entrées de calcul mais ne sont pas définies à des valeurs spécifiques par les textes législatifs.
+      li Écrire du code pour présenter les résultats du calcul. Encore une fois, des présentations simples des résultats peuvent être générées automatiquement.
+      li Enfin, implémenter les calculs eux-mêmes. C'est la tâche la plus difficile, mais elle est légèrement facilitée par la documentation ci-dessus.
+
+    h2 Intégration
+
+    p Notre travail sur Refli essaie d'intégrer dans un seul objet, le logiciel derrière <code>refli.be</code>, tout ce qui est lié à sa création, qu'il s'agisse de la mini base de données de notre base de connaissances, de la génération de diagrammes qui en découlent, de la documentation des calculs, ou de leur utilisation.
+
+    p Nous pouvons observer cette intégration profonde même sur cette page : le rendu des images ne sont pas de simples captures d'écran copiées/collées dans ce billet de blog, mais sont affichées exactement de la même manière que vous pouvez les trouver dans le mini-site Concepts. Nous avons même intégré le texte d'exemple de ce billet de blog dans Refli, créant ses pages associées, ses formulaires et son implémentation réelle.
+
+    p Le noyau de Refli prend forme. Comme le démontre ce billet de blog, il concrétise déjà trois couches conceptuelles claires et les relie en un tout cohérent. Les connexions sont particulièrement pratiques car il s'agit souvent de liens à partir de pages web d'une couche vers d'autres pages de la même couche ou de couches différentes.
+
+    h2 Défis et améliorations
+
+    p Alors que nous continuons à développer Refli et à solidifier son architecture en couches, nous avons identifié plusieurs défis et domaines d'amélioration qui guideront notre travail futur.
+
+    p Une amélioration principale consisterait à mieux cibler des articles ou paragraphes spécifiques au sein des textes législatifs qui se rapportent à nos concepts. Cette approche granulaire renforcerait les connexions entre nos couches et fournirait une navigation plus précise à travers le système.
+
+    p Nous avons également besoin de données d'exemple fiables pour valider nos implémentations. Il est facile de mal interpréter les textes ou de faire des erreurs lors de la prise de notes ou de l'écriture de code. Avec des exemples de confiance, nous pouvons exécuter des tests automatisés et incorporer ces exemples dans notre base de connaissances comme points de référence.
+
+    p Notre base de connaissances actuelle capture seulement un instantané dans le temps, sans tenir compte de l'évolution législative. De même, Lex Iterata présente uniquement les versions actuelles des textes. Une amélioration future clé sera de maintenir des versions historiques des calculs, permettant aux utilisateurs d'accéder et de comprendre les implémentations telles qu'elles existaient à différents moments.
+
+    p Au-delà des calculs, nous visons à enrichir notre base de connaissances avec des concepts supplémentaires cruciaux pour le développement de Refli en tant qu'application complète : personae, droits d'accès, tâches, et plus encore. Cette carte conceptuelle élargie pourrait servir de feuille de route visuelle, complétant les outils de gestion de projet existants.
+
+    p Des défis techniques existent également avec certains matériaux source. Certains textes législatifs relèguent des détails importants dans des annexes disponibles uniquement sous forme de PDF, ou présentent des informations dans des formats résistants au traitement automatique. Aborder ces cas particuliers sera nécessaire pour une couverture complète de la législation belge.
+
+    p En abordant systématiquement ces défis – tout comme nous avons abordé notre architecture en couches – nous croyons que nous pouvons continuer à élargir les capacités de Refli tout en maintenant son fondement cohérent.

@@ -1,7 +1,7 @@
 include ../../layouts/page-nl.slab
 page("/nl/lex/0000000000")
     with canonical
-        link(rel="canonical", href="https://refli.be/nl/lex/0000000000")
+        link(rel="canonical", href="https://refli.be/fr/lex/0000000000")
 
     with titl
         title Lex Iterata

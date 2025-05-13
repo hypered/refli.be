@@ -1,0 +1,9 @@
+include ../../../../../layouts/page-fr.slab
+page("/blog/2025/05/14/systematic-approach")
+    with canonical
+        link(rel="canonical", href="https://refli.be/en/blog/2025/05/14/systematic-approach")
+
+    with titl
+        title Vers une approche systématique
+
+    include ../../../../../partials/fr/blog/systematic-approach.slab

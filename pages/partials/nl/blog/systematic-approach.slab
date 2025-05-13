@@ -1,0 +1,147 @@
+.c-content.flow-all
+    h1 Naar een systematische aanpak
+    small.breadcrumb 2025-05-14
+.switcher
+    .flow-all
+        p In onze <a href="https://refli.be/nl/blog/2024/01/19/introducing-refli">vorige blogpost</a> hebben we beschreven hoe we een solide drielaagse kern als fundament voor Refli voor ogen hadden. In deze blogpost leggen we uit hoe we de tweede en derde laag concreter maken. We gebruiken een eenvoudig doorlopend voorbeeld voordat we onze aanpak toepassen op een berekening die we onlangs hebben geïmplementeerd: de sociale zekerheidsbijdragen van freelancers. We leggen ook uit hoe we hopen dat deze aanpak systematisch kan worden toegepast op andere berekeningen.
+
+    div
+        --- empty
+
+.c-content.flow-all.limit-42em
+    p De tijd vliegt en het is meer dan een jaar geleden sinds onze laatste blogpost. In de tussentijd hebben we de bruto-netto berekening (gedeeltelijk) bijgewerkt, maar verder zijn onze middelen opgeslokt door <a href="https://hypered.be/en/">andere verplichtingen</a>.
+
+    p Meer recent hebben we gewerkt aan het concreter maken van de gelaagde kern van Refli. De conceptuele lagen die we eerder introduceerden waren berekeningen, gegevens en wetgevende teksten, waarbij elke laag achtereenvolgens op de volgende rust. Die lagen zijn te zien in het volgende diagram, in de linkerhelft:
+
+    .blog-post-centered-svg
+      include ../../../../static/images/attempting-layers.svg
+
+    p In de rechterhelft introduceren we vergelijkbare lagen, maar met andere namen. Ze brengen de conceptuele lagen van links in kaart met hun concrete belichamingen binnen Refli, in geel weergegeven:
+
+    ul
+      li Beginnend bij de onderste laag zien we dat de wetgevende teksten binnen Refli bestaan als een mini-site genaamd <a href="/nl/lex">"Lex Iterata"</a>. We streven ernaar om Refli URL's goed georganiseerd te houden; de corresponderende URL's beginnen hier met <code>/nl/lex</code>. Lex Iterata, zoals gepresenteerd op Refli, is in wezen slechts een nieuwe weergave van teksten die elders beschikbaar zijn (met name op de website van het Belgisch Staatsblad). Maar voor ons die ermee werken, bestaat het ook als bestanden, database en code om het te manipuleren, wat ons extra mogelijkheden geeft om het te verwerken.
+
+      li Verplaatsend naar de middelste laag, hebben we een kleine kennisbank, genaamd <a href="/en/concepts">"Concepts"</a>. De URL is voorspelbaar <code>/en/concepts</code> (deze pagina's zijn alleen beschikbaar in het Engels). De kennisbank registreert kleine informatiedeeltjes over de concepten die een wetgevende tekst beschrijft (zoals documenten, berekeningen en variabelen), en de relaties daartussen.
+
+      li Ten slotte bevat de bovenste laag de implementatie van berekeningen die in de wetgevende teksten worden beschreven. We groeperen deze berekeningen en maken ze beschikbaar in een mini-site genaamd <a href="/en/playground">"Playground"</a>, op de URL <code>/en/playground</code>.
+
+    p Hoewel het doel van Lex Iterata gemakkelijk te begrijpen is, zullen we in de volgende secties dieper ingaan op de twee andere lagen. Om iets concreets te bespreken, gebruiken we een kunstmatig voorbeeld, hieronder gepresenteerd. We zullen ook verwijzen naar een scenario uit de praktijk: de berekening van sociale zekerheidsbijdragen voor freelancers.
+
+    h2 Wetgevende teksten
+
+    p We beginnen onderaan het diagram, met wetgevende teksten. Voor ons eenvoudige voorbeeld gebruiken we de verzonnen tekst <a href="https://refli.be/nl/lex/0000000000"><code>0000000000</code></a>:
+
+.c-text.flow-all.limit-42em.blog-post-details
+    .u-container
+        include 0000000000.slab
+
+.c-content.flow-all.limit-42em
+
+    p Het werken met zo'n tekst kan je doen denken aan huiswerk uit je kindertijd: je moet de tekst zorgvuldig lezen, relevante informatie identificeren en ruis negeren.
+
+    p Bijvoorbeeld, de zin in Art. 1. kan worden weggelaten omdat deze de berekening niet specificeert. Aan de andere kant introduceert de eerste zin van Art. 2. twee variabelen en hoe ze met elkaar moeten worden vermenigvuldigd: dit is de kern van onze berekening.
+
+    p Overgaand naar een praktijkscenario, wordt de berekening van sociale zekerheidsbijdragen beschreven in de tekst <a href="https://refli.be/nl/lex/1967072702"><code>1967072702</code></a>, "27 JULI 1967. - Koninklijk besluit nr. 38 houdende inrichting van het sociaal statuut der zelfstandigen". Andere teksten die elk jaar verschijnen, werken sommige waarden bij die in de berekening worden gebruikt, terwijl de algemene beschrijving van de berekening hetzelfde blijft (hier is een tekst die nieuwe waarden voor 2025 vaststelt: <a href="https://refli.be/nl/lex/2024205904"><code>2024205904</code></a>).
+
+    p <b>Opmerking:</b> Sommige teksten, waaronder die in deze sectie worden genoemd, bevatten nu een extra metadataveld: "Refli Concepts ✓". Dit is de eerste stap die we hebben genomen om teksten duidelijk te markeren die gekoppeld zijn aan Refli-specifieke aanvullende informatie. Deze aanvullende informatie wordt in de volgende sectie geïntroduceerd.
+
+    h2 Concepten en hun relaties
+
+    p Bij de overgang van de laag van wetgevende teksten naar de kennisbanklaag is ons doel om de concepten die we eerder hebben geïdentificeerd te benoemen en vast te leggen, samen met hun relaties. De concepten omvatten typisch de tekst zelf, een berekening beschreven in de tekst, en de betrokken variabelen.
+
+    p Om een tekst te benoemen, gebruiken we simpelweg het nummer, bijvoorbeeld <code>1967072702</code>. Voor berekeningen en variabelen moeten we creatief zijn. We willen korte namen die gemakkelijk kunnen worden gebruikt, bijvoorbeeld in de broncode van een computerprogramma, maar we moeten er ook voor zorgen dat ze voldoende onderscheidend zijn binnen de complete kennisbank die we samenstellen. Naast de (technische) naam leggen we ook een meer gebruiksvriendelijke korte beschrijving vast. (De technische naam gebruikt Engels en mag nooit worden vertaald, terwijl de gebruiksvriendelijke weergave dat wel zou moeten.)
+
+    p Laten we aannemen dat we in onze kennisbank vastleggen dat een document met de titel "Aangifte van geïndexeerd inkomen" een van de variabelen van de bovenstaande voorbeeldberekening toont, zeg, "Geïndexeerd inkomen". (Dit kan bijvoorbeeld worden gedaan door een relationele database te gebruiken met een tabel genaamd <code>presents</code>, met twee kolommen, <code>document</code> en <code>variabele</code>.) We kunnen een grafische voorstelling van zo'n stukje informatie gebruiken zoals deze:
+
+    .blog-post-centered-svg
+      include ../../../../static/images/minimal_1.svg
+
+    p Het diagram toont een document (een rechthoek met een dikkere rand) en een variabele (de ellips). Documenten worden gegroepeerd in een grotere rechthoek, net als variabelen (we gebruiken in beide gevallen een paarse stippellijn). Daarnaast gebruiken we een blauwe pijl om de relatie <code>presents</code> weer te geven.
+
+    p Hier is een ander voorbeeld, waar we laten zien dat onze bovenstaande voorbeeld wetgevende tekst, "Artikel over de berekening van geïndexeerd inkomen", de waarde van een variabele genaamd "Indexeringsfractie" specificeert:
+
+    .blog-post-centered-svg
+      include ../../../../static/images/minimal_2.svg
+
+    p We kunnen ook in onze kleine database andere concepten en relaties toevoegen (berekeningen, describes (om vast te leggen dat een berekening wordt beschreven door een specifieke tekst), invoer- en uitvoervariabelen). De volledige berekening (samen met het document dat niet in de bovenstaande tekst wordt beschreven) ziet er zo uit:
+
+    .blog-post-centered-svg
+      include ../../../../static/images/example.svg
+
+    p <b>Opmerking:</b> We leggen in de database niet expliciet zaken vast zoals of een variabele een constante of een tussenliggende variabele is. In plaats daarvan worden deze kenmerken gemakkelijk afgeleid uit de geregistreerde kennis: een uitvoervariabele die niet door een document wordt gepresenteerd, wordt alleen gebruikt om een berekening te structureren en wordt dus beschouwd als een tussenliggende variabele; een invoervariabele die door een tekst wordt ingesteld, wordt gelabeld als constante.
+
+    p Terugkomend op ons praktijkgeval, beschrijft de tekst een berekening voor verschillende scenario's (bijvoorbeeld of het van toepassing is op een student, een kunstenaar, enzovoort). We beschouwen elk geval als een afzonderlijke berekening en maken dus voor elk een apart diagram. We proberen ook een "basis" geval te identificeren. Dit kan worden gebruikt als een referentieberekening, waardoor we andere gevallen alleen kunnen specificeren waar ze verschillen. Als een voorbeeld kunt u de <a href="https://refli.be/en/concepts/quarterly_selfempl_ssc_base_comp">pagina voor de basisconcepten</a> bezoeken.
+
+    h2 Aantekeningen
+
+    p Naast het vastleggen van eenvoudige feiten over een berekening in onze kennisbank, schrijven we ook een zeer korte samenvatting van de berekening. Dit is veel minder gestructureerde kennis, maar nog steeds nuttig voor het toevoegen van context aan de pagina. Een dergelijke beschrijving wordt toegevoegd onder de grafische weergave op de berekeningspagina. Hier is de <a href="https://refli.be/en/concepts/indexed_income_comp#description">beschrijving van de voorbeeldberekening</a>.
+
+    p We gebruiken dergelijke beschrijvingen ook om aan te geven wanneer een berekening één geval is onder meerdere gevallen, en in het bijzonder om het "basis" geval te identificeren.
+
+    h2 Kennisbank
+
+    p Een jaar geleden was het (zeer vage) idee van de Gegevenslaag simpelweg om aan bepaalde teksten een lijst te koppelen, bijvoorbeeld van variabelen. Wat we hierboven hebben beschreven is iets algemener: we hebben een mini-database gemaakt waarin we concepten, relaties en aantekeningen hebben vastgelegd. Het resultaat is een kennisbank die we verder kunnen verwerken en gebruiken als fundament om Refli te bouwen.
+
+    p Deze representatie is uiterst eenvoudig, maar gemakkelijk te generaliseren. We kunnen bijvoorbeeld denken aan het toevoegen van de functies die we voor Refli voorzien, de verschillende typen gebruikers (bijvoorbeeld boekhouders en freelancers), operaties die met documenten kunnen worden uitgevoerd, en wie ze kan maken, enzovoort. Met deze extra concepten kunnen we ons verder voorstellen de kennisbank te gebruiken als een productroadmap.
+
+    h2 Mini-site generatie
+
+    p Zodra we de feiten hebben vastgelegd die we binnen een tekst hebben geïdentificeerd en een korte beschrijving hebben geschreven voor een berekening (of voor een document), wordt het triviaal om automatisch speciale webpagina's te genereren: elke pagina bevat een grafische weergave van de gerelateerde concepten, de handmatig geschreven beschrijving, en vervolgens een meer expliciete lijst van zijn concepten met links naar andere conceptpagina's.
+
+    p In zekere zin zijn deze pagina's redundant met de initiële grafiek: alles wordt daar al vermeld. Maar het hebben van deze speciale pagina's is nuttig voor het "inzoomen" op een specifiek deel dat ons interesseert en kan ons leiden bij het implementeren van de beschreven berekeningen.
+
+    p <b>Opmerking:</b> ter herinnering, hier zijn <a href="https://refli.be/en/concepts/indexed_income_comp">de pagina voor onze voorbeeldberekening</a>, en <a href="https://refli.be/en/concepts/quarterly_selfempl_ssc_base_comp">de pagina voor ons praktijkgeval</a>.
+
+    h2 Playground
+
+    p Gegeven een wetgevende tekst die een berekening beschrijft, aangevuld met zijn kennisbank, is onze volgende stap om naar de derde laag van Refli's kern te gaan: de playground.
+
+    p De playground biedt implementaties van berekeningen: in feite verschijnen ze als een formulier op een webpagina. Zie bijvoorbeeld ons voorbeeld <a href="https://refli.be/en/playground/indexed_income_comp"><code>indexed_income_comp</code></a> of <a href="https://refli.be/en/playground/quarterly_selfempl_ssc_base_comp">het praktijkgeval</a>.
+
+    p De playground is niet bedoeld als een gebruiksvriendelijke manier om de berekeningen uit te voeren die Refli aanbiedt, maar is er als een documentatietool. Net als de kennisbank is het vooral iets dat we zelf gebruiken om Refli te bouwen maar publiekelijk beschikbaar maken, in de hoop dat het nuttig kan zijn voor anderen (als het nuttig voor je is, laat het ons dan weten).
+
+    p Een interessant aspect dat het vermelden waard is, is dat, net zoals we konden afleiden of een variabele een constante of een tussenliggende variabele is uit de relaties die zijn vastgelegd in de kennisbank om ze anders weer te geven in onze diagrammen, we automatisch de berekeningsformulieren en de resultatenpagina's kunnen afleiden: de formulieren moeten gebruikersinvoer vastleggen (d.w.z. invoervariabelen die geen constanten zijn), en de resultaten kunnen variabelen tonen die in documenten worden "gepresenteerd".
+
+    p Om de creatie van formulieren en resultatenpagina's goed te automatiseren, hebben we aanvullende informatie nodig in onze kennisbank: voornamelijk het <i>type</i> van de variabelen (bijv. of het gehele getallen of drijvende-kommagetallen zijn), wat we in de toekomst zouden willen toevoegen.
+
+    h2 Systematiek
+
+    p Het belangrijkste inzicht van de gepresenteerde aanpak, of althans dat is onze hoop, is dat we het kunnen gebruiken om systematisch de wetgevende teksten te implementeren die relevant zijn voor Refli.
+
+    p Inderdaad, een grote uitdaging met betrekking tot de implementatie van software zoals Refli is de grote hoeveelheid teksten en gevallen die daarin worden beschreven, evenals hun evolutie in de tijd. Het is daarom belangrijk om een aanpak te structureren die we hopen gemakkelijk hergebruikt kan worden.
+
+    p In feite zou het implementeren van nieuwe wetgevende teksten de volgende stappen vereisen:
+
+    ul
+      li Identificeer een relevante wetgevende tekst die we willen implementeren, en voeg deze toe aan de kennisbank.
+      li Identificeer gerelateerde teksten, en voeg deze toe aan de kennisbank.
+      li Identificeer, binnen de bovenstaande teksten, berekeningen (en mogelijk verschillende gevallen van die berekeningen), variabelen, en documenten die de teksten beschrijven, en voeg deze toe aan de kennisbank.
+      li Geef aanvullende aantekeningen die onder de titel Beschrijving verschijnen om context toe te voegen en later de implementatie te helpen sturen.
+      li Op basis van een bijgewerkte kennisbank, regenereer de "Concepts" mini-site. (Diagrammen en de meeste specifieke webpagina's worden automatisch afgeleid van de gegevens in de kennisbank.)
+      li Schrijf code om de formulieren te beschrijven die bij de berekeningen horen. Basisformulieren kunnen automatisch worden gegenereerd vanuit de kennisbank door te bepalen welke variabelen berekeningsinvoer zijn maar niet zijn ingesteld op specifieke waarden door de wetgevende teksten.
+      li Schrijf code om de berekeningsresultaten te presenteren. Ook hier kunnen eenvoudige presentaties van de resultaten automatisch worden gegenereerd.
+      li Ten slotte, implementeer de berekeningen zelf. Dit is de meer uitdagende taak, maar wordt enigszins vergemakkelijkt door de bovenstaande documentatie.
+
+    h2 Integratie
+
+    p Ons werk aan Refli probeert in één enkel object, de software achter <code>refli.be</code>, alles te integreren wat gerelateerd is aan de creatie ervan, of het nu gaat om de mini-database van onze kennisbank, de generatie van diagrammen die daaruit worden afgeleid, de documentatie van berekeningen, of het gebruik ervan.
+
+    p We kunnen deze diepe integratie zelfs op deze pagina observeren: de weergave van afbeeldingen zijn geen eenvoudige screenshots die in deze blogpost zijn gekopieerd/geplakt, maar worden precies op dezelfde manier weergegeven als je ze kunt vinden in de Concepts mini-site. We hebben zelfs de voorbeeldtekst van deze blogpost geïntegreerd in Refli, met bijbehorende pagina's, formulieren en de werkelijke implementatie.
+
+    p De kern van Refli begint vorm te krijgen. Zoals deze blogpost aantoont, maakt het al drie duidelijke conceptuele lagen concreet en verbindt ze in een samenhangend geheel. De verbindingen zijn bijzonder praktisch omdat het vaak links zijn van webpagina's van de ene laag naar andere pagina's in dezelfde of verschillende lagen.
+
+    h2 Uitdagingen en verbeteringen
+
+    p Terwijl we doorgaan met het ontwikkelen van Refli en het verstevigen van de gelaagde architectuur, hebben we verschillende uitdagingen en verbeteringsgebieden geïdentificeerd die ons toekomstige werk zullen sturen.
+
+    p Een primaire verbetering zou zijn om specifieke artikelen of paragrafen binnen wetgevende teksten die betrekking hebben op onze concepten beter te kunnen aanwijzen. Deze granulaire aanpak zou de verbindingen tussen onze lagen versterken en een meer precieze navigatie door het systeem bieden.
+
+    p We hebben ook betrouwbare voorbeeldgegevens nodig om onze implementaties te valideren. Het is gemakkelijk om teksten verkeerd te interpreteren of fouten te maken bij het maken van aantekeningen of het schrijven van code. Met betrouwbare voorbeelden kunnen we geautomatiseerde tests uitvoeren en deze voorbeelden opnemen in onze kennisbank als referentiepunten.
+
+    p Onze huidige kennisbank legt slechts een momentopname in de tijd vast, zonder rekening te houden met de wetgevende evolutie. Evenzo presenteert Lex Iterata alleen huidige versies van teksten. Een belangrijke toekomstige verbetering zal zijn om historische berekeningsversies te onderhouden, waardoor gebruikers toegang krijgen tot en begrip krijgen van implementaties zoals die op verschillende momenten bestonden.
+
+    p Naast berekeningen, streven we ernaar om onze kennisbank te verrijken met aanvullende concepten die cruciaal zijn voor de ontwikkeling van Refli als een complete applicatie: personae, toegangsrechten, taken, en meer. Deze uitgebreide conceptkaart zou kunnen dienen als een visuele roadmap, als aanvulling op bestaande projectmanagementtools.
+
+    p Er bestaan ook technische uitdagingen met bepaald bronmateriaal. Sommige wetgevende teksten plaatsen belangrijke details in bijlagen die alleen beschikbaar zijn als PDF's, of presenteren informatie in formaten die weerstand bieden aan machinale verwerking. Het aanpakken van deze randgevallen zal noodzakelijk zijn voor een uitgebreide dekking van de Belgische wetgeving.
+
+    p Door systematisch deze uitdagingen aan te pakken - net zoals we onze gelaagde architectuur hebben benaderd - geloven we dat we de capaciteiten van Refli kunnen blijven uitbreiden terwijl we het samenhangende fundament behouden.
