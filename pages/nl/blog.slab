@@ -1,0 +1,22 @@
+include ../layouts/page-nl.slab
+page("/blog")
+    with canonical
+        link(rel="canonical", href="https://refli.be/fr/blog")
+
+    with titl
+        title Blog
+
+    .c-content.flow-all.limit-42em
+        h1 Blog
+
+    .c-content.flow-all.limit-42em
+        h2 Refli introduceren
+        small.breadcrumb 2024-01-19
+
+    .flow-all.limit-42em
+        p Na bijna een jaar ontwikkeling is het tijd om Refli voor te stellen. Deze blogpost is onze eerste stap om het concept en de visie achter ons project te delen, dat gericht is op het vereenvoudigen van Belgische loonberekeningen.
+
+        a.c-button.c-button--primary(href='/nl/blog/2024/01/19/introducing-refli')
+            span Verder lezen
+            include ../includes/icons.slab
+            arrow-right

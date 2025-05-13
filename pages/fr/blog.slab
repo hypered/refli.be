@@ -1,0 +1,22 @@
+include ../layouts/page-fr.slab
+page("/blog")
+    with canonical
+        link(rel="canonical", href="https://refli.be/fr/blog")
+
+    with titl
+        title Blog
+
+    .c-content.flow-all.limit-42em
+        h1 Blog
+
+    .c-content.flow-all.limit-42em
+        h2 Découvrons Refli
+        small.breadcrumb 2024-01-19
+
+    .flow-all.limit-42em
+        p Près d'un an après le début de son développement, il est temps de présenter Refli. Ce blog post est notre première étape pour partager le concept et la vision derrière notre projet, qui se concentre sur la simplification des calculs de salaires belges.
+
+        a.c-button.c-button--primary(href='/fr/blog/2024/01/19/introducing-refli')
+            span Lire la suite
+            include ../includes/icons.slab
+            arrow-right
