@@ -1,7 +1,7 @@
 include ../../../../../layouts/page-en.slab
-page("/blog/2025/05/01/systematic-approach")
+page("/blog/2025/05/14/systematic-approach")
     with canonical
-        link(rel="canonical", href="https://refli.be/en/blog/2025/05/01/systematic-approach")
+        link(rel="canonical", href="https://refli.be/en/blog/2025/05/14/systematic-approach")
 
     with titl
         title Attempting a systematic approach

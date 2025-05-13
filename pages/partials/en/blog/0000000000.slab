@@ -13,7 +13,7 @@
     p
         span.article
             | Article 1er.
-        | Ce texte est un example inventé pour illustrer la base de connaissances de Refli, en particulier dans <a href="/fr/blog/2025/05/01/systematic-approach">notre second blog post</a>. Il ne s'agit pas d'un vrai texte législatif.
+        | Ce texte est un example inventé pour illustrer la base de connaissances de Refli, en particulier dans <a href="/fr/blog/2025/05/14/systematic-approach">notre second blog post</a>. Il ne s'agit pas d'un vrai texte législatif.
 
     p
         span.article

@@ -1,6 +1,6 @@
 .c-content.flow-all
     h1 Attempting a systematic approach
-    small.breadcrumb 2025-05-01
+    small.breadcrumb 2025-05-14
 .switcher
     .flow-all
         p In our <a href="https://refli.be/en/blog/2024/01/19/introducing-refli">previous blog post</a>, we outlined how we envisioned a solid three-layer core as the foundation for Refli. In this blog post, we explain how we're making the second and third layers more concrete. We use a simple running example before applying our approach to a computation we recently implemented: the social security contributions of freelancers. We also explain how we hope this approach can be systematically applied to other computations.
@@ -90,11 +90,13 @@
 
     p In a way, these pages are redundant with the initial graphic: everything is already stated there. But having these dedicated pages is useful for "zooming in" on a specific part that interests us and can guide us in implementing the described computations.
 
+    p <b>Note:</b> as a reminder here are <a href="https://refli.be/en/concepts/indexed_income_comp">the page for our example computation</a>, and <a href="https://refli.be/en/concepts/quarterly_selfempl_ssc_base_comp">the page for our real world case</a>.
+
     h2 Playground
 
     p Given a legislative text describing a computation, augmented with its knowledge base, our next step is to move to the third layer of Refli's core: the playground.
 
-    p The playground offers implementations of computations: basically, they appear as a form on a web page. For instance, see our example <a href="https://refli.be/en/playground/indexed_income_comp"><code>indexed_income_comp</code></a>.
+    p The playground offers implementations of computations: basically, they appear as a form on a web page. For instance, see our example <a href="https://refli.be/en/playground/indexed_income_comp"><code>indexed_income_comp</code></a> or <a href="https://refli.be/en/playground/quarterly_selfempl_ssc_base_comp">the real world case</a>.
 
     p The playground is not meant to be a user-friendly way to run the computations offered by Refli but is there as a documentation tool. Just like the knowledge base, it's principally something we use ourselves to build Refli but make available publicly, hoping it can be useful to others (if it is useful to you, please let us know).
 
