@@ -10,6 +10,18 @@ page("/blog")
         h1 Blog
 
     .c-content.flow-all.limit-42em
+        h2 Vers une approche systématique
+        small.breadcrumb 2025-05-14
+
+    .flow-all.limit-42em
+        p Dans ce billet, nous expliquons comment nous rendons les deuxième et troisième couches de Refli plus concrètes. Nous utilisons un exemple simple avant d'appliquer notre approche à un calcul que nous avons récemment implémenté : les cotisations sociales des indépendants. Nous expliquons également comment nous espérons que cette approche pourra être appliquée systématiquement à d'autres calculs.
+
+        a.c-button.c-button--primary(href='/fr/blog/2025/05/14/systematic-approach')
+            span Lire la suite
+            include ../includes/icons.slab
+            arrow-right
+
+    .c-content.flow-all.limit-42em
         h2 Découvrons Refli
         small.breadcrumb 2024-01-19
 

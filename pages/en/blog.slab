@@ -10,6 +10,18 @@ page("/blog")
         h1 Blog
 
     .c-content.flow-all.limit-42em
+        h2 Attempting a systematic approach
+        small.breadcrumb 2025-05-14
+
+    .flow-all.limit-42em
+        p In this blog post, we explain how we're making the second and third layers of Refli more concrete. We use a simple running example before applying our approach to a computation we recently implemented: the social security contributions of freelancers. We also explain how we hope this approach can be systematically applied to other computations.
+
+        a.c-button.c-button--primary(href='/en/blog/2025/05/14/systematic-approach')
+            span Read more
+            include ../includes/icons.slab
+            arrow-right
+
+    .c-content.flow-all.limit-42em
         h2 Introducing Refli
         small.breadcrumb 2024-01-19
 

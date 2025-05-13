@@ -10,6 +10,18 @@ page("/blog")
         h1 Blog
 
     .c-content.flow-all.limit-42em
+        h2 Naar een systematische aanpak
+        small.breadcrumb 2025-05-14
+
+    .flow-all.limit-42em
+        p In deze blogpost leggen we uit hoe we de tweede en derde laag van Refli concreter maken. We gebruiken een eenvoudig doorlopend voorbeeld voordat we onze aanpak toepassen op een berekening die we onlangs hebben geïmplementeerd: de sociale zekerheidsbijdragen van freelancers. We leggen ook uit hoe we hopen dat deze aanpak systematisch kan worden toegepast op andere berekeningen.
+
+        a.c-button.c-button--primary(href='/nl/blog/2025/05/14/systematic-approach')
+            span Verder lezen
+            include ../includes/icons.slab
+            arrow-right
+
+    .c-content.flow-all.limit-42em
         h2 Refli introduceren
         small.breadcrumb 2024-01-19
 
