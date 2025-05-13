@@ -1,0 +1,27 @@
+.c-text.flow.limit-42em.legislation
+    h1.mb-title 00 MOIS 0000. — Article inventé sur le calcul du revenu indexé
+
+    div
+        dl.mb-pairs
+            dt Publication
+            dd 00-00-0000
+            dt Numéro
+            dd 0000000000
+            dt <dfn title="Ce texte est présent dans la base de connaissances de Refli">Refli Concepts ✓</dfn>
+            dd <a href="/en/concepts">Voir dans la base de connaissances</a>
+
+    p
+        span.article
+            | Article 1er.
+        | Ce texte est un example inventé pour illustrer la base de connaissances de Refli, en particulier dans <a href="/fr/blog/2025/05/14/systematic-approach">notre second blog post</a>. Il ne s'agit pas d'un vrai texte législatif.
+
+    p
+        span.article
+            | Art. 2.
+        | § 1er. Le revenu indexé est déterminé en multipliant le revenu de référence par la fraction d'indexation applicable à l'année en cours.
+
+    p
+        | § 2. La fraction d'indexation est fixée annuellement par le Roi. Le numérateur correspond à la moyenne des indices des prix à la consommation de l'année en cours, tandis que le dénominateur représente la moyenne des indices de l'année de référence. Pour l'année 2025, cette fraction est fixée à 662,28/606,30.
+
+    p
+        | § 3. Le revenu de référence utilisé pour ce calcul est celui de la deuxième année civile qui précède l'année pour laquelle la cotisation est due.

@@ -1,27 +1,27 @@
 .c-text.flow.limit-42em.legislation
-    h1.mb-title 00 MOIS 0000. — Article inventé sur le calcul du revenu indexé
+    h1.mb-title 00 MONTH 0000. — Fictional article on calculating indexed income
 
     div
         dl.mb-pairs
             dt Publication
             dd 00-00-0000
-            dt Numéro
+            dt Number
             dd 0000000000
             dt <dfn title="This text is present in the Refli knowledge base">Refli Concepts ✓</dfn>
             dd <a href="/en/concepts">View in the knowledge base</a>
 
     p
         span.article
-            | Article 1er.
-        | Ce texte est un example inventé pour illustrer la base de connaissances de Refli, en particulier dans <a href="/fr/blog/2025/05/14/systematic-approach">notre second blog post</a>. Il ne s'agit pas d'un vrai texte législatif.
+            | Article 1.
+        | This text is a fictional example to illustrate the Refli knowledge base, particularly in <a href="/en/blog/2025/05/14/systematic-approach">our second blog post</a>. It is not a real legislative text.
 
     p
         span.article
             | Art. 2.
-        | § 1er. Le revenu indexé est déterminé en multipliant le revenu de référence par la fraction d'indexation applicable à l'année en cours.
+        | § 1. The indexed income is determined by multiplying the reference income by the indexation fraction applicable to the current year.
 
     p
-        | § 2. La fraction d'indexation est fixée annuellement par le Roi. Le numérateur correspond à la moyenne des indices des prix à la consommation de l'année en cours, tandis que le dénominateur représente la moyenne des indices de l'année de référence. Pour l'année 2025, cette fraction est fixée à 662,28/606,30.
+        | § 2. The indexation fraction is set annually by the King. The numerator corresponds to the average consumer price indices for the current year, while the denominator represents the average indices for the reference year. For the year 2025, this fraction is set at 662.28/606.30.
 
     p
-        | § 3. Le revenu de référence utilisé pour ce calcul est celui de la deuxième année civile qui précède l'année pour laquelle la cotisation est due.
+        | § 3. The reference income used for this calculation is that of the second calendar year preceding the year for which the contribution is due.

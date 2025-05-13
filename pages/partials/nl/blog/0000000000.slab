@@ -1,0 +1,27 @@
+.c-text.flow.limit-42em.legislation
+    h1.mb-title 00 MAAND 0000. — Fictief artikel over de berekening van geïndexeerd inkomen
+
+    div
+        dl.mb-pairs
+            dt Publicatie
+            dd 00-00-0000
+            dt Nummer
+            dd 0000000000
+            dt <dfn title="This text is present in the Refli knowledge base">Refli Concepts ✓</dfn>
+            dd <a href="/en/concepts">Bekijk in de kennisbank</a>
+
+    p
+        span.article
+            | Artikel 1.
+        | Deze tekst is een fictief voorbeeld om de Refli-kennisbank te illustreren, met name in <a href="/nl/blog/2025/05/14/systematic-approach">onze tweede blogpost</a>. Het is geen echte wettekst.
+
+    p
+        span.article
+            | Art. 2.
+        | § 1. Het geïndexeerde inkomen wordt bepaald door het referentie-inkomen te vermenigvuldigen met de indexatiefractie die van toepassing is op het lopende jaar.
+
+    p
+        | § 2. De indexatiefractie wordt jaarlijks door de Koning vastgesteld. De teller komt overeen met het gemiddelde van de consumentenprijsindexen voor het lopende jaar, terwijl de noemer het gemiddelde van de indexen voor het referentiejaar vertegenwoordigt. Voor het jaar 2025 is deze fractie vastgesteld op 662,28/606,30.
+
+    p
+        | § 3. Het referentie-inkomen dat voor deze berekening wordt gebruikt, is dat van het tweede kalenderjaar voorafgaand aan het jaar waarvoor de bijdrage verschuldigd is.
