@@ -44,7 +44,7 @@ Sur Refli, le détail des réductions accordées est présenté et leur somme pe
 sembler ne pas donner le bon résultat.
 
 Considérons un [salaire brut de 2500.00 EUR pour un employé
-isolé](/fr/describe/2500.00?details). Après cotisations personnelles, il reste
+isolé](/fr/describe/gross/2500.00?details). Après cotisations personnelles, il reste
 un brut imposable de 2308.06 EUR. Le précompte, exprimé de façon annuelle, est
 composé d'une base, d'une réduction "isolé" et d'une réduction "bas revenu".
 Soit:

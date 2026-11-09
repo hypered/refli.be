@@ -97,7 +97,7 @@
 
     p De derde laag is de rekenkundige kern van Refli. Dit is waar Refli ophoudt over informatie en gegevens te gaan en begint een online computersoftware te worden. Het doel is om de <em>toepassing</em> van wettelijke regels te vereenvoudigen, wanneer die regels gevolgd kunnen worden door een computer, en om die vereenvoudiging beschikbaar te maken voor een breed publiek.
 
-    p Op dit moment biedt Refli één enkele berekening: gegeven een brutoloon, wat moet het bijbehorende nettobedrag zijn. Hier is een <a href="https://refli.be/fr/describe/3600.00?details">voorbeeld voor een brutobedrag van 3600 EUR</a>.
+    p Op dit moment biedt Refli één enkele berekening: gegeven een brutoloon, wat moet het bijbehorende nettobedrag zijn. Hier is een <a href="https://refli.be/fr/describe/gross/3600.00?details">voorbeeld voor een brutobedrag van 3600 EUR</a>.
 
     h2 Een begin
 

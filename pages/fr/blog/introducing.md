@@ -180,7 +180,7 @@ of public.
 
 Currently, Refli offers a single computation: given a gross salary amount, what
 should be the corresponding net amount. Here is an [example for a gross amount
-of 3600EUR](https://refli.be/fr/describe/3600.00?details).
+of 3600EUR](https://refli.be/fr/describe/gross/3600.00?details).
 
 # A beginning
 

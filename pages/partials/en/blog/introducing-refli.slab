@@ -97,7 +97,7 @@
 
     p The third layer is the computational core of Refli. This is where Refli stops being about information and data, and starts becoming an online computer software. Its goal is to simplify the <em>application</em> of legal rules, when those rules can be followed by a computer, and to make that simplification available to a broad range of public.
 
-    p Currently, Refli offers a single computation: given a gross salary amount, what should be the corresponding net amount. Here is an <a href="https://refli.be/fr/describe/3600.00?details">example for a gross amount of 3600EUR</a>.
+    p Currently, Refli offers a single computation: given a gross salary amount, what should be the corresponding net amount. Here is an <a href="https://refli.be/fr/describe/gross/3600.00?details">example for a gross amount of 3600EUR</a>.
 
     h2 A beginning
 

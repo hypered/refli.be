@@ -97,7 +97,7 @@
 
     p La troisième couche est le cœur logique de Refli. C'est ici que Refli cesse d'être une source d'informations et de données pour devenir un logiciel en ligne. Son objectif est de simplifier l'<em>application</em> des règles légales, lorsque ces règles peuvent être suivies par un ordinateur, et de mettre cette simplification à la disposition d'un large public.
 
-    p Actuellement, Refli propose un seul calcul: étant donné un montant de salaire brut, quel devrait être le montant net correspondant. Voici un <a href="https://refli.be/fr/describe/3600.00?details">exemple pour un montant brut de 3600EUR</a>.
+    p Actuellement, Refli propose un seul calcul: étant donné un montant de salaire brut, quel devrait être le montant net correspondant. Voici un <a href="https://refli.be/fr/describe/gross/3600.00?details">exemple pour un montant brut de 3600EUR</a>.
 
     h2 Un début
 
