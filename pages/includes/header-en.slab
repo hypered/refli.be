@@ -11,9 +11,10 @@ ul
     li
         .menu-item(tabindex="-1")
             i.menu-mask(tabindex="-1")
-            a.menu-dropdown Playground
+            a.menu-dropdown Playgrounds
             .menu-dropdown-content
-                a(href="/en/describe") Compute salaries
+                a(href="/en/describe/gross") Gross to net
+                a(href="/en/describe/net") Net to gross
 
     li
         .menu-item

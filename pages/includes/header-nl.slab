@@ -11,9 +11,10 @@ ul
     li
         .menu-item(tabindex="-1")
             i.menu-mask(tabindex="-1")
-            a.menu-dropdown Playground
+            a.menu-dropdown Playgrounds
             .menu-dropdown-content
-                a(href="/nl/describe") Salarisberekeningen
+                a(href="/nl/describe/gross") Van bruto naar netto
+                a(href="/nl/describe/net") Van netto naar bruto
 
     li
         .menu-item

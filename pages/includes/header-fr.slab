@@ -11,9 +11,10 @@ ul
     li
         .menu-item(tabindex="-1")
             i.menu-mask(tabindex="-1")
-            a.menu-dropdown Playground
+            a.menu-dropdown Playgrounds
             .menu-dropdown-content
-                a(href="/fr/describe") Calculs de salaires
+                a(href="/fr/describe/gross") Du brut au net
+                a(href="/fr/describe/net") Du net au brut
 
     li
         .menu-item
