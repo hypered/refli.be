@@ -6,4 +6,7 @@
   <sitemap>
     <loc>https://refli.be/fr/lex/sitemap-recent.xml</loc>
   </sitemap>
+  <sitemap>
+    <loc>https://refli.be/nl/lex/sitemap-recent.xml</loc>
+  </sitemap>
 </sitemapindex>
